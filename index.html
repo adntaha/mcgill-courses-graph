@@ -12,6 +12,7 @@
         padding: 0;
     }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 </head>
 <body>
     <canvas></canvas>
@@ -88,7 +89,6 @@
 
             ctx.fillStyle = "black";
             ctx.font = Math.min(canvas.width, canvas.height) * 0.025 + "px monospace";
-            console.log(ZOOM_COEFF)
             ctx.fillText(
                 `${ZOOM_COEFF<0.1?"0":""}${ZOOM_COEFF<1?"0":""}${ZOOM_COEFF<10?"0":""}${Math.round(ZOOM_COEFF.toFixed(2)*100)}% zoom`,
                 window.innerWidth-(fontSizeConstant*0.6*10+8),
@@ -105,33 +105,39 @@
             }
         }
 
-        function update(nodes, edges, neighbours, real_timedelta, damping) {
+        function update(nodes, edges, neighbours, real_timedelta, charge, damping = 0.9) {
             const k_c = 300000; //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2);
             const k_s = 1; //200;
             // debugger;
+
+            for (const n of nodes) { n.vx = 0; n.vy = 0; }
+            charge(1);
 
             for (let i=0; i<nodes.length; i++) {
                 const dt = Math.min(0.05, real_timedelta);
                 // console.log("dt", dt)
 
                 if (nodes[i].fixed && cursor.x !== null && cursor.y !== null) {
-                    nodes[i].v_x = (cursor.x - nodes[i].x) / dt * 0.5;
-                    nodes[i].v_y = (cursor.y - nodes[i].y) / dt * 0.5;
+                    nodes[i].vx = (cursor.x - nodes[i].x) / dt * 0.5;
+                    nodes[i].vy = (cursor.y - nodes[i].y) / dt * 0.5;
                     nodes[i].x = cursor.x;
                     nodes[i].y = cursor.y;
                     continue;
                 };
 
-                let SFx = 0, SFy = 0;
+                // repulsion: coulomb's law through d3, they use quadtree and Barnes-Hut and apparently it's faster
+                let SFx = nodes[i].vx, SFy = nodes[i].vy;
 
-                // repulsion: coulomb's law
-                for (let j = 0; j < nodes.length; j++) {
-                    if (i === j) continue;
-                    const magnitude = k_c * nodes[i].charge * nodes[j].charge * 1/Math.max(_2d_euclidian_distance(nodes[i], nodes[j], false), 10000);
-                    const direction = Math.atan2(nodes[j].y - nodes[i].y, nodes[j].x - nodes[i].x);
-                    SFx -= magnitude * Math.cos(direction);
-                    SFy -= magnitude * Math.sin(direction);
-                }
+                // let SFx = 0, SFy = 0;
+
+                // // repulsion: coulomb's law
+                // for (let j = 0; j < nodes.length; j++) {
+                //     if (i === j) continue;
+                //     const magnitude = k_c * nodes[i].charge * nodes[j].charge * 1/Math.max(_2d_euclidian_distance(nodes[i], nodes[j], false), 10000);
+                //     const direction = Math.atan2(nodes[j].y - nodes[i].y, nodes[j].x - nodes[i].x);
+                //     SFx -= magnitude * Math.cos(direction);
+                //     SFy -= magnitude * Math.sin(direction);
+                // }
 
                 // attraction: hooke's law
                 neighbours[i].forEach((edgeNode) => {
@@ -144,17 +150,17 @@
                 const a_x = SFx / nodes[i].mass;
                 const a_y = SFy / nodes[i].mass;
 
-                if (!nodes[i].v_x) nodes[i].v_x = 0;
-                if (!nodes[i].v_y) nodes[i].v_y = 0;
+                if (!nodes[i].vx) nodes[i].vx = 0;
+                if (!nodes[i].vy) nodes[i].vy = 0;
 
-                nodes[i].v_x += a_x * dt;
-                nodes[i].v_y += a_y * dt;
+                nodes[i].vx += a_x * dt;
+                nodes[i].vy += a_y * dt;
 
-                nodes[i].v_x *= (damping ?? 0.9);
-                nodes[i].v_y *= (damping ?? 0.9);
+                nodes[i].vx *= damping;
+                nodes[i].vy *= damping;
                 
-                nodes[i].x += nodes[i].v_x * dt;
-                nodes[i].y += nodes[i].v_y * dt;
+                nodes[i].x += nodes[i].vx * dt;
+                nodes[i].y += nodes[i].vy * dt;
             }
         }
 
@@ -176,20 +182,20 @@
                 }
                 return prev;
             }, []);
-            console.log(edges)
+
             const nodes = nodeNameToIndexMap.map((courseid, i) => {
                 let res = {};
                 res.name = courseid;
                 res.fixed = false;
                 res.charge = 5; // constant for now
                 res.mass = 3; // same as above
-                res.x = h/10*Math.cos(2*Math.PI/nodeCount*(i+1));
-                res.y = h/10*Math.sin(2*Math.PI/nodeCount*(i+1));
+                // res.x = h*Math.cos(2*Math.PI/nodeCount*(i+1));
+                // res.y = h*Math.sin(2*Math.PI/nodeCount*(i+1));
+                res.x = (Math.random() - 0.5) * h * 4;
+                res.y = (Math.random() - 0.5) * h * 4;
                 neighbours[i] = new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i));
                 return res;
             });
-
-            console.log(nodes)
 
             return { nodes, edges, neighbours };
         }
@@ -216,14 +222,21 @@
         }
 
         async function initiate() {
+            const charge = d3.forceManyBody()
+                .strength(-300)
+                .theta(0.6)
+                .distanceMin(5);
+
             const { nodes, edges, neighbours } = await populate();
+
+            charge.initialize(nodes);
 
             const zero = document.timeline.currentTime;
 
             requestAnimationFrame(animate);
             function animate(timestamp) {
                 const real_timedelta = timestamp - zero;
-                update(nodes, edges, neighbours, real_timedelta);
+                update(nodes, edges, neighbours, real_timedelta, charge);
                 render(nodes, edges);
                 requestAnimationFrame((t) => animate(t));
             }

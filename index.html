@@ -32,7 +32,7 @@
 
         let courses = [];
         async function fetchCourses() {
-            const req = await fetch("https://mcgill.courses/api/courses?terms=Fall 2026,Winter 2027,Summer 2026"); // subjects=MATH,COMP,ECSE,PHIL,PHYS&
+            const req = await fetch("https://mcgill.courses/api/courses?subjects=MATH,COMP,ECSE,PHIL,PHYS"); // terms=Fall 2026,Winter 2027,Summer 2026&
             const data = await req.json();
             let res = [];
             // ts has so much data; the people who made it are THE goats

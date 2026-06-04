@@ -75,7 +75,7 @@
             return Math.sqrt(Math.pow(node2.x - node1.x, 2) + Math.pow(node2.y - node1.y, 2));
         }
 
-        function update(nodes, edges, real_timedelta, damping) {
+        function update(nodes, edges, neighbours, real_timedelta, damping) {
             const k_c = 300000; //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2);
             const k_s = 1; //200;
             // debugger;
@@ -106,14 +106,13 @@
                 }
 
                 // attraction: hooke's law
-                const _this_edges = edges.filter((e) => e[0] === i).map((e)=>e[1]).concat(edges.filter((e) => e[1] === i).map((e)=>e[0]))
-                for (let j=0; j<_this_edges.length; j++) {
-                    const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[_this_edges[j]]);
-                    // const direction = Math.atan2(nodes[i].y - nodes[_this_edges[j]].y, nodes[i].x - nodes[_this_edges[j]].x);
-                    const direction = Math.atan2(nodes[_this_edges[j]].y - nodes[i].y, nodes[_this_edges[j]].x - nodes[i].x);
+                neighbours[i].forEach((edgeNode) => {
+                    const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[edgeNode]);
+                    // const direction = Math.atan2(nodes[i].y - nodes[edgeNode].y, nodes[i].x - nodes[edgeNode].x);
+                    const direction = Math.atan2(nodes[edgeNode].y - nodes[i].y, nodes[edgeNode].x - nodes[i].x);
                     SFx += magnitude * Math.cos(direction);
                     SFy += magnitude * Math.sin(direction);
-                }
+                });
 
                 // console.log(SFx, SFy)
 
@@ -138,6 +137,8 @@
         function initialize(nodes, edges) {
             const h = Math.min(canvas.width, canvas.height);
             const nodeCount = nodes.length;
+            let neighbours = [];
+
             for (let i=0; i<nodeCount; i++) {
                 nodes[i].name = "BOB"
                 nodes[i].fixed = false;
@@ -145,20 +146,21 @@
                 nodes[i].mass = 3; // same as above
                 nodes[i].x = h/10*Math.cos(2*Math.PI/nodeCount*(i+1));
                 nodes[i].y = h/10*Math.sin(2*Math.PI/nodeCount*(i+1));
+                neighbours[i] = new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i))
             };
 
             render(nodes, edges);
-            return { nodes, edges };
+            return { nodes, edges, neighbours };
         }
 
         const zero = document.timeline.currentTime;
-        const { nodes, edges } = initialize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10].map(()=>({})), [[0, 1], [0, 2], [0, 3], [0, 4], [4, 5], [3, 6], [3, 2]]);
+        const { nodes, edges, neighbours } = initialize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10].map(()=>({})), [[0, 1], [0, 2], [0, 3], [0, 4], [4, 5], [3, 6], [3, 2]]);
 
         requestAnimationFrame(animate);
 
         function animate(timestamp) {
             const real_timedelta = timestamp - zero;
-            update(nodes, edges, real_timedelta);
+            update(nodes, edges, neighbours, real_timedelta);
             render(nodes, edges);
             requestAnimationFrame((t) => animate(t));
         }

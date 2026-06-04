@@ -53,7 +53,8 @@
 
         function render(nodes, edges) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const fontSize = Math.min(canvas.width, canvas.height) * 0.05 * ZOOM_COEFF;
+            const fontSizeConstant = Math.min(canvas.width, canvas.height) * 0.05;
+            const fontSize = fontSizeConstant * ZOOM_COEFF;
 
             // edges
             ctx.beginPath();
@@ -90,7 +91,7 @@
             console.log(ZOOM_COEFF)
             ctx.fillText(
                 `${ZOOM_COEFF<0.1?"0":""}${ZOOM_COEFF<1?"0":""}${ZOOM_COEFF<10?"0":""}${Math.round(ZOOM_COEFF.toFixed(2)*100)}% zoom`,
-                window.innerWidth-(fontSize*0.6*10+8),
+                window.innerWidth-(fontSizeConstant*0.6*10+8),
                 window.innerHeight-5);
         }
 
@@ -127,9 +128,7 @@
                 for (let j = 0; j < nodes.length; j++) {
                     if (i === j) continue;
                     const magnitude = k_c * nodes[i].charge * nodes[j].charge * 1/Math.max(_2d_euclidian_distance(nodes[i], nodes[j], false), 10000);
-                    // const direction = Math.atan2(nodes[i].y - nodes[j].y, nodes[i].x - nodes[j].x);
                     const direction = Math.atan2(nodes[j].y - nodes[i].y, nodes[j].x - nodes[i].x);
-                    // console.log("adding", magnitude, direction);
                     SFx -= magnitude * Math.cos(direction);
                     SFy -= magnitude * Math.sin(direction);
                 }
@@ -137,17 +136,13 @@
                 // attraction: hooke's law
                 neighbours[i].forEach((edgeNode) => {
                     const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[edgeNode]);
-                    // const direction = Math.atan2(nodes[i].y - nodes[edgeNode].y, nodes[i].x - nodes[edgeNode].x);
                     const direction = Math.atan2(nodes[edgeNode].y - nodes[i].y, nodes[edgeNode].x - nodes[i].x);
                     SFx += magnitude * Math.cos(direction);
                     SFy += magnitude * Math.sin(direction);
                 });
 
-                // console.log(SFx, SFy)
-
                 const a_x = SFx / nodes[i].mass;
                 const a_y = SFy / nodes[i].mass;
-                // console.log("a", a_x, a_y)
 
                 if (!nodes[i].v_x) nodes[i].v_x = 0;
                 if (!nodes[i].v_y) nodes[i].v_y = 0;
@@ -283,18 +278,6 @@
             });
 
             document.addEventListener("wheel", (event) => {
-                // let zoomAmount;
-                // switch (event.deltaMode) {
-                //     case 0x00:
-                //         zoomAmount = event.deltaY / event.clientY;
-                //         break;
-                //     case 0x01:
-                //         zoomAmount = event.deltaY / event.clientY * 2;
-                //         break;
-                //     case 0x02:
-                //         zoomAmount = event.deltaY;
-                //         break;
-                // }
                 const step = (event.deltaY > 0 ? event.deltaY*2 : event.deltaY) / (event.deltaY*2) + 0.2
                 ZOOM_COEFF *= step;
             });

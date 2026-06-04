@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <script type="text/javascript">
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const RADIUS = 5;
+        let ZOOM_COEFF = 1;
+        let OFFSET_X = (canvas.width * ZOOM_COEFF) * 0.5, OFFSET_Y = (canvas.height * ZOOM_COEFF) * 0.5;
+
+        const cursor = {x: null, y: null};
+        let fixedNode = null;
+
+        function render(nodes, edges) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // edges
+            ctx.beginPath();
+            for (const edge of Object.values(edges)) {
+                ctx.moveTo(nodes[edge[0]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[0]].y*ZOOM_COEFF+OFFSET_Y);
+                ctx.lineTo(nodes[edge[1]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[1]].y*ZOOM_COEFF+OFFSET_Y);
+            }
+            ctx.stroke();
+
+            // nodes
+            ctx.beginPath();
+            for (const node of nodes) {
+                ctx.moveTo(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y);
+                ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS, 0, 2*Math.PI);
+            }
+            ctx.fill();
+            ctx.stroke();
+
+            // ctx.beginPath();
+            // ctx.arc(cursor.x*ZOOM_COEFF+OFFSET_X, cursor.y*ZOOM_COEFF+OFFSET_Y, RADIUS, 0, 2*Math.PI);
+            // ctx.fillStyle = "pink";
+            // ctx.fill();
+            // ctx.stroke();
+
+            ctx.fillStyle = "black";
+            ctx.font = Math.min(canvas.width, canvas.height) * 0.025 + "px monospace";
+            console.log(ZOOM_COEFF)
+            ctx.fillText(
+                `${ZOOM_COEFF<0.1?"0":""}${ZOOM_COEFF<1?"0":""}${ZOOM_COEFF<10?"0":""}${Math.round(ZOOM_COEFF.toFixed(2)*100)}% zoom`,
+                window.innerWidth-(Math.min(canvas.width, canvas.height)*0.025*0.6*10+5+3),
+                window.innerHeight-5);
+        }
+
+        function _2d_euclidian_distance(node1, node2) {
+            return Math.sqrt(Math.pow(node2.x - node1.x, 2) + Math.pow(node2.y - node1.y, 2));
+        }
+
+        function update(nodes, edges, real_timedelta, damping) {
+            const k_c = 300000; //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2);
+            const k_s = 1; //200;
+            // debugger;
+
+            for (let i=0; i<nodes.length; i++) {
+                const dt = Math.min(0.05, real_timedelta);
+                // console.log("dt", dt)
+
+                if (nodes[i].fixed && cursor.x !== null && cursor.y !== null) {
+                    nodes[i].v_x = (cursor.x - nodes[i].x) / dt * 0.5;
+                    nodes[i].v_y = (cursor.y - nodes[i].y) / dt * 0.5;
+                    nodes[i].x = cursor.x;
+                    nodes[i].y = cursor.y;
+                    continue;
+                };
+
+                let SFx = 0, SFy = 0;
+
+                // repulsion: coulomb's law
+                for (let j = 0; j < nodes.length; j++) {
+                    if (i === j) continue;
+                    const magnitude = k_c * nodes[i].charge * nodes[j].charge * Math.pow(Math.max(_2d_euclidian_distance(nodes[i], nodes[j]), 100), -2);
+                    // const direction = Math.atan2(nodes[i].y - nodes[j].y, nodes[i].x - nodes[j].x);
+                    const direction = Math.atan2(nodes[j].y - nodes[i].y, nodes[j].x - nodes[i].x);
+                    // console.log("adding", magnitude, direction);
+                    SFx -= magnitude * Math.cos(direction);
+                    SFy -= magnitude * Math.sin(direction);
+                }
+
+                // attraction: hooke's law
+                const _this_edges = edges.filter((e) => e[0] === i).map((e)=>e[1]).concat(edges.filter((e) => e[1] === i).map((e)=>e[0]))
+                for (let j=0; j<_this_edges.length; j++) {
+                    const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[_this_edges[j]]);
+                    // const direction = Math.atan2(nodes[i].y - nodes[_this_edges[j]].y, nodes[i].x - nodes[_this_edges[j]].x);
+                    const direction = Math.atan2(nodes[_this_edges[j]].y - nodes[i].y, nodes[_this_edges[j]].x - nodes[i].x);
+                    SFx += magnitude * Math.cos(direction);
+                    SFy += magnitude * Math.sin(direction);
+                }
+
+                // console.log(SFx, SFy)
+
+                const a_x = SFx / nodes[i].mass;
+                const a_y = SFy / nodes[i].mass;
+                // console.log("a", a_x, a_y)
+
+                if (!nodes[i].v_x) nodes[i].v_x = 0;
+                if (!nodes[i].v_y) nodes[i].v_y = 0;
+
+                nodes[i].v_x += a_x * dt;
+                nodes[i].v_y += a_y * dt;
+
+                nodes[i].v_x *= (damping ?? 0.9);
+                nodes[i].v_y *= (damping ?? 0.9);
+                
+                nodes[i].x += nodes[i].v_x * dt;
+                nodes[i].y += nodes[i].v_y * dt;
+            }
+        }
+
+        function initialize(nodes, edges) {
+            const h = Math.min(canvas.width, canvas.height);
+            const nodeCount = nodes.length;
+            for (let i=0; i<nodeCount; i++) {
+                nodes[i].fixed = false;
+                nodes[i].charge = 3; // constant for now
+                nodes[i].mass = 3; // same as above
+                nodes[i].x = h/10*Math.cos(2*Math.PI/nodeCount*(i+1));
+                nodes[i].y = h/10*Math.sin(2*Math.PI/nodeCount*(i+1));
+            };
+
+            render(nodes, edges);
+            return { nodes, edges };
+        }
+
+        const zero = document.timeline.currentTime;
+        const { nodes, edges } = initialize([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10].map(()=>({})), [[0, 1], [0, 2], [0, 3], [0, 4], [4, 5], [3, 6], [3, 2]]);
+
+        requestAnimationFrame(animate);
+
+        function animate(timestamp) {
+            const real_timedelta = timestamp - zero;
+            update(nodes, edges, real_timedelta);
+            render(nodes, edges);
+            requestAnimationFrame((t) => animate(t));
+        }
+
+        let mouseDown = false;
+        let prevX = null, prevY = null;
+        document.addEventListener("mousemove", (event) => {
+            if (mouseDown && prevX !== null && prevY !== null) {
+                OFFSET_X += event.clientX - prevX;
+                OFFSET_Y += event.clientY - prevY;
+                prevX = event.clientX;
+                prevY = event.clientY;
+            }
+
+            // if (fixedNode !== null) {
+                cursor.x = (event.clientX - OFFSET_X) / ZOOM_COEFF;
+                cursor.y = (event.clientY - OFFSET_Y) / ZOOM_COEFF;
+            // }
+        });
+
+        document.addEventListener("mousedown", (event) => {
+            let closest_node = null;
+            let closest_node_distance = Infinity;
+
+            for (let i=0; i<nodes.length; i++) {
+                const distance = _2d_euclidian_distance({x: (event.clientX-OFFSET_X)/ZOOM_COEFF, y: (event.clientY-OFFSET_Y)/ZOOM_COEFF}, nodes[i]); // hihihihi
+                if (distance < closest_node_distance && distance < RADIUS*4/ZOOM_COEFF) {
+                    closest_node_distance = distance;
+                    closest_node = i;
+                }
+            }
+
+            if (closest_node !== null) {
+                nodes[closest_node].fixed = true;
+                fixedNode = closest_node;
+                return;
+            }
+
+            mouseDown = true;
+            prevX = event.clientX;
+            prevY = event.clientY;
+        });
+
+        document.addEventListener("mouseup", (event) => {
+            mouseDown = false;
+            if (fixedNode === null) return;
+
+            nodes[fixedNode].fixed = false;
+            fixedNode = null;
+            // cursor.x = null;
+            // cursor.y = null;
+        });
+
+        document.addEventListener("wheel", (event) => {
+            // let zoomAmount;
+            // switch (event.deltaMode) {
+            //     case 0x00:
+            //         zoomAmount = event.deltaY / event.clientY;
+            //         break;
+            //     case 0x01:
+            //         zoomAmount = event.deltaY / event.clientY * 2;
+            //         break;
+            //     case 0x02:
+            //         zoomAmount = event.deltaY;
+            //         break;
+            // }
+            const step = (event.deltaY>0 ? event.deltaY*2 : event.deltaY) / (event.deltaY*2) + 0.2
+            ZOOM_COEFF *= step;
+        });
+
+        document.addEventListener("resize", (event) => {
+            canvas.width = event.target.innerWidth;
+            canvas.height = event.target.innerHeight;
+        })
+    </script>
+</body>
+</html>

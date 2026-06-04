@@ -33,6 +33,7 @@
 
             // edges
             ctx.beginPath();
+            // ctx.lineWidth = 1.0*ZOOM_COEFF;
             for (const edge of Object.values(edges)) {
                 ctx.moveTo(nodes[edge[0]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[0]].y*ZOOM_COEFF+OFFSET_Y);
                 ctx.lineTo(nodes[edge[1]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[1]].y*ZOOM_COEFF+OFFSET_Y);
@@ -43,6 +44,7 @@
             ctx.beginPath();
             for (const node of nodes) {
                 ctx.moveTo(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y);
+                // ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS*ZOOM_COEFF, 0, 2*Math.PI);
                 ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS, 0, 2*Math.PI);
             }
             ctx.fill();

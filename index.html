@@ -43,6 +43,12 @@
             // nodes
             ctx.beginPath();
             for (const node of nodes) {
+                ctx.moveTo(node.x*ZOOM_COEFF+OFFSET_X-(Math.min(canvas.width, canvas.height)*0.025*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-10);
+                ctx.fillStyle = "white";
+                ctx.fillRect(node.x*ZOOM_COEFF+OFFSET_X-(Math.min(canvas.width, canvas.height)*0.025*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-Math.min(canvas.width, canvas.height) * 0.025-5, Math.min(canvas.width, canvas.height)*0.025*0.6*node.name.length, Math.min(canvas.width, canvas.height) * 0.025-5)
+                ctx.fillStyle = "black";
+                ctx.font = Math.min(canvas.width, canvas.height) * 0.025 + "px monospace";
+                ctx.fillText(node.name, node.x*ZOOM_COEFF+OFFSET_X-(Math.min(canvas.width, canvas.height)*0.025*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-10)
                 ctx.moveTo(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y);
                 // ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS*ZOOM_COEFF, 0, 2*Math.PI);
                 ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS, 0, 2*Math.PI);
@@ -133,6 +139,7 @@
             const h = Math.min(canvas.width, canvas.height);
             const nodeCount = nodes.length;
             for (let i=0; i<nodeCount; i++) {
+                nodes[i].name = "BOB"
                 nodes[i].fixed = false;
                 nodes[i].charge = 3; // constant for now
                 nodes[i].mass = 3; // same as above

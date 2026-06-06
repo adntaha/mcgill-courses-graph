@@ -126,7 +126,7 @@
                 };
 
                 // repulsion: coulomb's law through d3, they use quadtree and Barnes-Hut and apparently it's faster
-                let SFx = nodes[i].vx, SFy = nodes[i].vy;
+                let SFx = nodes[i].vx < 0.001 ? 0 : nodes[i].vx, SFy = nodes[i].vy < 0.001 ? 0 : nodes[i].vy;
 
                 // let SFx = 0, SFy = 0;
 
@@ -142,6 +142,7 @@
                 // attraction: hooke's law
                 neighbours[i].forEach((edgeNode) => {
                     const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[edgeNode]);
+                    if (magnitude < 0.001) return;
                     const direction = Math.atan2(nodes[edgeNode].y - nodes[i].y, nodes[edgeNode].x - nodes[i].x);
                     SFx += magnitude * Math.cos(direction);
                     SFy += magnitude * Math.sin(direction);
@@ -236,6 +237,11 @@
             requestAnimationFrame(animate);
             function animate(timestamp) {
                 const real_timedelta = timestamp - zero;
+                update(nodes, edges, neighbours, real_timedelta, charge);
+                update(nodes, edges, neighbours, real_timedelta, charge);
+                update(nodes, edges, neighbours, real_timedelta, charge);
+                update(nodes, edges, neighbours, real_timedelta, charge);
+                update(nodes, edges, neighbours, real_timedelta, charge);
                 update(nodes, edges, neighbours, real_timedelta, charge);
                 render(nodes, edges);
                 requestAnimationFrame((t) => animate(t));

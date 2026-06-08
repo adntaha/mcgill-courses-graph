@@ -578,6 +578,7 @@ async function initiate() {
             nodes[focusedNode].charge = 1;
             nodes[focusedNode].k = 1;
             nodes[focusedNode].mass = 0.1;
+            potentiallyClickedNode = null;
             selectCourse(nodes[focusedNode].course);
         } else if (focusedNode !== null) {
             // clicked empty space (or the focused node again) → deselect

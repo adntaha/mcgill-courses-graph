@@ -1,8 +1,8 @@
 import coursesCache from './data/courses_cache.json' with { type: 'json' };
 import nodePositionsCache from './data/node_positions_cache.json' with { type: 'json' };
 
-localStorage.setItem("602840604", JSON.stringify(coursesCache));
-localStorage.setItem("602840604_n", JSON.stringify(nodePositionsCache));
+localStorage.setItem("281137720", JSON.stringify(coursesCache));
+localStorage.setItem("281137720_n", JSON.stringify(nodePositionsCache));
 
 const SEMESTERS = ["Fall 2026", "Winter 2027"]
 let stopNDump = false;

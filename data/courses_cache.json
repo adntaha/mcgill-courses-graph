@@ -1081,6 +1081,972 @@
       "restrictionsText": "This course has no restrictions."
     },
     {
+      "id": "CHEM110",
+      "name": "General Chemistry 1",
+      "description": "A study of the fundamental principles of atomic structure, radiation and nuclear chemistry, valence theory, coordination chemistry, and the periodic table.",
+      "instructors": [
+        "Prof. Pallavi Sirjoosingh (Fall 2026)",
+        "Prof. Ashok K Kakkar (Fall 2026)",
+        "Prof. Maureen McKeague (Fall 2026)",
+        "Prof. Irina Denisova (Fall 2026)"
+      ],
+      "prereqs": ["CHEM120"],
+      "prereqsText": "Prerequisites/corequisites: High school mathematics and physics or permission of the instructor; CHEM 120 is not a prerequisite",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM112",
+      "name": "General Chemistry Laboratory 1",
+      "description": "Illustrative experiments. Laboratory section of <a data-action=\"result-detail\" data-group=\"code:CHEM 110\" href=\"/search/?p=CHEM%20110\">CHEM 110</a>. New students will be issued lab sections in OM 1 on the first day of classes.",
+      "instructors": ["Prof. Irina Denisova (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM120",
+      "name": "General Chemistry 2",
+      "description": "A study of the fundamental principles of physical chemistry.",
+      "instructors": [
+        "Prof. Pallavi Sirjoosingh (Winter 2027)",
+        "Prof. Samuel Lewis Sewall (Winter 2027)",
+        "Prof. Irina Denisova (Winter 2027)"
+      ],
+      "prereqs": ["CHEM110"],
+      "prereqsText": "Prerequisites/corequisites: High school level mathematics and physics, or permission of the instructor; CHEM 110 is not a prerequisite",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM122",
+      "name": "General Chemistry Laboratory 2",
+      "description": "Illustrative experiments. Laboratory section of <a data-action=\"result-detail\" data-group=\"code:CHEM 120\" href=\"/search/?p=CHEM%20120\">CHEM 120</a>.",
+      "instructors": ["Prof. Irina Denisova (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM181",
+      "name": "World of Chemistry: Food",
+      "description": "A series of lectures on the historical, practical, and simple chemical aspects of: food, food additives; vitamins; minerals, diet and cancer; dieting; food-borne illnesses, health food and cooking.",
+      "instructors": ["Prof. Joseph A Schwarcz (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM183",
+      "name": "World of Chemistry: Drugs",
+      "description": "Drug history and marketing, over the counter drugs (e.g. aspirin, cough and cold remedies, allergy preparations), street and heart drugs, mental illness, hormones, brain chemistry and diabetes.",
+      "instructors": ["Prof. Joseph A Schwarcz (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM203",
+      "name": "Survey of Physical Chemistry",
+      "description": "The fundamentals of thermodynamics and chemical kinetics with applications to biomolecular systems. Thermodynamic and kinetic control of biological processes.",
+      "instructors": ["Prof. Pallavi Sirjoosingh (Fall 2026)"],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisites: CHEM 110 and CHEM 120 or equivalent.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM204",
+      "name": "Physical Chemistry/Biological\n Sciences 1",
+      "description": "Similar to <a class=\"notoffered\" data-action=\"result-detail\" data-group=\"code:CHEM 223\" href=\"/search/?p=CHEM%20223\">CHEM 223</a>/<a class=\"notoffered\" data-action=\"result-detail\" data-group=\"code:CHEM 243\" href=\"/search/?p=CHEM%20243\">CHEM 243</a>. Emphasis on the use of biological examples to illustrate the principles of physical chemistry. The relevance of physical chemistry to biology is stressed.",
+      "instructors": [
+        "Prof. Lucas Caire da Silva (Fall 2026)",
+        "Prof. Rustam Khaliullin (Winter 2027)"
+      ],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisites: CHEM 110 and CHEM 120 or equivalent and one full course in calculus",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM211",
+      "name": "Organic Chemistry 1 Lectures",
+      "description": "A survey of reactions of aliphatic and aromatic compounds including modern concepts of bonding, mechanisms, conformational analysis, and stereochemistry.",
+      "instructors": [
+        "Prof. Laura Pavelka (Fall 2026)",
+        "Prof. Hanadi Sleiman (Fall 2026)"
+      ],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisite: CHEM 110 or equivalent.",
+      "coreqsText": "Corequisite: CHEM 120 or equivalent.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM212",
+      "name": "Introductory Organic Chemistry 1",
+      "description": "A fundamental study of aliphatic compounds and saturated functional groups including modern concepts of bonding, reaction mechanisms, conformational analysis, spectroscopy, and stereochemistry.",
+      "instructors": [
+        "Prof. Laura Pavelka (Fall 2026)",
+        "Prof. Hanadi Sleiman (Fall 2026)",
+        "Prof. Danielle Vlaho (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Mitchell Huot (Fall 2026)"
+      ],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisite: CHEM 110 and CHEM 120 or equivalent.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM213",
+      "name": "Introductory Physical Chemistry 1: Thermodynamics",
+      "description": "Thermodynamics. Topics include gas laws, kinetic theory of collisions, heat capacity, enthalpy, thermochemistry, bond energies, the entropy and free energy functions, absolute entropies, Maxwell relations and chemical and thermodynamic equilibrium states, phase rule and phase diagrams, ideal solutions, colligative properties, solubility, electrochemistry, Debye-Hückel Theory.",
+      "instructors": ["Prof. Amy Blum (Fall 2026)"],
+      "prereqs": ["CHEM110", "CHEM120", "PHYS102", "PHYS142", "MATH222"],
+      "prereqsText": "Prerequisites: CHEM 110, CHEM 120 or equivalent, PHYS 102 or PHYS 142, or permission of the instructor.",
+      "coreqsText": "Corequisite(s): MATH 222",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM214",
+      "name": "Physical Chemistry/Biological Sciences 2",
+      "description": "Emphasis is placed on the use of biological examples to illustrate the principles of physical chemistry. The relevance of physical chemistry to biology is stressed.",
+      "instructors": ["Prof. Patanjali Kambhampati (Winter 2027)"],
+      "prereqs": ["CHEM204", "CHEM223", "CHEM243"],
+      "prereqsText": "Prerequisites: CHEM 204 or CHEM 223/CHEM 243.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM219",
+      "name": "Introduction to Atmospheric Chemistry",
+      "description": "An introduction to the basic topics in atmospheric chemistry. The fundamentals of the chemical composition of the atmosphere and its chemical reactions. Selected topics such as; a smog chamber, acid rain, and the ozone hole, will be examined.",
+      "instructors": ["Prof. Thomas Preston (Winter 2027)"],
+      "prereqs": ["CHEM110", "CHEM120", "MATH139", "MATH140", "MATH150"],
+      "prereqsText": "Prerequisites: CHEM 110 and CHEM 120, and one of MATH 139 or MATH 140 or MATH 150, or a CEGEP DEC in Science, or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM222",
+      "name": "Introductory Organic Chemistry 2",
+      "description": "Modern spectroscopic techniques for structure determination. The chemistry of alcohols, ethers, carbonyl compounds, and amines, with special attention to mechanistic aspects. Special topics.",
+      "instructors": [
+        "Prof. Laura Pavelka (Winter 2027)",
+        "Prof. Nicolas Moitessier (Winter 2027)",
+        "Prof. Danielle Vlaho (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)",
+        "Prof. Mitchell Huot (Winter 2027)"
+      ],
+      "prereqs": ["CHEM212", "CHEM242"],
+      "prereqsText": "Prerequisite: CHEM 212 or CHEM 242 or equivalent.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM224",
+      "name": "Organic Chemistry Laboratory 1",
+      "description": "Illustrative experiments in organic chemistry. Laboratory section of <a data-action=\"result-detail\" data-group=\"code:CHEM 212\" href=\"/search/?p=CHEM%20212\">CHEM 212</a>.",
+      "instructors": [
+        "Prof. Danielle Vlaho (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Mitchell Huot (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM233",
+      "name": "Topics in Physical Chemistry",
+      "description": "Introduction to chemical kinetics, surface and colloid chemistry and electrochemistry. The topics to be discussed will be of particular interest to students in chemical engineering.",
+      "instructors": [
+        "Prof. Theo van de Ven (Winter 2027)",
+        "Prof. Patanjali Kambhampati (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM234",
+      "name": "Topics in Organic Chemistry",
+      "description": "Modern spectroscopic techniques for structure determination. The chemistry of alcohols, ethers, carbonyl compounds, and amines, with special attention to mechanistic aspects. Special topics.",
+      "instructors": [
+        "Prof. Laura Pavelka (Winter 2027)",
+        "Prof. Nicolas Moitessier (Winter 2027)"
+      ],
+      "prereqs": ["CHEM212"],
+      "prereqsText": "Prerequisite: CHEM 212 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM242",
+      "name": "Organic Chemistry 1 for Chemistry and Biochemistry",
+      "description": "A fundamental study of aliphatic compounds and saturated functional groups including modern concepts of bonding, reaction mechanisms, conformational analysis, spectroscopy, and stereochemistry.",
+      "instructors": [
+        "Prof. Laura Pavelka (Fall 2026)",
+        "Prof. Hanadi Sleiman (Fall 2026)",
+        "Prof. Danielle Vlaho (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Mitchell Huot (Fall 2026)"
+      ],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisite: CHEM 110 and CHEM 120 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM244",
+      "name": "Organic Chemistry Laboratory 2",
+      "description": "Laboratory section of <a data-action=\"result-detail\" data-group=\"code:CHEM 222\" href=\"/search/?p=CHEM%20222\">CHEM 222</a>.",
+      "instructors": [
+        "Prof. Danielle Vlaho (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)",
+        "Prof. Mitchell Huot (Winter 2027)"
+      ],
+      "prereqs": ["CHEM234"],
+      "prereqsText": "Prerequisite: CHEM 234 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM252",
+      "name": "Organic Chemistry 2 for Chemistry and Biochemistry",
+      "description": "A fundamental study of aromatic and polar unsaturated functional groups including reaction mechanisms, multi-step synthesis, regioselectivity, and modern spectroscopic techniques for structure determination.",
+      "instructors": [
+        "Prof. Laura Pavelka (Winter 2027)",
+        "Prof. Nicolas Moitessier (Winter 2027)"
+      ],
+      "prereqs": ["CHEM212", "CHEM242"],
+      "prereqsText": "Prerequisite(s): CHEM 212 or CHEM 242 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM267",
+      "name": "Introductory Chemical Analysis",
+      "description": "Qualitative and quantitative analysis. A survey of methods of analysis including theory and practice of semimicro qualitative analysis and representative gravimetric, volumetric and instrumental methods. The laboratory component includes introductory experiments in analytical chemistry emphasizing classical and instrumental methods of quantitative analysis.",
+      "instructors": [
+        "Prof. Janine Mauzeroll (Fall 2026)",
+        "Prof. Samuel Lewis Sewall (Fall 2026)",
+        "Prof. Christopher Thibodeaux (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Pallavi Sirjoosingh (Fall 2026)"
+      ],
+      "prereqs": ["CHEM110", "CHEM120"],
+      "prereqsText": "Prerequisite(s): CHEM 110 and CHEM 120, or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM273",
+      "name": "Introductory Physical Chemistry 2: Kinetics and Methods",
+      "description": "Kinetics: Transition State Theory, complex reactions, free-radical reactions, chain reactions, catalysis, reactions at surfaces, ionic effects of reactions in solution, photochemistry. Methods: physical chemistry laboratory, differential equations and linear algebra applied to physical chemistry, computation methods for data analysis and modeling",
+      "instructors": [
+        "Prof. Eric McCalla (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)"
+      ],
+      "prereqs": ["CHEM213", "MATH222"],
+      "prereqsText": "Prerequisites: CHEM 213 and MATH 222 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM281",
+      "name": "Inorganic Chemistry 1",
+      "description": "Basic concepts of electronic structure and molecular bonding will be developed and applied to the understanding of common materials. Acid-base chemistry. Survey of the chemistry of the main group elements. Introduction to coordination and organometallic chemistry.",
+      "instructors": ["Prof. Marc-Andre Légaré (Winter 2027)"],
+      "prereqs": ["CHEM110", "CHEM120", "MATH133"],
+      "prereqsText": "Prerequisites: CHEM 110 and CHEM 120 or equivalent.",
+      "coreqsText": "Corequisite: MATH 133",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM302",
+      "name": "Introductory Organic Chemistry 3",
+      "description": "Topics covered may include the following: Aromatic compounds, heterocyclic chemistry, sulfur and phosphorus chemistry, organosulfur and organophosphorus compounds, and biomolecules such as lipids, carbohydrates, amino acids, polypeptides, DNA and RNA.",
+      "instructors": [
+        "Prof. Nathan Luedtke (Fall 2026)",
+        "Prof. Masad J Damha (Fall 2026)"
+      ],
+      "prereqs": ["CHEM222"],
+      "prereqsText": "Prerequisites: CHEM 222, or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM332",
+      "name": "Biological Chemistry",
+      "description": "An introduction to biological chemistry. Topics will include chemistry and structure of proteins, nucleic acids, and lipids; protein and nucleic acid biosynthesis; enzyme kinetics and mechanisms; membranes and membrane transport; bioenergetics; redox reactions in biological chemistry; gene expression; cloning, RNA and\nantibody technologies; genomics and proteomics.",
+      "instructors": ["Prof. Karine Auclair (Winter 2027)"],
+      "prereqs": ["CHEM222", "CHEM273", "CHEM302"],
+      "prereqsText": "Prerequisite(s): CHEM 222 and CHEM 273.",
+      "coreqsText": "Corequisite(s): CHEM 302",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM334",
+      "name": "Advanced Materials",
+      "description": "Survey of the physical and chemical structure-function relationships defining advanced materials, including an introduction to basic materials science and characterization. Topics include supramolecular polymers, self-healing materials, advanced surfaces and adhesives, bio-inspired materials, shape memory materials, sensors and actuators, and photonic materials.",
+      "instructors": ["Prof. Matthew Harrington (Winter 2027)"],
+      "prereqs": [
+        "CHEM110",
+        "CHEM120",
+        "PHYS102",
+        "PHYS131",
+        "PHYS142",
+        "CHEM203",
+        "CHEM204",
+        "CHEM213",
+        "CHEM273",
+        "PHYS230",
+        "PHYS232"
+      ],
+      "prereqsText": "Prerequisites: CHEM 110/CHEM 120 and PHYS101/PHYS 102 or PHYS 131/PHYS 142, or CEGEP Physics and Chemistry, or equivalent. Prerequisite or Corequisite: one of CHEM 203, CHEM 204, CHEM 213 and CHEM 273, or equivalent; or one of PHYS 230 and PHYS 232, or equivalent; or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM345",
+      "name": "Introduction to Quantum Chemistry",
+      "description": "An introduction to quantum chemistry covering the historical development, wave theory, methods of quantum mechanics, and applications of quantum chemistry.",
+      "instructors": ["Prof. Linda Reven (Fall 2026)"],
+      "prereqs": ["CHEM213", "CHEM273", "PHYS142"],
+      "prereqsText": "Prerequisites: CHEM 213 and CHEM 273, and PHYS 142, or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM355",
+      "name": "Applications of Quantum Chemistry",
+      "description": "A survey of the principles of electronic, vibrational and rotational spectroscopy. Magnetic resonance and computational methods.",
+      "instructors": ["Prof. Bradley Siwick (Winter 2027)"],
+      "prereqs": ["CHEM281", "CHEM345", "PHYS242"],
+      "prereqsText": "Prerequisite: CHEM 281, CHEM 345, and PHYS 242; or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM362",
+      "name": "Advanced Organic Chemistry Laboratory",
+      "description": "An advanced laboratory with experiments related to the theoretical principles and synthetic methods of modern organic chemistry.",
+      "instructors": [
+        "Prof. Mitchell Huot (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Danielle Vlaho (Fall 2026)",
+        "Prof. Mitchell Huot (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)",
+        "Prof. Danielle Vlaho (Winter 2027)"
+      ],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite or corequisite: CHEM 302. Not open to Honours or Majors in Chemistry",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM365",
+      "name": "Statistical Thermodynamics",
+      "description": "Molecular basis of thermodynamics with applications to ideal gases and simple solids. Topics to be covered will include: calculation of thermodynamic functions, chemical equilibrium constants, Einstein and Debye models of solids, absolute reaction rate theory, Debye-Hückel theory of strong electrolytes.",
+      "instructors": [
+        "Prof. Paul Wiseman (Winter 2027)",
+        "Prof. Yelena Simine (Winter 2027)"
+      ],
+      "prereqs": ["CHEM345"],
+      "prereqsText": "Prerequisite: CHEM 345",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM367",
+      "name": "Instrumental Analysis 1",
+      "description": "An introduction to modern instrumental analysis emphasizing chromatography, atomic spectroscopy and computational data analysis. Analytical methods to be examined in detail include gas-liquid and high performance liquid chromatography, LC mass spectrometry, and common methods of atomic determinations using flames/furnaces/plasma sources.",
+      "instructors": [
+        "Prof. Christopher Thibodeaux (Fall 2026)",
+        "Prof. Samuel Lewis Sewall (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)"
+      ],
+      "prereqs": ["CHEM267"],
+      "prereqsText": "Prerequisite(s): CHEM 267.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM377",
+      "name": "Instrumental Analysis 2",
+      "description": "Spectroscopic methods of analysis will be studied with respect to fundamentals, operational aspects and instrument design. Topics will range from UV-visible to x-ray spectrometry. Methodologies will be evaluated with respect to their application in spectrometric systems. Laboratory automation will be studied and applied in the laboratory.",
+      "instructors": [
+        "Prof. Thomas Preston (Winter 2027)",
+        "Prof. Samuel Lewis Sewall (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)",
+        "Prof. Pallavi Sirjoosingh (Winter 2027)"
+      ],
+      "prereqs": ["CHEM367"],
+      "prereqsText": "Prerequisite: CHEM 367",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM381",
+      "name": "Inorganic Chemistry 2",
+      "description": "Introduction to transition metal chemistry, coordination numbers and geometry, and nomenclature will be followed by a discussion of crystal field theory and its applications to problems in spectroscopy, magnetochemistry, thermodynamics and kinetics. Several aspects related to applications of organometallic compounds in catalysis and bioinorganic systems will be discussed.",
+      "instructors": ["Prof. Scott Bohle (Fall 2026)"],
+      "prereqs": ["CHEM281"],
+      "prereqsText": "Prerequisite: CHEM 281.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM392",
+      "name": "Experimental Chemistry 1",
+      "description": "Experiments related to the theoretical principles, synthetic techniques and instrumental methods used in modern experimental chemistry, including aspects of green chemistry and nanochemistry.",
+      "instructors": [
+        "Prof. Danielle Vlaho (Fall 2026)",
+        "Prof. Jean-Marc Gauthier (Fall 2026)",
+        "Prof. Mitchell Huot (Fall 2026)",
+        "Prof. Danielle Vlaho (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)",
+        "Prof. Mitchell Huot (Winter 2027)",
+        "Prof. Samuel Lewis Sewall (Winter 2027)"
+      ],
+      "prereqs": ["CHEM381", "CHEM302"],
+      "prereqsText": "Prerequisite/corequisites: CHEM 381 and CHEM 302. Advanced laboratory for Chemistry Honours and Majors students.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM396",
+      "name": "Undergraduate Research Project",
+      "description": "Independent research project with a final written report.",
+      "instructors": [
+        "Prof. Samuel Lewis Sewall (Fall 2026)",
+        "Prof. Samuel Lewis Sewall (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM400",
+      "name": "Independent Study in Chemistry",
+      "description": "Supervised research.",
+      "instructors": [
+        "Prof. Ashok K Kakkar (Fall 2026)",
+        "Prof. Yelena Simine (Fall 2026)",
+        "Prof. Ashok K Kakkar (Winter 2027)",
+        "Prof. Yelena Simine (Winter 2027)"
+      ],
+      "prereqs": ["CHEM243", "CHEM222", "CHEM287", "CHEM281"],
+      "prereqsText": "Prerequisites: CHEM 243, CHEM 222, CHEM 287, CHEM 281, plus at least one course in Chemistry at 300 level or higher.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM429",
+      "name": "Chemistry of Energy, Storage and Utilization",
+      "description": "Energy consumption and human development; green house gases; primary and secondary sources of energy, fuels vs. electricity; energy transport and storage; fossil fuels; nuclear energy; fusion and fission; bioenergetics, natural and artificial\nphotosynthesis; novel materials; nanocomposites; photochemistry; electrochemistry; photovoltaics and batteries; fuel cells; catalysis and biomass.",
+      "instructors": [
+        "Prof. Dima Perepichka (Fall 2026)",
+        "Prof. Eric McCalla (Fall 2026)"
+      ],
+      "prereqs": [
+        "CHEM212",
+        "CHEM223",
+        "CHEM243",
+        "CHEM213",
+        "CHEM273",
+        "CHEM204",
+        "CHEM203"
+      ],
+      "prereqsText": "Prerequisites: CHEM 212; CHEM 223 and CHEM 243; or CHEM 213 and CHEM 273; or CHEM 204 or CHEM 203; or permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM462",
+      "name": "Green Chemistry",
+      "description": "New reactions and methods which can be used for the production of chemicals from renewable feedstocks; the use of new environmentally benign solvents, catalysts and reagents; organic reactions in aqueous media and in supercritical carbon dioxide; bio-catalysis and bio-processes.",
+      "instructors": ["Prof. Audrey Moores (Winter 2027)"],
+      "prereqs": ["CHEM302", "CHEM381"],
+      "prereqsText": "Prerequisites: CHEM 302 and CHEM 381",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM470D1",
+      "name": "Research Project 1",
+      "description": "A course designed to give students research experience. The student will be assigned a project supervisor and a research project at the beginning of the session. The project will consist of a literature survey, experimental and/or theoretical work, a written research report and an oral examination.",
+      "instructors": [
+        "Prof. Rustam Khaliullin (Fall 2026)",
+        "Prof. Mark P Andrews (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM470D2",
+      "name": "Research Project 1",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:CHEM 470D1\" href=\"/search/?p=CHEM%20470D1\">CHEM 470D1</a> for course description.",
+      "instructors": [
+        "Prof. Mark P Andrews (Winter 2027)",
+        "Prof. Rustam Khaliullin (Winter 2027)"
+      ],
+      "prereqs": ["CHEM470D1"],
+      "prereqsText": "Prerequisite: CHEM 470D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM480",
+      "name": "Undergraduate Research Project 2",
+      "description": "A course designed to give students additional research experience. The student will be assigned a project supervisor and a research project at the beginning of the session. The project will consist of a literature survey, experimental or theoretical work, a written research report and an oral examination.",
+      "instructors": ["Prof. Samuel Lewis Sewall (Winter 2027)"],
+      "prereqs": ["CHEM396", "CHEM470"],
+      "prereqsText": "Prerequisite: CHEM 396 or CHEM 470. Registration by Departmental permission only.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM480D1",
+      "name": "Undergraduate Research Project 2",
+      "description": "A course designed to give students additional research experience. The student will be assigned a project supervisor and a research project at the beginning of the session. The project will consist of a literature survey, experimental or theoretical work, a written research report and an oral examination.",
+      "instructors": ["Prof. Samuel Lewis Sewall (Fall 2026)"],
+      "prereqs": ["CHEM396", "CHEM470"],
+      "prereqsText": "Prerequisite(s): CHEM 396 or CHEM 470. Registration by Departmental permission only.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM480D2",
+      "name": "Undergraduate Research Project 2",
+      "description": "A course designed to give students additional research experience. The student will be assigned a project supervisor and a research project at the beginning of the session. The project will consist of a literature survey, experimental or theoretical work, a written research report and an oral examination.",
+      "instructors": ["Prof. Samuel Lewis Sewall (Winter 2027)"],
+      "prereqs": ["CHEM396", "CHEM470", "CHEM480D1"],
+      "prereqsText": "Prerequisite: CHEM 396 or CHEM 470 and CHEM 480D1. Registration by Departmental permission only.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM482",
+      "name": "Organic Chemistry: Natural Products",
+      "description": "Structure, synthesis, stereochemistry and biosynthesis of terpenes, alkaloids, antibiotics and selected molecules of medicinal interest.",
+      "instructors": [
+        "Prof. Youla S Tsantrizos (Winter 2027)",
+        "Prof. Jean-Philip Lumb (Winter 2027)"
+      ],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite: CHEM 302",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM493",
+      "name": "Advanced Physical Chemistry Laboratory",
+      "description": "Selected experiments to illustrate more advanced physico-chemical principles.",
+      "instructors": [
+        "Prof. Samuel Lewis Sewall (Winter 2027)",
+        "Prof. Jean-Marc Gauthier (Winter 2027)"
+      ],
+      "prereqs": ["CHEM273", "CHEM345", "CHEM355"],
+      "prereqsText": "Prerequisite(s): CHEM 273 and CHEM 345 or permission of the instructor.",
+      "coreqsText": "Corequisite(s): CHEM 355",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM502",
+      "name": "Advanced Bio-Organic Chemistry",
+      "description": "This course will cover biologically relevant molecules, particularly nucleic acids, proteins, and their building blocks. In each case, synthesis and biological functions will be discussed. The topics include synthesis of oligonucleotides and peptides; chemistry of phosphates; enzyme structure and function; coenzymes, and enzyme catalysis; polyketides; antiviral and anticancer agents.",
+      "instructors": [
+        "Prof. Christopher Thibodeaux (Winter 2027)",
+        "Prof. Karine Auclair (Winter 2027)"
+      ],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite: CHEM 302",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM503",
+      "name": "Drug Discovery",
+      "description": "The aim of this course is to provide an introduction to the overall drug discovery process. The main focus of the course will be on medicinal chemistry, synthesis and\ncatalysis, as they relate to large-scale production of pharmaceutical agents. However, other aspects of drug discovery, including structural research (e.g. NMR, X-ray), biochemistry, drug metabolism and bioavailability will also be included.",
+      "instructors": ["Prof. Youla S Tsantrizos (Winter 2027)"],
+      "prereqs": ["CHEM302", "BIOL200", "CHEM332"],
+      "prereqsText": "Prerequisite(s): CHEM 302 and one of BIOL 200 or CHEM 332, or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM512",
+      "name": "Catalysis, Concepts and Applications",
+      "description": "General concepts governing catalysis and practical aspects of its implementation including its most important applications. A global perspective on industrial catalysis. A general introduction about catalysis including homogeneous catalysis, heterogeneous catalysis, organocatalysis, and biocatalysis. A select number of reactions will be studied in detail, based on the most recent research efforts made in the field of catalysis.",
+      "instructors": [
+        "Prof. C.-J. Li (Fall 2026)",
+        "Prof. Audrey Moores (Fall 2026)"
+      ],
+      "prereqs": ["CHEM381", "CHEM302", "CHEM243"],
+      "prereqsText": "Prerequisites: CHEM 381, CHEM 302, CHEM 243",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM514",
+      "name": "Biophysical Chemistry",
+      "description": "Physical chemistry concepts needed to understand the function of biological systems at the molecular level, including the structure, stability, transport, and interactions of biological macromolecules.",
+      "instructors": [
+        "Prof. Amy Blum (Fall 2026)",
+        "Prof. Paul Wiseman (Fall 2026)",
+        "Prof. Amy Blum (Winter 2027)",
+        "Prof. Paul Wiseman (Winter 2027)",
+        "Prof. Matthew Harrington (Winter 2027)"
+      ],
+      "prereqs": ["CHEM203", "CHEM204", "CHEM223", "CHEM243"],
+      "prereqsText": "Prerequisite: CHEM 203 or CHEM 204 or CHEM 223 and CHEM 243, or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM519",
+      "name": "Advances in Chemistry of Atmosphere",
+      "description": "Exploration of the field of atmospheric chemistry that is identified as the significant driver of climate change and the cause of millions of premature death every year. Discussion of cutting-edge novel technologies for observing and quantifying pollutants (from ground to satellite) using artificial intelligence, the fate of\nemerging contaminants (e.g., nano/microplastics, trace metals, persistent\norganic), and modelling of atmospheric and interfacial processes. Examination of topics like atmospheric gaseous and multiphase components like bioaerosols. Study of photochemical, photophysical, and aerosol nucleation processes that affect air quality, climate change, and ecosystem health.",
+      "instructors": ["Prof. Parisa A Ariya (Winter 2027)"],
+      "prereqs": ["CHEM213", "CHEM273", "MATH222", "MATH315"],
+      "prereqsText": "Prerequisites: CHEM 213, CHEM 273, MATH 222, MATH 315 or equivalents, or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM520",
+      "name": "Methods in Chemical Biology",
+      "description": "An overview of advanced techniques at the leading edge of Chemical Biology, including some or all of: biological imaging, kinetics of enzyme inhibition, combinatorial synthesis, atomic force microscopy of biological molecules, self assembling biomimetic structures, oligonucleotide therapeutics, biomolecular X-ray crystallography, computational methods, and nuclear magnetic resonance applied to protein interactions.",
+      "instructors": [
+        "Prof. Christopher Thibodeaux (Fall 2026)",
+        "Prof. Janine Mauzeroll (Fall 2026)",
+        "Prof. Alexander Sean Wahba (Fall 2026)",
+        "Prof. Nicolas Moitessier (Fall 2026)",
+        "Prof. Alexey Kostikov (Fall 2026)",
+        "Prof. Matthew Harrington (Fall 2026)"
+      ],
+      "prereqs": ["BIOL200", "CHEM345", "CHEM302"],
+      "prereqsText": "Prerequisites: BIOL 200 and CHEM 345 and CHEM 302, or permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM531",
+      "name": "Chemistry of Inorganic Materials",
+      "description": "Structure, bonding, synthesis, properties and applications of covalent, ionic, metallic crystals, and amorphous solids. Defect structures and their use in synthesis of specialty materials such as electronic conductors, semiconductors, and superconductors, and solid electrolytes. Basic principles of composite materials and applications of chemistry to materials processing.",
+      "instructors": ["Prof. Mark P Andrews (Winter 2027)"],
+      "prereqs": ["CHEM381"],
+      "prereqsText": "Prerequisite: CHEM 381",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM532",
+      "name": "Structural Organic Chemistry",
+      "description": "A practical course on the application of modern spectroscopic methods for the determination of structures of complex organic and organometallic compounds.",
+      "instructors": ["Prof. Jim Gleason (Fall 2026)"],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite: CHEM 302",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM533",
+      "name": "Small Molecule Crystallography",
+      "description": "Fundamentals of x-ray diffraction related to small molecule structure resolution, space groups, diffraction theory, strategies for structure solution, and refinement will be covered.",
+      "instructors": ["Prof. Scott Bohle (Winter 2027)"],
+      "prereqs": ["CHEM355"],
+      "prereqsText": "Prerequisite: CHEM 355 or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM534",
+      "name": "Nanoscience and Nanotechnology",
+      "description": "Topics discussed include scanning probe microscopy, chemical self-assembly, computer modelling, and microfabrication/micromachining.",
+      "instructors": ["Prof. Mark P Andrews (Fall 2026)"],
+      "prereqs": ["CHEM434", "PHYS334", "CHEM345", "PHYS357", "PHYS346"],
+      "prereqsText": "Prerequisites: CHEM 434 or PHYS 334 or permission of instructor",
+      "coreqsText": "Corequisites: one of CHEM 345, PHYS 357, or PHYS 346 or permission of instructor",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM540",
+      "name": "Advances in Industrial Biotechnology",
+      "description": "Introduction to emerging technologies and research advances in biotechnologies. Topics include semisynthetic production of drugs and drug candidates through large-scale fermentation, next generation synthesis of DNA and whole genes, green toxicology, single-molecule diagnostics, orphan-drug re-purposing,\nand next- generation genomic analyses in drug development. Translational research, issues of entrepreneurship, sustainability, and ethics are also covered.",
+      "instructors": ["Prof. Maureen McKeague (Winter 2027)"],
+      "prereqs": ["CHEM222", "BIOL200", "CHEM332"],
+      "prereqsText": "Prerequisite: CHEM 222 (or equivalent) and BIOL 200 or CHEM 332",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM542",
+      "name": "Advanced Nucleic Acid Chemistry",
+      "description": "Advanced-level chemical reactivity and metal binding properties, advanced methods for synthesis, purification and characterization of DNA/RNA, non-canonical DNA/RNA structures and functions, self-assembly of functional nucleic acid-based materials, chemical and fluorescence-based methods for probing nucleic acids in vitro and in vivo, in vitro evolution of functional nucleic acids for biotechnology, and diagnostic and therapeutic applications of modified nucleic acids.",
+      "instructors": [
+        "Prof. Masad J Damha (Winter 2027)",
+        "Prof. Nathan Luedtke (Winter 2027)"
+      ],
+      "prereqs": ["CHEM302", "CHEM332", "BIOL200", "BIOL201"],
+      "prereqsText": "Prerequisites: CHEM 302 CHEM 332 or BIOL 200 BIOL 201 or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM552",
+      "name": "Physical Organic Chemistry",
+      "description": "The correlation of theory with physical measurements on organic systems; an introduction to photochemistry; solvent and substituent effects on organic reaction rates, etc.; reaction mechanisms.",
+      "instructors": [
+        "Prof. Marc-Andre Légaré (Fall 2026)",
+        "Prof. Nicolas Moitessier (Fall 2026)",
+        "Prof. Dima Perepichka (Fall 2026)"
+      ],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite: CHEM 302",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM555",
+      "name": "Magnetic Resonance Spectroscopy",
+      "description": "The fundamental principles underlying Nuclear magnetic resonance (NMR), Electron Paramagnetic resonance (EPR) and Magnetic Resonance Imaging (MRI) will be covered and applied to biomolecules and materials chemistry. Topics include multidimensional spectra, molecular dynamics, the density matrix, and the product operator formalism.",
+      "instructors": ["Prof. Linda Reven (Winter 2027)"],
+      "prereqs": ["CHEM355"],
+      "prereqsText": "Prerequisite: CHEM 355 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM571",
+      "name": "Polymer Synthesis",
+      "description": "A survey of polymer preparation and characterization; mechanisms of chain growth, including free radical, cationic, anionic, condensation and transition metal-mediated polymerization, and the effects of these mechanisms on polymer architecture; preparation of alternating, block, graft and stereoblock copolymers; novel macromolecular structures including dendrimers and other nanostructures.",
+      "instructors": ["Prof. Ashok K Kakkar (Fall 2026)"],
+      "prereqs": ["CHEM302"],
+      "prereqsText": "Prerequisite: CHEM 302 or equivalent, or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM574",
+      "name": "Introductory Polymer Chemistry",
+      "description": "A survey course on the structure of polymers, kinetics and mechanisms of polymer and copolymer synthesis; characterization and molecular weight distributions; polymer microstructure, the thermodynamics of polymer solutions; the crystalline and amorphous states, rubber elasticity and structure-property relationships.",
+      "instructors": ["Prof. Lucas Caire da Silva (Winter 2027)"],
+      "prereqs": ["CHEM223", "CHEM243", "CHEM213", "CHEM273", "CHEM233"],
+      "prereqsText": "Prerequisite(s): Prerequisites: CHEM 223 and CHEM 243 or CHEM 213 and CHEM 273, or CHEM 233 (for engineering students only), or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM577",
+      "name": "Electrochemistry",
+      "description": "Fundamentals of electrochemistry and the application of electrochemical methods to chemical and biochemical problems. Emphasis is given to the study of electrode reaction mechanisms and the interpretation of electrochemical results for organic and inorganic systems. Voltammetric and coulometric methods are rigorously discussed. Several topics of interest in electrochemistry will be covered as time permits.",
+      "instructors": ["Prof. Eric McCalla (Fall 2026)"],
+      "prereqs": ["CHEM243", "CHEM203", "CHEM204", "CHEM367", "CHEM377"],
+      "prereqsText": "Prerequisite(s): CHEM 243 or CHEM 203/CHEM 204, CHEM 367 and CHEM 377",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM582",
+      "name": "Supramolecular Chemistry",
+      "description": "Introduction to supramolecular organization will be followed by discussions on the nature of interactions and methodologies to create ordered aggregates of high complexity. Potential of supramolecular chemistry in fabricating smart materials will be explored using specific topics including inclusion chemistry, dendrimers, molecular self-assembly and crystal engineering.",
+      "instructors": [
+        "Prof. Hanadi Sleiman (Winter 2027)",
+        "Prof. Ashok K Kakkar (Winter 2027)"
+      ],
+      "prereqs": ["CHEM222", "CHEM381"],
+      "prereqsText": "Prerequisites: CHEM 222, CHEM 381",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM593",
+      "name": "Statistical Mechanics and Machine Learning for Chemistry",
+      "description": "Intermediate topics in statistical mechanics and related machine learning: ensemble theory, critical phenomena, static and time-dependent phenomena, linear response and fluctuations, Monte Carlo and molecular dynamics simulation methods, data driven simulation methods: MaxEnt modeling, generative machine learning, active learning.",
+      "instructors": ["Prof. Yelena Simine (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM603",
+      "name": "Principles and Applications of Materials Characterization",
+      "description": "Fundamentals of materials characterization methods and their applications in materials chemistry. Topics include static and dynamic mechanical testing, vibrational spectroscopy (Raman and FTIR), surface-based spectroscopies (XPS, Auger), advanced electron microscopy methods, X-ray absorption spectroscopy and X-ray diffraction (pXRD, WAXD, SAXS).",
+      "instructors": [
+        "Prof. Audrey Moores (Fall 2026)",
+        "Prof. Dima Perepichka (Fall 2026)",
+        "Prof. Matthew Harrington (Fall 2026)"
+      ],
+      "prereqs": ["CHEM355"],
+      "prereqsText": "Prerequisite(s): CHEM 355 or equivalent, or permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM612",
+      "name": "Organometallic Chemistry",
+      "description": "A first course at the graduate level in organometallic chemistry. The theory and practice of the field is treated starting from basic principles of inorganic and organic chemistry.",
+      "instructors": ["Prof. Bruce A. Arndtsen (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM621",
+      "name": "Reaction Mechanisms in Organic Chemistry",
+      "description": "A systematic survey of the mechanisms of the most common organic reactions from studies of reactions in the current literature.",
+      "instructors": ["Prof. Jim Gleason (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM634",
+      "name": "Seminar in Advanced Materials",
+      "description": "A series of research-level seminars about topics of current interest in advanced materials. Topics include molecular and nanoelectronics, computational approaches to materials design and property predictions, new techniques in molecular and atomic imaging, advances in materials preparation, quantum devices and quantum computing.",
+      "instructors": [
+        "Prof. Linda Reven (Fall 2026)",
+        "Prof. Dima Perepichka (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM650",
+      "name": "Seminars in Chemistry 1",
+      "description": "A seminar course designed for graduate students in chemistry which in conjunction with McGill Chemical Society will provide exposure to a broad range of special topics within the discipline.",
+      "instructors": ["Prof. Lucas Caire da Silva (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM651",
+      "name": "Seminars in Chemistry 2",
+      "description": "A seminar course designed for graduate students in chemistry which in conjunction with McGill Chemical Society will provide exposure to a broad range of special topics within the discipline.",
+      "instructors": ["Prof. Lucas Caire da Silva (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM667",
+      "name": "Special Topics 3",
+      "description": "Introduction to basic concepts in the field of advanced materials.",
+      "instructors": ["Prof. Theo van de Ven (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM688",
+      "name": "Progress\n Assessment 1",
+      "description": "An evaluation that is completed before the end of the second year of registration.",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM691",
+      "name": "M.Sc. Thesis Research 1",
+      "description": "Independent research work leading to writing of M.Sc. thesis for final submission to Graduate and Postdoctoral Studies.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM692",
+      "name": "M.Sc. Thesis Research 2",
+      "description": "Independent research work leading to writing of M.Sc. thesis for final submission to Graduate and Postdoctoral Studies.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM693",
+      "name": "M.Sc. Thesis Research 3",
+      "description": "Independent research work leading to writing of M.Sc. thesis for final submission to Graduate and Postdoctoral Studies.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM694",
+      "name": "M.Sc. Thesis Research 4",
+      "description": "Independent research work leading to writing of M.Sc. thesis for final submission to Graduate and Postdoctoral Studies.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM695",
+      "name": "M.Sc. Thesis Research 5",
+      "description": "Independent research work leading to writing of M.Sc. thesis for final submission to Graduate and Postdoctoral Studies.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM701",
+      "name": "Comprehensive Examination",
+      "description": "An evaluation that is completed before the end of the third year of registration.",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "CHEM702",
+      "name": "Progress Assessment 2",
+      "description": "An evaluation that is completed before the end of the fourth year of registration.",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
       "id": "COMP189",
       "name": "Computers and Society",
       "description": "How computer technologies shape social notions such as ownership, safety, and privacy. Emphasis is on computer science powering both day-to-day technologies (e.g., online social media) and those in the news (e.g., cyberwar). Discussions will investigate technology and social issues in order to understand both.",
@@ -5144,6 +6110,1143 @@
       "restrictionsText": "This course has no restrictions."
     },
     {
+      "id": "PHAR200",
+      "name": "Introduction to Pharmacology 1",
+      "description": "The objective of this course is to give U1 Pharmacology Major program students an appreciation of research in Pharmacology. The focus will be on contributions of this research to our understanding of how drugs work, strategies towards the discovery of new drugs, and/or on how use of current drugs may be improved based on this understanding.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Fabio Zani (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR201",
+      "name": "Introduction to Pharmacology 2",
+      "description": "This course will be a continuation of <a data-action=\"result-detail\" data-group=\"code:PHAR 200\" href=\"/search/?p=PHAR%20200\">PHAR 200</a>, taught in the fall semester. The focus will be on contributions of this research to our understanding of how drugs work, strategies towards the discovery of new drugs, and/or on how use of current drugs may be improved based on this understanding.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Winter 2027)",
+        "Prof. Fabio Zani (Winter 2027)"
+      ],
+      "prereqs": ["PHAR200"],
+      "prereqsText": "Prerequisite(s): PHAR 200",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR300",
+      "name": "Drug Action",
+      "description": "Principles of pharmacology and toxicology. Frequently encountered drugs will be used as a focus to illustrate sites and mechanisms of action, distribution, metabolism, elimination and adverse side effects.",
+      "instructors": [
+        "Prof. Ajitha Thanabalasuriar (Fall 2026)",
+        "Prof. Edith Zorychta (Fall 2026)"
+      ],
+      "prereqs": ["BIOL200", "PHGY209", "PHGY210", "BIOL201", "BIOC212"],
+      "prereqsText": "Prerequisites: BIOL 200, PHGY 209, PHGY 210 and one of BIOL 201 or ANAT/BIOC 212 or permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR301",
+      "name": "Drugs and Disease",
+      "description": "This course further explores the basic principles of pharmacology as illustrated by drugs used in the treatment of disease. Emphasis is placed on drugs used for diseases prevalent in North America.",
+      "instructors": ["Prof. Derek Bowie (Winter 2027)"],
+      "prereqs": ["PHAR300"],
+      "prereqsText": "Prerequisite: PHAR 300",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR303",
+      "name": "Principles of Toxicology",
+      "description": "Fundamental mechanisms by which toxic compounds damage a biological system (organelle, cell, organ, organism, ecosystem). Detection and quantification of toxicity and risk/benefit analysis are considered. Selected agents of current risk to human health or the environment are evaluated in depth.",
+      "instructors": ["Prof. Maureen McKeague (Winter 2027)"],
+      "prereqs": ["BIOL200", "BIOL201", "BIOC212", "PHGY209", "PHGY210"],
+      "prereqsText": "Prerequisites: BIOL 200, BIOL 201 or BIOC 212, PHGY 209 and PHGY 210",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR396",
+      "name": "Undergraduate Research Project",
+      "description": "Independent research project with a final written report and an oral presentation.",
+      "instructors": [
+        "Prof. Jason Tanny (Fall 2026)",
+        "Prof. Jason Tanny (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisite(s): Completion of at least one undergraduate term with CGPA of 3.0.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR503",
+      "name": "Drug Discovery and Development 1",
+      "description": "Chemistry, mechanisms of action, and steps in drug discovery and development.",
+      "instructors": ["Prof. Lisa Munter (Fall 2026)"],
+      "prereqs": ["PHAR301", "PHAR303"],
+      "prereqsText": "Prerequisites: PHAR 301 or PHAR 303; or permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR504",
+      "name": "Drug Discovery and Development 2",
+      "description": "Nobel Prize-winning discoveries as a basis for drug development.",
+      "instructors": ["Prof. Gerhard Multhaup (Winter 2027)"],
+      "prereqs": ["PHAR301", "PHAR303"],
+      "prereqsText": "Prerequisites: PHAR 301 or PHAR 303; or permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR505",
+      "name": "Structural Pharmacology",
+      "description": "The course will cover approaches widely used in the pharmaceuticals industry, such as drug target selection, structure determination and medicinal chemistry. The basics of structural biology will be taught in a very visual and interactive manner, with an emphasis on drug:target interactions and chemical principles relevant to drug design. By the end of the course, the students will become familiar with the structure-based drug discovery process and principles of molecular pharmacology.",
+      "instructors": ["Prof. Jean-Francois Trempe (Fall 2026)"],
+      "prereqs": ["PHAR301", "BIOC311"],
+      "prereqsText": "Prerequisite(s): PHAR 301, BIOC 311 or with permission of instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR508",
+      "name": "Drug Discovery and Development 3",
+      "description": "The design of biologically-relevant drug screens for molecular targets in a cell, tissue, and in vivo setting. Explore the use of stem cells and tissue-based disease models for the understanding of disease and for drug discovery. Situate modern pharmacology into broader medical and societal issues such as personalized medicine and the ethics associated with research.",
+      "instructors": ["Prof. Terence Hebert (Winter 2027)"],
+      "prereqs": ["PHAR301", "PHAR503", "PHAR505"],
+      "prereqsText": "Prerequisite(s): PHAR 301 (PHAR 503 or PHAR 505 are also highly recommended)",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR522D1",
+      "name": "Fundamentals of Disease Therapy",
+      "description": "Basic physiology and pathology, including a macro-level overview of normal physiology and pathophysiology of selected organs.",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": ["FMED525"],
+      "prereqsText": "Prerequisites: FMED 525 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR522D2",
+      "name": "Fundamentals of Disease Therapy",
+      "description": "See course description in <a data-action=\"result-detail\" data-group=\"code:PHAR 522D1\" href=\"/search/?p=PHAR%20522D1\">PHAR 522D1</a>.",
+      "instructors": ["Prof. Terence Hebert (Winter 2027)"],
+      "prereqs": ["FMED525"],
+      "prereqsText": "Prerequisites: FMED 525 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR524",
+      "name": "Clinical Mentorship",
+      "description": "Interaction with clinicians and clinician scientists in the field of medicine and health sciences, focusing on understanding disease from their perspective.",
+      "instructors": ["Prof. Terence Hebert (Winter 2027)"],
+      "prereqs": ["FMED525"],
+      "prereqsText": "Prerequisites: FMED 525 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR540",
+      "name": "Advances in Industrial Biotechnology",
+      "description": "Introduction to emerging technologies and research advances in biotechnologies. Topics include semisynthetic production of drugs and drug candidates through large-scale fermentation, next generation synthesis of DNA and whole genes, green toxicology, single-molecule diagnostics, orphan-drug re-purposing, and next- generation genomic analyses in drug development. Translational research, issues of\nentrepreneurship, sustainability, and ethics are also covered.",
+      "instructors": [
+        "Prof. Maureen McKeague (Winter 2027)",
+        "Prof. Ajitha Thanabalasuriar (Winter 2027)"
+      ],
+      "prereqs": ["CHEM222", "BIOL200", "CHEM332"],
+      "prereqsText": "Prerequisite: CHEM 222 (or equivalent) and BIOL 200 or CHEM 332",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR562",
+      "name": "Neuropharmacology",
+      "description": "Topics in pharmacology with an emphasis on molecular mechanisms of drug-action and cellular targets in the nervous system.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. David S Ragsdale (Fall 2026)"
+      ],
+      "prereqs": ["PHAR301"],
+      "prereqsText": "Prerequisite: PHAR 301 or with permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR563",
+      "name": "Endocrine Pharmacology",
+      "description": "This advanced course covers selected topics in pharmacology of reproductive, endocrine, and metabolic disorders.",
+      "instructors": ["Prof. Daniel Bernard (Fall 2026)"],
+      "prereqs": ["PHAR301"],
+      "prereqsText": "Prerequisite: PHAR 301 or permission of the instructor(s)",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR565",
+      "name": "Epigenetic Drugs and Targets",
+      "description": "This course covers therapeutics targeting epigenetic mechanisms. Although only a handful of epigenetic drugs are in widespread use, further development of such agents is a very active area of research as it has the potential to directly target aberrant gene expression. This course will examine both the current use and potential of epigenetic drugs in treatment of cancer, neurological diseases, immune disorders, and cardiovascular disease. The concept of epigenetics as mediating gene-environment interaction will also be discussed.",
+      "instructors": ["Prof. Jason Tanny (Winter 2027)"],
+      "prereqs": ["PHAR301"],
+      "prereqsText": "Prerequisite(s): PHAR 301.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR598D1",
+      "name": "Honours Pharmacology Research Project",
+      "description": "Supervised Honours Research Project in Pharmacology.  Students are expected to obtain hands-on research experience in their supervisor's laboratory.  They are also required to submit a written report in the form of a scientific manuscript and present a ten minute seminar.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Dusica Maysinger (Fall 2026)",
+        "Prof. Jason Tanny (Fall 2026)"
+      ],
+      "prereqs": ["PHAR563"],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisite(s): PHAR 563 General Pharmacology 2",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR598D2",
+      "name": "Honours Pharmacology Research Project",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHAR 598D1\" href=\"/search/?p=PHAR%20598D1\">PHAR 598D1</a> for course description.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Dusica Maysinger (Fall 2026)",
+        "Prof. Jason Tanny (Fall 2026)",
+        "Prof. R. Anne McKinney (Winter 2027)",
+        "Prof. Dusica Maysinger (Winter 2027)",
+        "Prof. Jason Tanny (Winter 2027)"
+      ],
+      "prereqs": ["PHAR598D1"],
+      "prereqsText": "Prerequisite(s): PHAR 598D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR599",
+      "name": "Pharmacology Research Project",
+      "description": "Mechanisms involved in different pathologies and drug actions.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Dusica Maysinger (Fall 2026)",
+        "Prof. Jason Tanny (Fall 2026)",
+        "Prof. R. Anne McKinney (Winter 2027)",
+        "Prof. Dusica Maysinger (Winter 2027)",
+        "Prof. Jason Tanny (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR599D1",
+      "name": "Pharmacology Research Project",
+      "description": "Mechanisms involved in different pathologies and drug actions.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Dusica Maysinger (Fall 2026)",
+        "Prof. Jason Tanny (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR599D2",
+      "name": "Pharmacology Research Project",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHAR 599D1\" href=\"/search/?p=PHAR%20599D1\">PHAR 599D1</a> for course description.",
+      "instructors": [
+        "Prof. R. Anne McKinney (Fall 2026)",
+        "Prof. Dusica Maysinger (Fall 2026)",
+        "Prof. Jason Tanny (Fall 2026)",
+        "Prof. R. Anne McKinney (Winter 2027)",
+        "Prof. Dusica Maysinger (Winter 2027)",
+        "Prof. Jason Tanny (Winter 2027)"
+      ],
+      "prereqs": ["PHAR599D1"],
+      "prereqsText": "Prerequisite: PHAR 599D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR601D1",
+      "name": "Research Seminar",
+      "description": "A research seminar must be presented by all M.Sc. students in the Department after completion of two semesters in the Department",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR601D2",
+      "name": "Research Seminar",
+      "description": "A research seminar must be presented by all M.Sc. students in the Department after completion of two semesters in the Department",
+      "instructors": [],
+      "semesters": ["Winter 2027"],
+      "prereqs": ["PHAR601D1"],
+      "prereqsText": "Prerequisite: PHAR 601D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR601N1",
+      "name": "Research Seminar",
+      "description": "A research seminar must be presented by all M.Sc. students in the Department after completion of two semesters in the Department",
+      "instructors": [],
+      "semesters": ["Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR601N2",
+      "name": "Research Seminar",
+      "description": "A research seminar must be presented by all M.Sc. students in the Department after completion of two semesters in the Department",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": ["PHAR601N1"],
+      "prereqsText": "Prerequisite: PHAR 601N1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR602",
+      "name": "Principles of Pharmacology",
+      "description": "Overview of core principles in pharmacology, with an emphasis on advanced concepts and state-of-the-art current research.  Molecular mechanisms for interactions of drugs with their receptors, pharmacokinetics, drug design, and toxicology.",
+      "instructors": ["Prof. Jean-Francois Trempe (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR609",
+      "name": "Research Professionalism for Pharmacologists",
+      "description": "Discussion of good research practices in Pharmacology, including scientific conduct and misconduct, mentorship, authorship, peer review, research on animal and human subjects, and intellectual property.",
+      "instructors": ["Prof. Bernard Robaire (Fall 2026)"],
+      "prereqs": ["PHAR598"],
+      "prereqsText": "Prerequisite(s): Any Pharmacology 500 level excluding PHAR 598 and 599.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR610",
+      "name": "Scientific Communication for Pharmacologists",
+      "description": "This is a hands-on course with a strong emphasis on developing scientific writing and oral communication skills in Pharmacology.",
+      "instructors": ["Prof. Paul Clarke (Winter 2027)"],
+      "prereqs": ["PHAR598"],
+      "prereqsText": "Prerequisite(s): Any Pharmacology 500 level excluding PHAR 598 and 599.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR670",
+      "name": "Principles of Environmental Health Sciences 1",
+      "description": "Topics in environmental health sciences:  principles of exposure assessment and of toxicology.",
+      "instructors": [
+        "Prof. Koren Mann (Fall 2026)",
+        "Prof. Scott Andrew Weichenthal (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR671",
+      "name": "Principles of Environmental Health Sciences 2",
+      "description": "Topics in environmental health sciences: principles of environmental epidemiology.",
+      "instructors": ["Prof. Hiroshi Mamiya (Winter 2027)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR696",
+      "name": "Thesis Preparation",
+      "description": "Preparatory work towards the Master's thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR697",
+      "name": "Thesis Preparation 1",
+      "description": "Preparatory work towards the Master's thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR698",
+      "name": "Thesis Preparation 2",
+      "description": "Preparatory work towards the Master's thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR699",
+      "name": "Thesis Preparation 3",
+      "description": "Preparatory work towards the Master's thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR701",
+      "name": "Ph.D. Comprehensive Exam",
+      "description": "An examination that must be passed by all doctoral candidates in order to continue in the doctoral program. This is an oral presentation followed by an oral examination by the student's advisory committee and members of the department faculty.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR702",
+      "name": "Topics in Pharmacology 1",
+      "description": "Topics in pharmacology.",
+      "instructors": ["Prof. Jason Tanny (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisite: Permission of the Instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHAR712",
+      "name": "Statistics for Pharmacologists",
+      "description": "Basic theoretical and practical aspects of statistics for pharmacologists.",
+      "instructors": ["Prof. Paul Clarke (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY209",
+      "name": "Mammalian Physiology 1",
+      "description": "Physiology of body fluids, blood, body defense mechanisms, muscle, peripheral, central, and autonomic nervous systems.",
+      "instructors": [
+        "Prof. Melissa Vollrath (Fall 2026)",
+        "Prof. David S Ragsdale (Fall 2026)",
+        "Prof. Alvin Shrier (Fall 2026)",
+        "Prof. Erik Cook (Fall 2026)",
+        "Prof. Céline Aguer (Fall 2026)"
+      ],
+      "prereqs": [
+        "BIOL112",
+        "CHEM110",
+        "CHEM120",
+        "PHYS101",
+        "PHYS131",
+        "PHYS102",
+        "PHYS142",
+        "BIOL200",
+        "CHEM212"
+      ],
+      "prereqsText": "Prerequisites: BIOL 112, CHEM 110, CHEM 120, PHYS 101 or PHYS 131, and PHYS 102 or PHYS 142. Pre-/co-requisites: BIOL 200, CHEM 212 or equivalent.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY210",
+      "name": "Mammalian Physiology 2",
+      "description": "Physiology of cardiovascular, respiratory, digestive, endocrine and renal systems.",
+      "instructors": [
+        "Prof. Melissa Vollrath (Winter 2027)",
+        "Prof. Tomoko Takano (Winter 2027)",
+        "Prof. Anne-Marie Lauzon (Winter 2027)",
+        "Prof. John H White (Winter 2027)",
+        "Prof. Céline Aguer (Winter 2027)"
+      ],
+      "prereqs": [
+        "BIOL112",
+        "CHEM110",
+        "CHEM120",
+        "PHYS101",
+        "PHYS131",
+        "PHYS102",
+        "PHYS142",
+        "BIOL200",
+        "BIOL201",
+        "BIOC212",
+        "CHEM212"
+      ],
+      "prereqsText": "Prerequisites: BIOL 112, CHEM 110, CHEM 120, PHYS 101 or PHYS 131, and PHYS 102 or PHYS 142. Pre-/co-requisite: BIOL 200, BIOL 201, BIOC 212, CHEM 212 or equivalent.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY212",
+      "name": "Introductory Physiology Laboratory 1",
+      "description": "Exercises illustrating fundamental principles in physiology: Biological Signals Acquisitions, Blood, Immunology, Neurophysiology, Neuromuscular Physiology.",
+      "instructors": [
+        "Prof. Melissa Vollrath (Fall 2026)",
+        "Prof. Mladen I Glavinovic (Fall 2026)",
+        "Prof. Anastasia Nijnik (Fall 2026)",
+        "Prof. Judith Mandl (Fall 2026)"
+      ],
+      "prereqs": ["PHGY209"],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisite: PHGY 209.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY213",
+      "name": "Introductory Physiology Laboratory 2",
+      "description": "Exercises illustrating fundamental principles in physiology: Central Nervous System, Cardiovascular, Respiration, Exercise Physiology, Molecular Endocrinology.",
+      "instructors": [
+        "Prof. Melissa Vollrath (Winter 2027)",
+        "Prof. Sheldon A Magder (Winter 2027)",
+        "Prof. John H White (Winter 2027)",
+        "Prof. Gil Bub (Winter 2027)",
+        "Prof. Mladen I Glavinovic (Winter 2027)",
+        "Prof. Anastasia Nijnik (Winter 2027)"
+      ],
+      "prereqs": ["PHGY212", "PHGY210"],
+      "prereqsText": "Prerequisite: PHGY 212",
+      "coreqsText": "Corequisite: PHGY 210.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY311",
+      "name": "Channels, Synapses and Hormones",
+      "description": "In-depth presentation of experimental results and hypotheses on cellular communication in the nervous system and the endocrine system.",
+      "instructors": [
+        "Prof. Ellis Cooper (Fall 2026)",
+        "Prof. Jesper Sjöström (Fall 2026)",
+        "Prof. Arjun Krishnaswamy (Fall 2026)",
+        "Prof. Reza Sharif Naeini (Fall 2026)"
+      ],
+      "prereqs": ["PHGY209"],
+      "prereqsText": "Prerequisite: PHGY 209 or permission of the instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY312",
+      "name": "Respiratory, Renal, and Cardiovascular Physiology",
+      "description": "In-depth presentation of experimental results and hypotheses underlying our current understanding of topics in renal, respiratory and cardiovascular functions explored beyond the introductory level.",
+      "instructors": [
+        "Prof. John W Hanrahan (Winter 2027)",
+        "Prof. James G Martin (Winter 2027)",
+        "Prof. Alvin Shrier (Winter 2027)",
+        "Prof. Sheldon A Magder (Winter 2027)"
+      ],
+      "prereqs": ["PHGY209", "PHGY210", "PHGY311"],
+      "prereqsText": "Prerequisites: PHGY 209 and PHGY 210 or equivalent, PHGY 311 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY313",
+      "name": "Blood, Gastrointestinal, and Immune Systems Physiology",
+      "description": "In-depth presentation of experimental results and hypotheses underlying our current understanding of topics in immunology, blood and fluids, and gastrointestinal physiology.",
+      "instructors": [
+        "Prof. Judith Mandl (Winter 2027)",
+        "Prof. Volker Manfred Blank (Winter 2027)",
+        "Prof. Melissa Vollrath (Winter 2027)",
+        "Prof. Jörg Fritz (Winter 2027)",
+        "Prof. Daniela Quail (Winter 2027)"
+      ],
+      "prereqs": ["PHGY209", "PHGY210", "PHGY311"],
+      "prereqsText": "Prerequisites: PHGY 209 and PHGY 210 or equivalent, PHGY 311 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY314",
+      "name": "Integrative Neuroscience",
+      "description": "In depth presentation of experimental results and hypotheses underlying our current understanding of how single neurons and ensembles of neurons encode sensory information, generate movement, and control cognitive functions such as emotion, learning, and memory, during voluntary behaviours.",
+      "instructors": [
+        "Prof. Maurice Chacron (Fall 2026)",
+        "Prof. Christopher Pack (Fall 2026)",
+        "Prof. Amir Shmuel (Fall 2026)",
+        "Prof. Melissa Vollrath (Fall 2026)",
+        "Prof. Mark Brandon (Fall 2026)",
+        "Prof. Pouya Bashivan (Fall 2026)"
+      ],
+      "prereqs": ["PHGY209"],
+      "prereqsText": "Prerequisites: PHGY 209",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY351",
+      "name": "Research Techniques: Physiology",
+      "description": "Provides an overview of common research methods in Physiology, including critical analysis and practical experience with some of the methods. Topics include research ethics of animal experimentation, data analysis, membrane biophysics, radioimmunoassay, ion sensitive dyes, immunocytochemistry, localization techniques, protein transport, cell sorting and molecular biology.",
+      "instructors": [
+        "Prof. Gergely Lukacs (Winter 2027)",
+        "Prof. Ursula Stochaj (Winter 2027)",
+        "Prof. Melissa Vollrath (Winter 2027)",
+        "Prof. Anastasia Nijnik (Winter 2027)"
+      ],
+      "prereqs": ["PHGY209", "PHGY210", "PHGY311", "PHGY312", "PHGY313"],
+      "prereqsText": "Prerequisites: PHGY 209, PHGY 210 and PHGY 311.",
+      "coreqsText": "Corequisites: PHGY 312 and PHGY 313",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY359D1",
+      "name": "Tutorial in Physiology",
+      "description": "The course consists of regularly scheduled meetings between each individual student and a chosen staff member, to consider current problems in biomedical research and to develop background for a research project to be carried out in U3. Brief written summaries of each meeting are required.",
+      "instructors": [],
+      "semesters": ["Fall 2026"],
+      "prereqs": ["PHGY209", "PHGY210", "PHGY311", "PHGY312", "PHGY313"],
+      "prereqsText": "Prerequisites: PHGY 209 and PHGY 210 or equivalent.",
+      "coreqsText": "Corequisites: PHGY 311, PHGY 312 and PHGY 313.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY359D2",
+      "name": "Tutorial in Physiology",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHGY 359D1\" href=\"/search/?p=PHGY%20359D1\">PHGY 359D1</a> for course description.",
+      "instructors": [],
+      "semesters": ["Winter 2027"],
+      "prereqs": ["PHGY359D1"],
+      "prereqsText": "Prerequisite: PHGY 359D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY396",
+      "name": "Undergraduate Research Project",
+      "description": "Independent research project with a final written report.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY419D1",
+      "name": "Immunology Research Project",
+      "description": "Individual research projects in immunology under the guidance of staff members in the three participating departments: Physiology, Biochemistry, and Microbiology and Immunology.",
+      "instructors": [
+        "Prof. Judith Mandl (Fall 2026)",
+        "Prof. Heather Melichar (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY419D2",
+      "name": "Immunology Research Project",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHGY 419D1\" href=\"/search/?p=PHGY%20419D1\">PHGY 419D1</a> for course description.",
+      "instructors": [
+        "Prof. Judith Mandl (Winter 2027)",
+        "Prof. Heather Melichar (Winter 2027)"
+      ],
+      "prereqs": ["PHGY419D1"],
+      "prereqsText": "Prerequisite: PHGY 419D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY425",
+      "name": "Analyzing Physiological Systems",
+      "description": "An introduction to quantitative analysis of physiological data, both to the mode of thinking and to a set of tools that allows accurate predictions of biological systems. Examples will range from oscillating genetic networks to understanding higher brain function. Modelling and data analysis through examples and exercises will be emphasized.",
+      "instructors": [
+        "Prof. Erik Cook (Fall 2026)",
+        "Prof. Mladen I Glavinovic (Fall 2026)",
+        "Prof. Curtis L Baker (Fall 2026)",
+        "Prof. Pouya Bashivan (Fall 2026)"
+      ],
+      "prereqs": ["PHGY311", "PHGY314", "BIOL200"],
+      "prereqsText": "Prerequisite: PHGY 311, PHGY 314, BIOL 200 or permission from instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY451",
+      "name": "Advanced Neurophysiology",
+      "description": "Topics of current interest in neurophysiology including the development of neurons and synapses, physiology of ionic channels, presynaptic and postsynaptic events in synaptic transmission and neuronal interactions in CNS function.",
+      "instructors": [
+        "Prof. Ellis Cooper (Fall 2026)",
+        "Prof. Arjun Krishnaswamy (Fall 2026)",
+        "Prof. Charles W Bourque (Fall 2026)",
+        "Prof. Maurice Chacron (Fall 2026)"
+      ],
+      "prereqs": ["PHGY311"],
+      "prereqsText": "Prerequisite: PHGY 311 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY459D1",
+      "name": "Physiology Seminar",
+      "description": "Discussion of topics in mammalian, cellular and molecular physiology. Students will be required to write one essay and make at least one oral presentation per term. A final course essay is required.",
+      "instructors": [
+        "Prof. John W Hanrahan (Fall 2026)",
+        "Prof. Alvin Shrier (Fall 2026)",
+        "Prof. John H White (Fall 2026)",
+        "Prof. Ursula Stochaj (Fall 2026)",
+        "Prof. Gergely Lukacs (Fall 2026)",
+        "Prof. Masha Prager-Khoutorsky (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisite: permission of instructors",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY459D2",
+      "name": "Physiology Seminar",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHGY 459D1\" href=\"/search/?p=PHGY%20459D1\">PHGY 459D1</a> for course description.",
+      "instructors": [
+        "Prof. John W Hanrahan (Winter 2027)",
+        "Prof. Kenneth Finnson (Winter 2027)",
+        "Prof. Anie Philip (Winter 2027)",
+        "Prof. Alvin Shrier (Winter 2027)",
+        "Prof. Christopher Pack (Winter 2027)",
+        "Prof. Simon Rousseau (Winter 2027)",
+        "Prof. Suresh Krishna (Winter 2027)"
+      ],
+      "prereqs": ["PHGY459D1"],
+      "prereqsText": "Prerequisite: PHGY 459D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY461D1",
+      "name": "Experimental Physiology",
+      "description": "Individual project work under the supervision of Departmental Staff members.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. Melissa Vollrath (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY461D2",
+      "name": "Experimental Physiology",
+      "description": "See <a data-action=\"result-detail\" data-group=\"code:PHGY 461D1\" href=\"/search/?p=PHGY%20461D1\">PHGY 461D1</a> for course description.",
+      "instructors": [],
+      "semesters": ["Winter 2027"],
+      "prereqs": ["PHGY461D1"],
+      "prereqsText": "Prerequisite: PHGY 461D1",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY488",
+      "name": "Stem Cell Biology",
+      "description": "The main concepts in stem cell biology: embryonic stem cells, induced pluripotent stem cells, cancer stem cells, stem cells populations of many adult tissues, applications of stem cell biology and ethical issues surrounding stem cell use in research and medicine.  The major experimental methods and laboratory techniques in stem cell biology.",
+      "instructors": [
+        "Prof. Anastasia Nijnik (Fall 2026)",
+        "Prof. Natasha Chang (Fall 2026)",
+        "Prof. Carl Ernst (Fall 2026)",
+        "Prof. Alex Gregorieff (Fall 2026)",
+        "Prof. Nicoletta Eliopoulos (Fall 2026)",
+        "Prof. Anie Philip (Fall 2026)",
+        "Prof. Stefano Stifani (Fall 2026)",
+        "Prof. Brenden Moeun (Fall 2026)",
+        "Prof. Kolja Eppert (Fall 2026)",
+        "Prof. William Pastor (Fall 2026)"
+      ],
+      "prereqs": ["PHGY313"],
+      "prereqsText": "Prerequisite(s): PHGY 313 or by permission of instructor.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY502",
+      "name": "Exercise Physiology",
+      "description": "Behaviour of physiological processes in response to physical effort, in areas such as structural basis of muscle contraction, thermoregulation during exercise, mechanics and energetics of muscle contraction, fuel utilization, fatigue, physiological adjustments during exercise and influence of training.",
+      "instructors": [
+        "Prof. Simon Rousseau (Winter 2027)",
+        "Prof. Alain Steve Comtois (Winter 2027)",
+        "Prof. James G Martin (Winter 2027)",
+        "Prof. Sheldon A Magder (Winter 2027)",
+        "Prof. Sabah N A Hussain (Winter 2027)",
+        "Prof. Larry Lands (Winter 2027)",
+        "Prof. Basil Petrof (Winter 2027)"
+      ],
+      "prereqs": ["PHGY311", "PHGY312", "PHGY313"],
+      "prereqsText": "Prerequisites: PHGY 311, PHGY 312, and PHGY 313",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY513",
+      "name": "Translational Immunology",
+      "description": "Advanced key concepts in immunology as they relate to health and disease, including infectious diseases, non-infectious diseases and autoimmunity, and cancer immunology.",
+      "instructors": [
+        "Prof. Daniela Quail (Winter 2027)",
+        "Prof. Marcel A Behr (Winter 2027)",
+        "Prof. Joyce Rauch (Winter 2027)",
+        "Prof. Jack P Antel (Winter 2027)",
+        "Prof. Nicole F Bernard (Winter 2027)",
+        "Prof. Erwin Schurr (Winter 2027)",
+        "Prof. Brian Ward (Winter 2027)",
+        "Prof. Jörg Fritz (Winter 2027)",
+        "Prof. Anastasia Nijnik (Winter 2027)",
+        "Prof. Judith Mandl (Winter 2027)"
+      ],
+      "prereqs": ["MIMM314", "PHGY313"],
+      "prereqsText": "Prerequisite: MIMM 314 or PHGY 313 or permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY515",
+      "name": "Blood-Brain Barrier in Health and Disease",
+      "description": "Molecular and cellular mechanisms underlying the organization and regulation of the blood-brain barrier, highlighting neurological diseases associated with the blood-brain barrier breakdown and give an overview of experimental approaches to study blood-brain barrier.",
+      "instructors": [
+        "Prof. Masha Prager-Khoutorsky (Fall 2026)",
+        "Prof. Edith Hamel (Fall 2026)",
+        "Prof. Ji Zhang (Fall 2026)",
+        "Prof. Alexey Kostikov (Fall 2026)",
+        "Prof. David Rudko (Fall 2026)",
+        "Prof. Roberto Diaz (Fall 2026)",
+        "Prof. Jo Anne Stratton (Fall 2026)"
+      ],
+      "prereqs": ["PHGY313", "PHGY314"],
+      "prereqsText": "Prerequisite: PHGY 313 or PHGY 314 and permission of the instructor",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY516",
+      "name": "Physiology of Blood",
+      "description": "Bone marrow hematopoiesis, with emphasis on regulation of stem cell proliferation and differentiation along hematopoietic pathways. Formation and differentiation of red and white blood cells and some of the diseases associated with hematopoiesis will be covered. Emphasis will be given to the molecular mechanisms involved in the normal and pathological conditions.",
+      "instructors": [
+        "Prof. Volker Manfred Blank (Winter 2027)",
+        "Prof. Kostas Pantopoulos (Winter 2027)",
+        "Prof. Anastasia Nijnik (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY520",
+      "name": "Ion Channels",
+      "description": "A discussion of the principal theories and interesting new developments in the study of ion channels. Based on a textbook, computer exercises and critical reading and presentation of research papers. Topics include: Properties of voltage-and ligand-gated channels, single channel analysis, structure and function of ion channels.",
+      "instructors": [
+        "Prof. Reza Sharif Naeini (Fall 2026)",
+        "Prof. David S Ragsdale (Fall 2026)",
+        "Prof. Alvin Shrier (Fall 2026)",
+        "Prof. John W Hanrahan (Fall 2026)",
+        "Prof. Philippe Seguela (Fall 2026)",
+        "Prof. Derek Bowie (Fall 2026)"
+      ],
+      "prereqs": ["PHGY311"],
+      "prereqsText": "Prerequisite: PHGY 311",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY531",
+      "name": "Topics in Applied Immunology",
+      "description": "Seminar format course in which experts in immunologic mechanisms of resistance against a variety of infectious diseases, including AIDS, malaria, and tuberculosis oversee student moderators in their presentation of recent scientific literature in the field.",
+      "instructors": ["Prof. Judith Mandl (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY550",
+      "name": "Molecular Physiology of Bone",
+      "description": "Students will develop a working knowledge of cartilage and bone. Discussion topics will include: molecular and cellular environment of bone; heritable and acquired skeletal defects; research models used to study metabolic bone disease.",
+      "instructors": [
+        "Prof. Monzur Murshed (Fall 2026)",
+        "Prof. Frank Rauch (Fall 2026)",
+        "Prof. Peter Siegel (Fall 2026)",
+        "Prof. Pierre Moffatt (Fall 2026)",
+        "Prof. Juliana Marulanda Montoya (Fall 2026)",
+        "Prof. Mathieu Ferron (Fall 2026)",
+        "Prof. Bettina Willie (Fall 2026)",
+        "Prof. Josephine Tabea Tauer (Fall 2026)",
+        "Prof. René St-Arnaud (Fall 2026)",
+        "Prof. Kerstin Tiedemann (Fall 2026)",
+        "Prof. Laura Stone (Fall 2026)"
+      ],
+      "prereqs": ["PHGY311", "BIOL202"],
+      "prereqsText": "Prerequisites: PHGY 311, and BIOL 202 or equivalent",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY552",
+      "name": "Cellular and Molecular Physiology",
+      "description": "Discussions of recent significant advances in our understanding of the gene products involved in diverse cellular signalling pathways. Topics will include cell-surface hormone receptors, nuclear steroid hormone receptors, and ion channels and transporters. Students will present and critically evaluate experimental approaches, results and interpretations of selected research publications.",
+      "instructors": [
+        "Prof. John Orlowski (Winter 2027)",
+        "Prof. John H White (Winter 2027)",
+        "Prof. Ursula Stochaj (Winter 2027)",
+        "Prof. Daniel Bernard (Winter 2027)"
+      ],
+      "prereqs": ["PHGY311"],
+      "prereqsText": "Prerequisite: PHGY 311",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY556",
+      "name": "Topics in Systems Neuroscience",
+      "description": "Topics of current interest in systems neurophysiology and behavioural neuroscience including: the neural representation of sensory information and motor behaviours, models of sensory motor integration, and the computational analysis of problems in motor control and perception. Students will be expected to present and critically discuss journal articles in class.",
+      "instructors": [
+        "Prof. Daniel E Guitton (Winter 2027)",
+        "Prof. Erik Cook (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY560",
+      "name": "Light Microscopy-Life Science",
+      "description": "Introduction to optics, light microscopy imaging and data analysis for life scientists.",
+      "instructors": ["Prof. Claire Brown (Winter 2027)"],
+      "prereqs": ["BIOL301"],
+      "prereqsText": "Prerequisites: BIOL 301 or permission of instructors.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY601",
+      "name": "M.Sc. Proposal Seminar",
+      "description": "Seminar presentation to Supervisory Committee and students on the Master's thesis proposal.",
+      "instructors": [
+        "Prof. Maurice Chacron (Fall 2026)",
+        "Prof. Maurice Chacron (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY602",
+      "name": "Literature Search and Research Proposal",
+      "description": "Independent work under the supervision of the thesis advisor including literature search and research leading to thesis proposal.",
+      "instructors": ["Prof. Maurice Chacron (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY604",
+      "name": "Responsible Conduct in Research",
+      "description": "This course provides students with information on the following areas: 1) an ethics overview; 2) scientific conduct and misconduct; 3) research authorship and peer review; and 4) research on human and animal subjects.",
+      "instructors": [
+        "Prof. Melissa Vollrath (Fall 2026)",
+        "Prof. John H White (Fall 2026)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY607",
+      "name": "Laboratory Research 1",
+      "description": "Laboratory research leading to the thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY608",
+      "name": "Laboratory Research 2",
+      "description": "Laboratory research leading to the thesis.",
+      "instructors": ["Prof. Alvin Shrier (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY620",
+      "name": "Progress in Research",
+      "description": "Progress in research in preparation of thesis.",
+      "instructors": ["Prof. Maurice Chacron (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY621",
+      "name": "Thesis 1",
+      "description": "Written and oral presentation of thesis proposal to the research Supervisory Committee.",
+      "instructors": ["Prof. Maurice Chacron (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY622",
+      "name": "Thesis 2",
+      "description": "Written and oral preparation of the thesis.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY623",
+      "name": "M.Sc. Final Seminar",
+      "description": "Final seminar presentation to students supervisory committee prior to thesis submission.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY701",
+      "name": "Ph.D. Comprehensive Examination",
+      "description": "The Ph.D. comprehensive exam will be completed between 12-18 months of commencing the program and is designed to ensure that the student's research encompasses the i) acquisition of a comprehensive knowledge of scientific literature; ii) the development of experimental skills and technical expertise with a deep understanding of the experimental design thus iii) ensuring a high degree of scholarship in the thesis submission.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY703",
+      "name": "Ph.D. Progress Seminar 1",
+      "description": "The Progress Seminar is a \"work in progress\" seminar on what the student has accomplished to date. Following completion of the comprehensive exam, the seminar should be presented to the student's supervisory committee as a formal presentation of approximately 30 minutes followed by a question and discussion period.",
+      "instructors": ["Prof. Maurice Chacron (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY704",
+      "name": "Ph.D. Progress Seminar 2",
+      "description": "A \"work in progress\" seminar, intended as a report on student progress following the Thesis Proposal Seminar.",
+      "instructors": [],
+      "semesters": ["Fall 2026", "Winter 2027"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY720",
+      "name": "Ph.D. Seminar Course 1",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": ["Prof. John Orlowski (Fall 2026)"],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY721",
+      "name": "Ph.D. Seminar Course 2",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. John Orlowski (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY722",
+      "name": "Ph.D. Seminar Course 3",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. John Orlowski (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY723",
+      "name": "Ph.D. Seminar Course 4",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. John Orlowski (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY724",
+      "name": "Ph.D. Seminar Course 5",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. John Orlowski (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
+      "id": "PHGY725",
+      "name": "Ph.D. Seminar Course 6",
+      "description": "Required for Ph.D. students. Coordinated in conjunction with the weekly Departmental seminar series, students will meet for one hour before each seminar to critically discuss papers on the subject of the weekly seminar. Students will take turns introducing the papers and leading discussions on an overview of the research topic, some of the methodologies, results and conclusions.",
+      "instructors": [
+        "Prof. John Orlowski (Fall 2026)",
+        "Prof. John Orlowski (Winter 2027)"
+      ],
+      "prereqs": [],
+      "prereqsText": "Prerequisites: This course has no prerequisites.",
+      "coreqsText": "Corequisites: This course has no corequisites.",
+      "restrictionsText": "This course has no restrictions."
+    },
+    {
       "id": "PHIL201",
       "name": "Introduction to Philosophy 2",
       "description": "An introduction to some of the major problems of philosophy. This course does not duplicate <a data-action=\"result-detail\" data-group=\"code:PHIL 200\" href=\"/search/?p=PHIL%20200\">PHIL 200</a>.",
@@ -6693,5 +8796,5 @@
       "restrictionsText": "This course has no restrictions."
     }
   ],
-  "expiry": 1781456966612
+  "expiry": 1781494719335
 }

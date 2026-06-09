@@ -90,6 +90,45 @@ async function fetchCourses() {
     return res
 }
 
+// draws a directed edge tail -> head (both are node objects), with an arrowhead
+// sitting just outside the head node's dot so it isn't swallowed by it
+function drawEdge(tail, head, color, width) {
+    const x1 = tail.x*ZOOM_COEFF+OFFSET_X, y1 = tail.y*ZOOM_COEFF+OFFSET_Y;
+    const x2 = head.x*ZOOM_COEFF+OFFSET_X, y2 = head.y*ZOOM_COEFF+OFFSET_Y;
+    const angle = Math.atan2(y2 - y1, x2 - x1);
+
+    // pull the tip back to the rim of the head dot
+    const gap = (RADIUS + 3) * ZOOM_COEFF;
+    const tipX = x2 - gap*Math.cos(angle);
+    const tipY = y2 - gap*Math.sin(angle);
+
+    const head_len = Math.max(10, 12 * ZOOM_COEFF);
+    const spread = Math.PI / 7;
+
+    // stop the shaft at the arrowhead's base (not the apex) so the flat line-cap
+    // can't poke out past the tip — the triangle alone makes the point
+    const back = head_len * Math.cos(spread);
+    const baseX = tipX - back*Math.cos(angle);
+    const baseY = tipY - back*Math.sin(angle);
+
+    ctx.strokeStyle = ctx.fillStyle = color;
+    ctx.lineWidth = width;
+
+    // shaft
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(baseX, baseY);
+    ctx.stroke();
+
+    // arrowhead
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(tipX - head_len*Math.cos(angle - spread), tipY - head_len*Math.sin(angle - spread));
+    ctx.lineTo(tipX - head_len*Math.cos(angle + spread), tipY - head_len*Math.sin(angle + spread));
+    ctx.closePath();
+    ctx.fill();
+}
+
 function render(nodes, edges, neighbours) {
     canvas.width = canvas.getBoundingClientRect().width;
     canvas.height = canvas.getBoundingClientRect().height;
@@ -105,29 +144,22 @@ function render(nodes, edges, neighbours) {
     // cute backgrounds
     latestTree.drawCells(ctx, deptObj);
 
-    // edges — each stroked on its own path so the per-edge colour actually applies
-    ctx.lineWidth = 3.0*ZOOM_COEFF;
-    for (const edge of edges.filter((e) => (focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1])))) {
-        ctx.strokeStyle = "black";
-        ctx.beginPath();
-        ctx.moveTo(nodes[edge[0]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[0]].y*ZOOM_COEFF+OFFSET_Y);
-        ctx.lineTo(nodes[edge[1]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[1]].y*ZOOM_COEFF+OFFSET_Y);
-        ctx.stroke();
+    // edges: prereq -> course (so the arrow points at what the prereq unlocks)
+    // edge = [course, prereq], so tail = nodes[edge[1]] (prereq), head = nodes[edge[0]] (course).
+    const focusEdge = (e) => focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1]);
+    // dim/background edges first, focused ones on top
+    for (const edge of edges.filter((e) => !focusEdge(e))) {
+        drawEdge(nodes[edge[1]], nodes[edge[0]], focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
     }
-    ctx.lineWidth = 2.0*ZOOM_COEFF;
-    for (const edge of edges.filter((e) => !(focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1])))) {
-        ctx.strokeStyle = focusedNode !== null ? "#3c3c3cc0" : "black";
-        ctx.beginPath();
-        ctx.moveTo(nodes[edge[0]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[0]].y*ZOOM_COEFF+OFFSET_Y);
-        ctx.lineTo(nodes[edge[1]].x*ZOOM_COEFF+OFFSET_X, nodes[edge[1]].y*ZOOM_COEFF+OFFSET_Y);
-        ctx.stroke();
+    for (const edge of edges.filter(focusEdge)) {
+        drawEdge(nodes[edge[1]], nodes[edge[0]], "black", Math.max(2, 3.0*ZOOM_COEFF));
     }
 
     // nodes
     ctx.strokeStyle = "#3c3c3cc0";
     for (let i=0;i<nodes.length;i++) {
         const node = nodes[i]
-        const dimmed = focusedNode !== null && focusedNode !== i && !neighbours[focusedNode].has(i);
+        const dimmed = focusedNode !== null && neighbours[focusedNode] && focusedNode !== i && !neighbours[focusedNode].has(i);
 
         // label background
         ctx.fillStyle = dimmed ? "#ffffff2f" : "#ffffff9f";
@@ -141,7 +173,7 @@ function render(nodes, edges, neighbours) {
         // dot — its own path so the per-node colour applies (a batched fill = one colour for every dot)
         ctx.beginPath();
         ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, RADIUS*ZOOM_COEFF, 0, 2*Math.PI);
+        ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(3, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
         ctx.fill();
     }
 
@@ -412,6 +444,7 @@ async function populate() {
 
     if ((data = localStorage.getItem(urlHash + "_n")) !== null && JSON.parse(data).expiry > new Date().getTime()) {
         nodes = JSON.parse(data).nodes
+        nodes.forEach((node) => { node.course = courses.find((c) => c.id === node.name); });
         neighbours = nodes.map((_, i) => new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i)));
     } else {
         nodes = nodeNameToIndexMap.map((courseid, i) => {
@@ -485,8 +518,13 @@ async function initiate() {
                 quietFrames = (quietFrames || 0) + 1;
                 if (quietFrames > 30) { // stable for ~30 frames → stop
                     settled = true;
-                    console.log(neighbours);
-                    localStorage.setItem(urlHash + "_n", JSON.stringify({ nodes, expiry }))
+                    // strip the heavy embedded course object before caching since it's redundant
+                    const slimNodes = nodes.map(({ course, ...rest }) => rest);
+                    try {
+                        localStorage.setItem(urlHash + "_n", JSON.stringify({ nodes: slimNodes, expiry }));
+                    } catch (e) {
+                        console.warn("position cache skipped (storage full):", e.name);
+                    }
                 }
             } else quietFrames = 0;
         } else {
@@ -525,11 +563,12 @@ async function initiate() {
         }
     });
 
-    let mouseDownMoment, potentiallyClickedNode;
+    let mouseDownMoment, potentiallyClickedNode, mouseDownOnCanvas = false;
     canvas.addEventListener("mousedown", (event) => {
         if (event.button !== 0) return; // we want left clicks only
         mouseDownMoment = document.timeline.currentTime;
         potentiallyClickedNode = null;
+        mouseDownOnCanvas = true;
 
         const rect = canvas.getBoundingClientRect();
         const px = event.clientX - rect.left;
@@ -559,6 +598,8 @@ async function initiate() {
     });
 
     document.addEventListener("mouseup", (event) => {
+        if (!mouseDownOnCanvas) return;
+        mouseDownOnCanvas = false;
         const wasClick = !dragging;        // stayed inside the dead zone → a click, not a pan/drag
         mouseDown = false;
 
@@ -585,8 +626,9 @@ async function initiate() {
             nodes[focusedNode].charge = 10;
             nodes[focusedNode].k = 1;
             nodes[focusedNode].mass = 5;
+            potentiallyClickedNode = null;
             focusedNode = null;
-        }
+          }
         // clicking empty space with nothing focused → no-op (no more null crash)
     });
 

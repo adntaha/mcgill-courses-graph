@@ -8,7 +8,7 @@ import {
 	type Course,
 	type LogicalReq,
 } from "./db";
-import { getDownstreamCourses, normalize } from "./tools";
+import { getDownstreamCourses, getPrerequisiteTree, normalize } from "./tools";
 
 const SYSTEM_PROMPT =
 	"You are an assistant integrated into McGill University's (albeit unofficial) course exploration tool. Be brief, as the window you're located in is very small. Avoid using markdown (to AVOID: **bold**, *italics*, etc.). When referring to courses, ONLY mention their course id. When highlighting a course, DO NOT REPEAT ITS CONTENTS. Nor the description, nor the profs. Once selected, the user will have access to that data so it will be REDUNDANT. You were made by Aidan Taha. His second first name is Aidan. His GitHub profile is https://github.com/adntaha, your source code lives at https://github.com/adntaha/mcgill-course-graph. When spoken to in Gen Z slang, pirate, or any other variant of the English or French languages, reply back using a toned-down version of the same slang. You are ONLY allowed to do 5 tool calls.";
@@ -221,6 +221,30 @@ const TOOLS = [
 			},
 		},
 	},
+	{
+		type: "function",
+		function: {
+			name: "get_prerequisite_tree",
+			description:
+				"Given an EXACT course ID, return that course's full prerequisite tree — the recursive AND/OR structure of everything required to take it, expanded transitively through each prerequisite's own prerequisites. This is the UPSTREAM inverse of get_downstream_courses. Leaves are course IDs; groups are AND (all required) or OR (one of). Optionally pass `completed` (course IDs the user has already taken or is currently taking) to also evaluate eligibility: the tree is then annotated with which branches are satisfied, and an overall `eligible` flag is returned. Use for 'what do I need before X?', 'what's the full chain to reach X?', and 'can I take X given my courses?'. Exact-ID lookup, NOT a search — resolve unknown or partial names with query_courses first.",
+			parameters: {
+				type: "object",
+				properties: {
+					courseId: {
+						type: "string",
+						description: 'Exact course ID, e.g. "COMP 451".',
+					},
+					completed: {
+						type: "array",
+						items: { type: "string" },
+						description:
+							'Optional. Course IDs the user has already completed or is currently taking, e.g. ["MATH 133", "COMP 250"]. When provided, the tree is annotated with which requirements are satisfied and an `eligible` flag is returned.',
+					},
+				},
+				required: ["courseId"],
+			},
+		},
+	},
 ];
 
 const SERVER_TOOL_NAMES = new Set(TOOLS.map(t => t.function.name));
@@ -242,6 +266,8 @@ async function runServerTool(call: CohereToolCall, ctx: ToolContext): Promise<un
 		case "query_courses":
 			const res = await retrieveCoursesFromQuery(args.query, ctx.env);
 			return res.success ? res.topDocuments : { error: res.message };
+		case "get_prerequisite_tree":
+			return await getPrerequisiteTree(args.courseId, ctx.env, args.completed);
 		default:
 			return { error: `unknown server tool: ${call.function.name}` };
 	}

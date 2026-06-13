@@ -164,7 +164,7 @@ function cohereHeaders(env: Env) {
 }
 
 function gatewayUrl(env: Env, path: string) {
-	return `https://gateway.ai.cloudflare.com/v1/${env.CF_ACCOUNT_ID}/${env.CF_GATEWAY_ID}/cohere/${path}`;
+	return `https://gateway.ai.cloudflare.com/v1/${env.CF_ACCOUNT_ID}/${env.CF_GATEWAY_ID}/cohere${path}`;
 }
 
 async function embed(
@@ -172,7 +172,7 @@ async function embed(
 	input_type: "search_document" | "search_query",
 	env: Env,
 ) {
-	const res = await fetch(gatewayUrl(env, "v2/embed"), {
+	const res = await fetch(gatewayUrl(env, "/v2/embed"), {
 		method: "POST",
 		headers: cohereHeaders(env),
 		body: JSON.stringify({
@@ -289,7 +289,7 @@ async function handleChat(data: APIRequest, env: Env) {
 		.map((id) => courseMap.get(id))
 		.filter((c): c is Course => c !== undefined);
 
-	const rerankRes = await fetch(gatewayUrl(env, "v2/rerank"), {
+	const rerankRes = await fetch(gatewayUrl(env, "/v2/rerank"), {
 		method: "POST",
 		headers: cohereHeaders(env),
 		body: JSON.stringify({
@@ -329,7 +329,7 @@ async function handleChat(data: APIRequest, env: Env) {
 	const highlight = { id: null as string | null };
 
 	for (let round = 0; round < 8; round++) {
-		const res = await fetch(gatewayUrl(env, "v2/chat"), {
+		const res = await fetch(gatewayUrl(env, "/v2/chat"), {
 			method: "POST",
 			headers: cohereHeaders(env),
 			body: JSON.stringify({ ...bodyBase, messages }),

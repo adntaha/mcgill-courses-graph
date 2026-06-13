@@ -356,7 +356,7 @@ class Cell {
         const dy = this.cocY - node.y;
         const d_squared = dx*dx + dy*dy;
         
-        if (this.children.length === 0 || this.side / Math.sqrt(d_squared) < 0.9) {
+        if (this.children.length === 0 || this.side * this.side < 0.81 * d_squared) {
             // coulomb for a single point!
             const magnitude = k_c * this.charge * node.charge * 1/Math.max(d_squared, 10000);
             const direction = Math.atan2(node.y - this.cocY, node.x - this.cocX);

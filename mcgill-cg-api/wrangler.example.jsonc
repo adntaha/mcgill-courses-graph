@@ -1,0 +1,30 @@
+// Rename (or preferably, copy) this file to wrangler.jsonc before following any of the instructions here
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "mcgill-cg-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-06-12",
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"compatibility_flags": ["nodejs_compat"],
+	"vars": {
+		// both of these can be gotten by creating a custom AI Gateway from within Cloudflare's Dashboard
+		"CF_ACCOUNT_ID": "<your-cf-account-id-here>",
+		"CF_GATEWAY_ID": "<your-cf-ai-gateway-id-here>"
+	},
+	"d1_databases": [
+		// run `npx wrangler d1 create mcgill-courses-db` and
+		// set the binding to COURSE_DB to autofill this.
+		// otherwise, go with the defaults.
+		/* warning: you need to add your credit card to
+		   cloudflare to be able to create a d1 db, but
+		   it's just to prevent bots and the free tier
+		   is very generous. */
+	],
+	"vectorize": [
+		// run `npx wrangler vectorize create mcgill-courses --dimensions=256 --metric=cosine` and
+		// go with the defaults
+	]
+}

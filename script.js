@@ -33,60 +33,67 @@ let nodeNameToIndexMap;
 const cursor = {x: null, y: null};
 let fixedNode = null;
 
+const BASE_URL = "https://mcgill-cg-api.botato.workers.dev"
+const CHAT_API = BASE_URL + "/chat";
+const COURSES_API = BASE_URL + "/courses";
+let conversation_history = [];
+
+let turnstileToken = null;
+window.onTurnstileSuccess = (token) => { turnstileToken = token; };
+setInterval(() => {
+    if (window.turnstile) {
+        window.turnstile.reset(".cf-turnstile");
+        turnstileToken = null;
+    }
+}, 10 * 60 * 1000);
+
 let courses = [];
 async function fetchCourses() {
-    const url = `https://mcgill.courses/api/courses?terms=${SEMESTERS.join(",")}&subjects=MATH,COMP,ECSE,PHIL,PHYS,MIMM,BIOL,CHEM,PHAR,PHGY`; // 
-    urlHash = djb2Hash(url).toString();
+    urlHash = djb2Hash(COURSES_API).toString();
     let res;
 
     const cache = localStorage.getItem(urlHash);
     if (cache !== null && JSON.parse(cache).expiry > new Date().getTime()) {
-        res = JSON.parse(cache).data;
         expiry = JSON.parse(cache).expiry;
-    } else {
-        const req = await fetch(url);
-        const data = await req.json();
-        expiry = new Date().getTime() + 7*24*60*60*1000;
-
-        res = [];
-        // ts has so much data; the people who made it are THE goats
-        // but sadly i dont need that much data for this project
-
-        // TODO: logicalPrerequisites + corequistes + logicalCorequisites logic
-        for (const course of data.courses.sort((a, b) => a._id.localeCompare(b._id))) {
-            let obj = {};
-            // obj.id = course.subject + " " + course.code;
-            obj.id = course._id;
-            obj.name = course.title;
-            obj.description = course.description;
-            obj.instructors = course.instructors.reduce((all, instructor) => {
-                if (!SEMESTERS.includes(instructor.term)) return all;
-                all.push("Prof. " + instructor.name + " (" + instructor.term + ")");
-                return all;
-            }, []).filter(Boolean);
-            if (obj.instructors.length === 0) {
-                obj.semesters = course.terms.reduce((all, semester) => {
-                    for (const instr of obj.instructors) {
-                        if (instr.includes(semester)) return all;
-                    }
-                    if (SEMESTERS.includes(semester)) all.push(semester);
-                    return all;
-                }, []).filter(Boolean);
-            }
-            console.log(obj.instructors)
-            obj.prereqs = course.prerequisites.concat(course.corequisites)
-            obj.prereqsText = course.prerequisitesText === "This course has no prerequisites." ? "Prerequisites: " + course.prerequisitesText : course.prerequisitesText;
-            obj.prereqsText = obj.prereqsText  ?? "Prerequisites: This course has no prerequisites.";
-            obj.coreqsText = course.corequisitesText === "This course has no corequisites." ? "Corequisites: " + course.corequisitesText : course.corequisitesText;
-            obj.coreqsText = obj.coreqsText ?? "Corequisites: This course has no corequisites.";
-            obj.restrictionsText = course.restrictionsText ?? "This course has no restrictions.";
-            res.push(obj);
-        }
-
-        localStorage.setItem(urlHash, JSON.stringify({data: res, expiry}))
+        return JSON.parse(cache).data;
     }
 
+    const req = await fetch(COURSES_API);
+    const body = await req.json();
+    if (!body.success) throw new Error(body.message);
+    expiry = new Date().getTime() + 3*60*60*1000;
 
+    res = [];
+    // ts has so much data; the people who made it are THE goats
+    // but sadly i dont need that much data for this project
+
+    // TODO: logicalPrerequisites + corequistes + logicalCorequisites logic
+    const flattenIds = (node) => {
+        if (!node) return [];
+        if (node.type === "course") return [node.data.replace(/\s/g, "")];
+        return node.data.groups.flatMap(flattenIds);
+    };
+
+    const res = body.data.map((c) => {
+        const instructors = c.instructors_and_semesters.filter(s => s.startsWith("Prof."));
+        const semesters = c.instructors_and_semesters.filter(s => !s.startsWith("Prof."));
+        return {
+            id: c.id,
+            name: c.name,
+            description: c.description,
+            instructors,
+            semesters,
+            prereqs: [
+                ...flattenIds(c.logicalPrerequisites),
+                ...flattenIds(c.logicalCorequisites),
+            ],
+            prereqsText: c.prereqsText,
+            coreqsText: c.coreqsText,
+            restrictionsText: c.restrictionsText,
+        };
+    }).sort((a, b) => a.id.localeCompare(b.id));
+
+    localStorage.setItem(urlHash, JSON.stringify({ data: res, expiry }));
     return res
 }
 
@@ -191,13 +198,45 @@ function render(nodes, edges, neighbours) {
     //     window.innerHeight-5);
 }
 
-function selectCourse(course) {
+function selectCourse(courseId, nodes) {
     const courseElem = document.querySelector("#course");
     const pillsElem = document.querySelector(".pills");
     const prereqsElem = document.querySelector("#prereqs");
     const coreqsElem = document.querySelector("#coreqs");
-    const retrictionsElem = document.querySelector("#restrictions");
+    const restrictionsElem = document.querySelector("#restrictions");
     const descElem = document.querySelector("#description");
+
+    if (courseId === null) {
+        if (focusedNode !== null) {
+            nodes[focusedNode].charge = 10;
+            nodes[focusedNode].k = 1;
+            nodes[focusedNode].mass = 5;
+            focusedNode = null;
+            courseElem.textContent = "Nothing, for now.";
+            descElem.textContent = "";
+            prereqsElem.textContent = "Prequisites:";
+            coreqsElem.textContent = "Corequisites:";
+            restrictionsElem.textContent = "";
+            pillsElem.replaceChildren([]);
+        }
+        return;
+    }
+
+    if (!nodeNameToIndexMap) return;
+    const idx = nodeNameToIndexMap.indexOf(courseId);
+    if (idx === -1) return;
+
+    if (focusedNode !== null && focusedNode !== idx) {
+        nodes[focusedNode].charge = 10;
+        nodes[focusedNode].k = 1;
+        nodes[focusedNode].mass = 5;
+    }
+    focusedNode = idx;
+    nodes[idx].charge = 1;
+    nodes[idx].k = 1;
+    nodes[idx].mass = 0.1;
+
+    const course = nodes[idx].course;
 
     courseElem.textContent = course.id + ": " + course.name;
     descElem.textContent = course.description;
@@ -205,12 +244,11 @@ function selectCourse(course) {
     for (const item of course.instructors.concat(course.semesters).filter(Boolean)) {
         const elem = document.createElement("li");
         elem.textContent = item;
-        console.log(item)
         pillsElem.appendChild(elem);
     }
     prereqsElem.textContent = course.prereqsText;
     coreqsElem.textContent = course.coreqsText;
-    retrictionsElem.textContent = course.restrictionsText;
+    restrictionsElem.textContent = course.restrictionsText;
 }
 
 function _2d_euclidian_distance(node1, node2, sqrt=true) {
@@ -424,7 +462,7 @@ function update(nodes, edges, neighbours, real_timedelta, stopped = false, alpha
 async function populate() {
     const h = Math.min(canvas.width, canvas.height);
     const courses = await fetchCourses();
-    console.log(courses);
+    // console.log(courses);
 
     nodeNameToIndexMap = courses.map((c) => c.id);
     const nodeCount = nodeNameToIndexMap.length;
@@ -489,6 +527,11 @@ async function populate() {
 //     return { nodes, edges, neighbours };
 // }
 
+let turnstileSucceeded = false;
+function onTurnstileSuccess() {
+    turnstileSucceeded = true;
+}
+
 async function initiate() {
     const { nodes, edges, neighbours } = await populate();
 
@@ -513,7 +556,7 @@ async function initiate() {
             alpha *= 1 - 0.0001;
             for (let s = 0; s < 6; s++) update(nodes, edges, neighbours, real_timedelta, false, alpha);
             let ke = totalKE(nodes);
-            console.log(i++, ke, alpha);
+            console.log("i:", i++, "total energy:", ke, ";", Math.ceil(Math.log(1e-7 / alpha)/Math.log(0.9999)), "turns left until hard stop");
             if ((nodes.length >= 500 && (alpha < 0.0000001 || ke < 0.001 * nodes.length)) || stopNDump) {   // scale epsilon by node count
                 quietFrames = (quietFrames || 0) + 1;
                 if (quietFrames > 30) { // stable for ~30 frames → stop
@@ -615,20 +658,13 @@ async function initiate() {
 
         if (potentiallyClickedNode !== null && potentiallyClickedNode !== focusedNode) {
             // clicked a new node → focus it + open the panel
-            focusedNode = potentiallyClickedNode;
-            nodes[focusedNode].charge = 1;
-            nodes[focusedNode].k = 1;
-            nodes[focusedNode].mass = 0.1;
+            selectCourse(nodes[potentiallyClickedNode].course.id, nodes);
             potentiallyClickedNode = null;
-            selectCourse(nodes[focusedNode].course);
         } else if (focusedNode !== null) {
             // clicked empty space (or the focused node again) → deselect
-            nodes[focusedNode].charge = 10;
-            nodes[focusedNode].k = 1;
-            nodes[focusedNode].mass = 5;
+            selectCourse(null, nodes);
             potentiallyClickedNode = null;
-            focusedNode = null;
-          }
+        }
         // clicking empty space with nothing focused → no-op (no more null crash)
     });
 
@@ -649,5 +685,61 @@ async function initiate() {
         OFFSET_X = px - wx * ZOOM_COEFF;
         OFFSET_Y = py - wy * ZOOM_COEFF;
     }, { passive: false });
+
+    const conversationElem = document.querySelector(".conversation");
+
+    function appendMessage(text) {
+        const div = document.createElement("div");
+        div.className = "message";
+        div.textContent = text;
+        conversationElem.appendChild(div);
+        conversationElem.scrollTop = conversationElem.scrollHeight;
+    }
+
+    async function sendChat(text) {
+        appendMessage(text);
+        if (!turnstileToken) {
+            appendMessage("error: still verifying you're human — try again in a moment");
+            return;
+        }
+        try {
+            const req = await fetch(CHAT_API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "cf-turnstile-response": turnstileToken,
+                },
+                body: JSON.stringify({ query: text, conversation_history }),
+            });
+            const json = await req.json();
+            if (!json.success) {
+                appendMessage("error: " + json.message);
+                return;
+            }
+            conversation_history = json.data.conversation_history;
+            appendMessage(json.data.response);
+            if (json.data.highlight_course) {
+                selectCourse(null, nodes);
+                selectCourse(json.data.highlight_course, nodes);
+            }
+        } catch (e) {
+            appendMessage("error: " + e.message);
+        }
+    }
+
+    const chatbox = document.querySelector("input.chatbox");
+    chatbox.onkeypress = (event) => {
+        if (!event) event = window.event;
+        const keyCode = event.code || event.key;
+        if (keyCode === 'Enter') {
+            const text = chatbox.value.trim();
+            if (text) {
+                chatbox.value = "";
+                sendChat(text);
+            }
+            return false;
+        }
+    }
+
 }
 initiate();

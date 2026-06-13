@@ -51,14 +51,19 @@
         gap: 1.5rem;
     }
     #panel {
+        display: flex;
+        flex-direction: column;
         width: 30%;
         color: #9c9b92;
+    }
+    .course-info {
+        flex: 1;
         font-weight: bold;
         background: #2c2c2a;
         border-radius: var(--r);
         padding: 1.5rem 2rem 0;
     }
-    #panel h1 {
+    .course-info h1 {
         display: flex;
         align-items: center;
         font-family: "Copernicus New Cond", serif;
@@ -93,15 +98,79 @@
         background-color: #3c3c3a;
         border: slim solid #9c9b92;
     }
+    .chat {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        background: #2c2c2a;
+        border-radius: var(--r);
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        max-height: 50%;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+    .conversation {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex: 1;
+        gap: 0.75rem;
+    }
+    .message:nth-child(odd) {
+        align-self: flex-end;
+    }
+    .chatbox {
+        width: 100%;
+        min-height: 3rem;
+        color: #9c9b92;
+        font-size: 1rem;
+        text-indent: 1rem;
+        background-color: #1f1f1e;
+        border-radius: var(--r);
+        outline: none;
+        border: 1px solid #2c2c2a;
+        margin-top: 0.5rem;
+    }
+    .chatbox:focus {
+        outline: none
+    }
+    .message {
+        padding: 0.75rem;
+        color: #1f1f1e;
+        border-radius: calc(var(--r)/2);
+        background-color: #9c9b92;
+        /*min(fit-content, 50%)*/
+        max-width: 50%;
+        width: fit-content;
+        word-wrap: break-word;
+    }
+    .privacy {
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
+        /* line-height: 2rem; */
+        
+    }
+    .privacy a {
+        color: #5f95f9;
+    }
+    .privacy a:visited {
+        color: #5f62f9;
+    }
     </style>
     <link rel="preload" href="./data/courses_cache.json" as="fetch" crossorigin="anonymous">
     <link rel="preload" href="./data/node_positions_cache.json" as="fetch" crossorigin="anonymous">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <link rel="preconnect" href="https://challenges.cloudflare.com" />
 </head>
 <body>
     <main>
         <canvas></canvas>
         <div id="panel">
-            <div>
+            <div class="course-info">
                 <h1><span id="course">Nothing, for now.</span><!--<svg id="cog" viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"
         fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="miter" stroke-linecap="round"
         role="img" aria-label="settings">
@@ -116,6 +185,15 @@
                     <li>Restrictions: <span id="restrictions"></span></li>
                 </ul>
                 <p id="description"></p>
+            </div>
+            <div class="chat">
+                <div class="conversation">
+                    <!-- <div class="message">hello</div>
+                    <div class="message">hi</div> -->
+                </div>
+                <input type="text" class="chatbox" placeholder="What are you wondering about? ..."></input>
+                <span class="privacy">no bots: you agree to Cloudflare's <a href="https://www.cloudflare.com/en-gb/turnstile-privacy-policy/">Turnstile Privacy Addendum</a></span>
+                <div class="cf-turnstile" data-sitekey="0x4AAAAAADjjnaR5JZt559tN" data-size="invisible" data-callback="onTurnstileSuccess"></div>
             </div>
         </div>
     </main>

@@ -690,16 +690,18 @@ async function initiate() {
     async function sendChat(text) {
         appendMessage(text);
         if (!turnstileToken) {
-            appendMessage("error: still verifying you're human — try again in a moment");
-            return;
+            await new Promise(r => {
+                const i = setInterval(() => {
+                    if (turnstileToken) { clearInterval(i); r(); }
+                }, 50);
+            });
         }
+        const tokenToSend = turnstileToken;
+        turnstileToken = null;
         try {
             const req = await fetch(CHAT_API, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "cf-turnstile-response": turnstileToken,
-                },
+                headers: { "Content-Type": "application/json", "cf-turnstile-response": tokenToSend },
                 body: JSON.stringify({ query: text, conversation_history }),
             });
             const json = await req.json();
@@ -716,6 +718,8 @@ async function initiate() {
             }
         } catch (e) {
             appendMessage("error: " + e.message);
+        } finally {
+            turnstile.reset();
         }
     }
 

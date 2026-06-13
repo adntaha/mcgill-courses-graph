@@ -1,3 +1,5 @@
+import { getAllCourses } from "./db";
+
 type CourseLike = {
 	id: string;
 	prereqsText: string;
@@ -13,10 +15,11 @@ const COURSE_ID = /\b[A-Z]{4}\s?\d{3}[A-Z]?\d?\b/g;
 
 const normalize = (raw: string) => raw.replace(/\s/g, "");
 
-export function getDownstreamCourses(
+export async function getDownstreamCourses(
 	courseId: string,
-	courses: CourseLike[],
-): Dependent[] {
+	env: Env
+) {
+	const courses = await getAllCourses(env.COURSE_DB);
 	const dependents: Dependent[] = [];
 	const target = normalize(courseId);
 

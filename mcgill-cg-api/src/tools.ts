@@ -13,7 +13,7 @@ type Dependent = {
 
 const COURSE_ID = /\b[A-Z]{4}\s?\d{3}[A-Z]?\d?\b/g;
 
-const normalize = (raw: string) => raw.replace(/\s/g, "");
+export const normalize = (courseId: string) => courseId.replace(/\s/g, "");
 
 export async function getDownstreamCourses(
 	courseId: string,

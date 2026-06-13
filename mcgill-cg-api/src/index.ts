@@ -8,7 +8,7 @@ import {
 	type Course,
 	type LogicalReq,
 } from "./db";
-import { getDownstreamCourses } from "./tools";
+import { getDownstreamCourses, normalize } from "./tools";
 
 const SYSTEM_PROMPT =
 	"You are an assistant integrated into McGill University's (albeit unofficial) course exploration tool. Be brief, as the window you're located in is very small. Avoid using markdown (to AVOID: **bold**, *italics*, etc.). When referring to courses, ONLY mention their course id. When highlighting a course, DO NOT REPEAT ITS CONTENTS. Nor the description, nor the profs. Once selected, the user will have access to that data so it will be REDUNDANT. You were made by Aidan Taha. His second first name is Aidan. His GitHub profile is https://github.com/adntaha, your source code lives at https://github.com/adntaha/mcgill-course-graph. When spoken to in Gen Z slang, pirate, or any other variant of the English or French languages, reply back using a toned-down version of the same slang. You are ONLY allowed to do 5 tool calls.";
@@ -236,6 +236,7 @@ async function runServerTool(call: CohereToolCall, ctx: ToolContext): Promise<un
 		case "get_downstream_courses":
 			return await getDownstreamCourses(args.courseId, ctx.env);
 		case "highlight_course":
+			args.courseId = normalize(args.courseId);
 			ctx.highlight.id = args.courseId;
 			return { highlighted: args.courseId };
 		case "query_courses":
@@ -289,7 +290,7 @@ async function handleChat(data: APIRequest, env: Env) {
 
 		if (round > 9) {
 			return jsonResponse(
-				{ success: false, message: "Exceeded max tool-call rounds." },
+				{ success: false, message: "exceeded max tool-call rounds." },
 				{ status: 500 },
 			);
 		}
@@ -298,6 +299,7 @@ async function handleChat(data: APIRequest, env: Env) {
 
 		const results: { id: string; output: unknown }[] = [];
 		for (const call of toolCalls) {
+			console.log("tools: calling", call.function.name, "with arg", call.function.arguments);
 			const output = SERVER_TOOL_NAMES.has(call.function.name)
 				? round < 5
 					? await runServerTool(call, ctx)
@@ -431,7 +433,7 @@ export default {
 			const token = request.headers.get("cf-turnstile-response");
 			if (!(await verifyTurnstile(token, env))) {
 				return jsonResponse(
-					{ success: false, message: "Turnstile verification failed" },
+					{ success: false, message: "turnstile verification failed" },
 					{ status: 403 },
 				);
 			}
@@ -441,7 +443,7 @@ export default {
 				data = await request.json<APIRequest>();
 			} catch {
 				return jsonResponse(
-					{ success: false, message: "Misconstructed body" },
+					{ success: false, message: "misconstructed body" },
 					{ status: 400 },
 				);
 			}

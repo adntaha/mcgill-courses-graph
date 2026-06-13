@@ -1,9 +1,3 @@
-import coursesCache from './data/courses_cache.json' with { type: 'json' };
-import nodePositionsCache from './data/node_positions_cache.json' with { type: 'json' };
-
-localStorage.setItem("281137720", JSON.stringify(coursesCache));
-localStorage.setItem("281137720_n", JSON.stringify(nodePositionsCache));
-
 const SEMESTERS = ["Fall 2026", "Winter 2027"]
 let stopNDump = false;
 function djb2Hash(str) {
@@ -50,7 +44,6 @@ setInterval(() => {
 let courses = [];
 async function fetchCourses() {
     urlHash = djb2Hash(COURSES_API).toString();
-    let res;
 
     const cache = localStorage.getItem(urlHash);
     if (cache !== null && JSON.parse(cache).expiry > new Date().getTime()) {
@@ -63,11 +56,9 @@ async function fetchCourses() {
     if (!body.success) throw new Error(body.message);
     expiry = new Date().getTime() + 3*60*60*1000;
 
-    res = [];
-    // ts has so much data; the people who made it are THE goats
-    // but sadly i dont need that much data for this project
+    // the https://mcgill.courses api has so much
+    // data; the people who made it are THE goats 
 
-    // TODO: logicalPrerequisites + corequistes + logicalCorequisites logic
     const flattenIds = (node) => {
         if (!node) return [];
         if (node.type === "course") return [node.data.replace(/\s/g, "")];

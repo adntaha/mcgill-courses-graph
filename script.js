@@ -1,4 +1,3 @@
-const SEMESTERS = ["Fall 2026", "Winter 2027"]
 let stopNDump = false;
 function djb2Hash(str) {
     let hash = 5381;

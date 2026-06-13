@@ -718,6 +718,7 @@ async function initiate() {
             }
             conversation_history = json.data.conversation_history;
             appendMessage(json.data.response);
+            console.log("Assistant:", json.data.response);
             if (json.data.highlight_course) {
                 selectCourse(null, nodes);
                 selectCourse(json.data.highlight_course, nodes);

@@ -160,6 +160,30 @@
     .privacy a:visited {
         color: #5f62f9;
     }
+    @media (max-width: 767px) {
+        main {
+            flex-direction: column;
+            height: 100%;
+        }
+        canvas {
+            height: 40%;
+            width: 100%;
+        }
+        #panel {
+            min-height: 60%;
+            width: 100%;
+            flex-direction: column-reverse;
+        }
+        .conversation {
+            height: 25%;
+        }
+        .chat {
+            min-height: 30%;
+            max-height: 100%;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+    }
     </style>
     <link rel="preload" href="./data/node_positions_cache.json" as="fetch" crossorigin="anonymous">
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

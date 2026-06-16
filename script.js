@@ -1,4 +1,6 @@
-let stopNDump = false;
+import nodePositionsCache from "./data/node_positions_cache.json" with { type: "json" };
+
+window.stopNDump = false;
 function djb2Hash(str) {
     let hash = 5381;
     for (let i = 0; i < str.length; i++) {
@@ -16,11 +18,11 @@ canvas.height = canvas.getBoundingClientRect().height;
 
 const RADIUS = 10;
 let ZOOM_COEFF = 1;
-let OFFSET_X = (canvas.width * ZOOM_COEFF) * 0.5, OFFSET_Y = (canvas.height * ZOOM_COEFF) * 0.5;
+let OFFSET_X = canvas.width * 0.5, OFFSET_Y = canvas.height * 0.5;
 let latestTree;
 let focusedNode = null;
 let urlHash;
-let expiry;
+// let expiry;
 
 let nodeNameToIndexMap;
 const cursor = {x: null, y: null};
@@ -28,7 +30,7 @@ let fixedNode = null;
 
 const BASE_URL = "https://mcgill-cg-api.botato.workers.dev"
 const CHAT_API = BASE_URL + "/chat";
-const COURSES_API = BASE_URL + "/courses";
+const COURSES_API = BASE_URL + "/courses?all";
 let conversation_history = [];
 
 let turnstileToken = null;
@@ -42,18 +44,18 @@ setInterval(() => {
 
 let courses = [];
 async function fetchCourses() {
-    urlHash = djb2Hash(COURSES_API).toString();
+    urlHash = djb2Hash(COURSES_API);
 
-    const cache = localStorage.getItem(urlHash);
-    if (cache !== null && JSON.parse(cache).expiry > new Date().getTime()) {
-        expiry = JSON.parse(cache).expiry;
-        return JSON.parse(cache).data;
-    }
+    // const cache = localStorage.getItem(urlHash);
+    // if (cache !== null && JSON.parse(cache).expiry > new Date().getTime()) {
+    //     expiry = JSON.parse(cache).expiry;
+    //     return JSON.parse(cache).data;
+    // }
 
     const req = await fetch(COURSES_API);
     const body = await req.json();
     if (!body.success) throw new Error(body.message);
-    expiry = new Date().getTime() + 3*60*60*1000;
+    // expiry = new Date().getTime() + 3*60*60*1000;
 
     // the https://mcgill.courses api has so much
     // data; the people who made it are THE goats 
@@ -83,7 +85,7 @@ async function fetchCourses() {
         };
     }).sort((a, b) => a.id.localeCompare(b.id));
 
-    localStorage.setItem(urlHash, JSON.stringify({ data: res, expiry }));
+    // localStorage.setItem(urlHash, JSON.stringify({ data: res, expiry }));
     return res
 }
 
@@ -469,9 +471,9 @@ async function populate() {
     }, []);
 
     let nodes, data;
-
-    if ((data = localStorage.getItem(urlHash + "_n")) !== null && JSON.parse(data).expiry > new Date().getTime()) {
-        nodes = JSON.parse(data).nodes
+    if (urlHash === 905575632 || urlHash === 2068739592) {
+        console.log("importing node positions from cache");
+        nodes = nodePositionsCache.nodes;
         nodes.forEach((node) => { node.course = courses.find((c) => c.id === node.name); });
         neighbours = nodes.map((_, i) => new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i)));
     } else {
@@ -547,7 +549,7 @@ async function initiate() {
             for (let s = 0; s < 6; s++) update(nodes, edges, neighbours, real_timedelta, false, alpha);
             let ke = totalKE(nodes);
             console.log("i:", i++, "total energy:", ke, ";", Math.ceil(Math.log(1e-7 / alpha)/Math.log(0.9999)), "turns left until hard stop");
-            if ((nodes.length >= 500 && (alpha < 0.0000001 || ke < 0.001 * nodes.length)) || stopNDump) {   // scale epsilon by node count
+            if ((nodes.length >= 500 && (alpha < 0.0000001 || ke < 0.001 * nodes.length)) || window.stopNDump) {   // scale epsilon by node count
                 quietFrames = (quietFrames || 0) + 1;
                 if (quietFrames > 30) { // stable for ~30 frames → stop
                     settled = true;

@@ -14,7 +14,7 @@ const SYSTEM_PROMPT =
 	"You are an assistant integrated into McGill University's (albeit unofficial) course exploration tool. Be brief, as the window you're located in is very small. Avoid using markdown (to AVOID: **bold**, *italics*, etc.). When referring to courses, ONLY mention their course id. When highlighting a course, DO NOT REPEAT ITS CONTENTS. Nor the description, nor the profs. Once selected, the user will have access to that data so it will be REDUNDANT. You were made by Aidan Taha. His second first name is Aidan. His GitHub profile is https://github.com/adntaha, your source code lives at https://github.com/adntaha/mcgill-course-graph. When spoken to in Gen Z slang, pirate, or any other variant of the English or French languages, reply back using a toned-down version of the same slang. You are ONLY allowed to do 5 tool calls.";
 
 const SEMESTERS = ["Fall 2026", "Winter 2027"];
-const SUBJECTS = ["MATH", "COMP", "ECSE", "PHIL", "PHYS", "MIMM", "BIOL", "CHEM", "PHAR", "PHGY", "POLI"];
+// const SUBJECTS = ["MATH", "COMP", "ECSE", "PHIL", "PHYS", "MIMM", "BIOL", "CHEM", "PHAR", "PHGY", "POLI"];
 
 type McGillCourse = {
 	_id: string;
@@ -118,8 +118,8 @@ async function ingestCourses(courses: Course[], env: Env) {
 	// console.log("to embed", toEmbed);
 	if (toEmbed.length === 0) return null;
 
-	const vectors: VectorizeVector[] = [];
 	for (let i = 0; i < toEmbed.length; i += 96) {
+		const vectors: VectorizeVector[] = [];
 		// console.log(`batch ${i}...`);
 		const batch = toEmbed.slice(i, i + 96);
 		const data = await embed(batch.map((b) => courseToYaml(b.course)), "search_document", env);
@@ -129,11 +129,13 @@ async function ingestCourses(courses: Course[], env: Env) {
 		data.embeddings.float.forEach((emb, j) => {
 			vectors.push({ id: batch[j].course.id, values: emb });
 		});
+
+		await env.VECTORIZE.upsert(vectors);
+		await upsertCourses(env.COURSE_DB, batch);
+		console.log("ingested batch from", i, "to", i + 96);
 	}
 
 	// console.log("uploading...");
-	await env.VECTORIZE.upsert(vectors);
-	await upsertCourses(env.COURSE_DB, toEmbed);
 	return null;
 }
 
@@ -400,7 +402,7 @@ function transformCourse(c: McGillCourse) {
 }
 
 async function handleSync(env: Env) {
-	const url = `https://mcgill.courses/api/courses?terms=${SEMESTERS.join(",")}&subjects=${SUBJECTS.join(",")}`;
+	const url = `https://mcgill.courses/api/courses?terms=${SEMESTERS.join(",")}`; // &subjects=${SUBJECTS.join(",")}
 	const res = await fetch(url);
 	if (!res.ok) {
 		return jsonResponse(
@@ -425,8 +427,15 @@ async function handleSync(env: Env) {
 
 async function handleCoursesGet(env: Env) {
 	const all = await getAllCourses(env.COURSE_DB);
+	const { lastModified } = all.reduce((prev, curr) => curr.lastModified.getTime() > prev.lastModified.getTime() ? curr : prev, { lastModified: new Date(0) } as Course);
+
 	return new Response(JSON.stringify({ success: true, data: all }), {
-		headers: { "Content-Type": "application/json", ...CORS_HEADERS },
+		headers: {
+			"Content-Type": "application/json",
+			"Cache-Control": "max-age=604800", // 1 week
+			"Last-Modified": lastModified.toString(),
+			...CORS_HEADERS
+		},
 	});
 }
 

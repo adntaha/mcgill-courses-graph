@@ -12,6 +12,7 @@ export type Course = {
 	restrictionsText: string;
 	logicalPrerequisites: LogicalReq | null;
 	logicalCorequisites: LogicalReq | null;
+	lastModified: Date;
 };
 
 type CourseRow = {
@@ -25,6 +26,7 @@ type CourseRow = {
 	logical_prerequisites: string | null;
 	logical_corequisites: string | null;
 	content_hash: string;
+	last_modified: number;
 };
 
 const parseLogical = (raw: string | null): LogicalReq | null =>
@@ -40,6 +42,7 @@ const rowToCourse = (r: CourseRow): Course => ({
 	restrictionsText: r.restrictions_text,
 	logicalPrerequisites: parseLogical(r.logical_prerequisites),
 	logicalCorequisites: parseLogical(r.logical_corequisites),
+	lastModified: new Date(r.last_modified * 1000) // purely for cache-control reasons
 });
 
 export const courseToYaml = (c: Course): string => {
@@ -87,18 +90,19 @@ export async function upsertCourses(
 ): Promise<void> {
 	if (entries.length === 0) return;
 	const stmt = db.prepare(
-		`INSERT INTO courses (id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		 ON CONFLICT(id) DO UPDATE SET
-		   name = excluded.name,
-		   description = excluded.description,
-		   instructors_and_semesters = excluded.instructors_and_semesters,
-		   prerequisites = excluded.prerequisites,
-		   corequisites = excluded.corequisites,
-		   restrictions_text = excluded.restrictions_text,
-		   logical_prerequisites = excluded.logical_prerequisites,
-		   logical_corequisites = excluded.logical_corequisites,
-		   content_hash = excluded.content_hash`,
+		`INSERT INTO courses (id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash, last_modified)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, unixepoch())
+ON CONFLICT(id) DO UPDATE SET
+	name = excluded.name,
+	description = excluded.description,
+	instructors_and_semesters = excluded.instructors_and_semesters,
+	prerequisites = excluded.prerequisites,
+	corequisites = excluded.corequisites,
+	restrictions_text = excluded.restrictions_text,
+	logical_prerequisites = excluded.logical_prerequisites,
+	logical_corequisites = excluded.logical_corequisites,
+	content_hash = excluded.content_hash
+	last_modified = unixepoch()`,
 	);
 	const batch = entries.map(({ course, hash }) =>
 		stmt.bind(
@@ -120,8 +124,8 @@ export async function upsertCourses(
 export async function getAllCourses(db: D1Database): Promise<Course[]> {
 	const { results } = await db
 		.prepare(
-			`SELECT id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash
-			 FROM courses`,
+			`SELECT id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash, last_modified
+FROM courses`,
 		)
 		.all<CourseRow>();
 	return results.map(rowToCourse);
@@ -137,8 +141,8 @@ export async function getCoursesByIds(
 		const placeholders = chunk.map(() => "?").join(",");
 		const { results } = await db
 			.prepare(
-				`SELECT id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash
-				 FROM courses WHERE id IN (${placeholders})`,
+				`SELECT id, name, description, instructors_and_semesters, prerequisites, corequisites, restrictions_text, logical_prerequisites, logical_corequisites, content_hash, last_modified
+				FROM courses WHERE id IN (${placeholders})`,
 			)
 			.bind(...chunk)
 			.all<CourseRow>();

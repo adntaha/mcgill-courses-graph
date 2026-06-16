@@ -70,19 +70,19 @@ type APIResponse =
 		message: string;
 	};
 
-const CORS_HEADERS = {
-	"Access-Control-Allow-Origin": "https://adntaha.github.io",
+const CORS_HEADERS = (origin: string | null) => ({
+	"Access-Control-Allow-Origin": origin && ["https://adntaha.github.io", "http://127.0.0.1:5500", "http://localhost:5500"].includes(origin) ? origin : "",
 	"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 	"Access-Control-Allow-Headers": "Content-Type, cf-turnstile-response",
 	"Access-Control-Max-Age": "86400",
-};
+});
 
-function jsonResponse(data: APIResponse, init?: ResponseInit) {
+function jsonResponse(reqHeaders: Request["headers"], data: APIResponse, init?: ResponseInit) {
 	return new Response(JSON.stringify(data), {
 		...init,
 		headers: {
 			"Content-Type": "application/json",
-			...CORS_HEADERS,
+			...CORS_HEADERS(reqHeaders.get("origin")),
 			...(init?.headers ?? {}),
 		},
 	});
@@ -107,7 +107,7 @@ async function hashString(text: string) {
 	return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-async function ingestCourses(courses: Course[], env: Env) {
+async function ingestCourses(courses: Course[], env: Env, reqHeaders: Request["headers"]) {
 	// returns a response if there's an error
 	const hashed = await Promise.all(
 		courses.map(async (c) => ({ course: c, hash: await hashString(JSON.stringify(c)) })),
@@ -124,7 +124,7 @@ async function ingestCourses(courses: Course[], env: Env) {
 		const batch = toEmbed.slice(i, i + 96);
 		const data = await embed(batch.map((b) => courseToYaml(b.course)), "search_document", env);
 		if (isCohereError(data)) {
-			return jsonResponse({ success: false, message: data.message }, { status: 424 });
+			return jsonResponse(reqHeaders, { success: false, message: data.message }, { status: 424 });
 		}
 		data.embeddings.float.forEach((emb, j) => {
 			vectors.push({ id: batch[j].course.id, values: emb });
@@ -275,7 +275,7 @@ async function runServerTool(call: CohereToolCall, ctx: ToolContext): Promise<un
 	}
 }
 
-async function handleChat(data: APIRequest, env: Env) {
+async function handleChat(data: APIRequest, env: Env, reqHeaders: Request["headers"]) {
 	// if (data.courses && data.courses.length > 0) {
 	// 	const ingestRes = await ingestCourses(data.courses, env);
 	// 	if (ingestRes !== null) return ingestRes;
@@ -283,7 +283,7 @@ async function handleChat(data: APIRequest, env: Env) {
 
 	const topDocumentsRes = await retrieveCoursesFromQuery(data.query, env);
 	if (!topDocumentsRes.success) {
-		return jsonResponse(topDocumentsRes, { status: 424 });
+		return jsonResponse(reqHeaders, topDocumentsRes, { status: 424 });
 	}
 
 	const system_messages = data.conversation_history?.filter((m) => m.role === "system");
@@ -305,7 +305,7 @@ async function handleChat(data: APIRequest, env: Env) {
 	do {
 		const chatRes = await chat(messages, topDocumentsRes.topDocuments, TOOLS, env);
 		if (isCohereError(chatRes)) {
-			return jsonResponse({ success: false, message: chatRes.message }, { status: 424 });
+			return jsonResponse(reqHeaders, { success: false, message: chatRes.message }, { status: 424 });
 		}
 
 		toolCalls = chatRes.message.tool_calls ?? [];
@@ -318,6 +318,7 @@ async function handleChat(data: APIRequest, env: Env) {
 
 		if (round > 9) {
 			return jsonResponse(
+				reqHeaders,
 				{ success: false, message: "exceeded max tool-call rounds." },
 				{ status: 500 },
 			);
@@ -351,7 +352,7 @@ async function handleChat(data: APIRequest, env: Env) {
 		round++;
 	} while (toolCalls.length !== 0);
 
-	return jsonResponse({
+	return jsonResponse(reqHeaders, {
 		success: true,
 		data: {
 			response,
@@ -401,11 +402,12 @@ function transformCourse(c: McGillCourse) {
 	};
 }
 
-async function handleSync(env: Env) {
+async function handleSync(env: Env, reqHeaders: Request["headers"]) {
 	const url = `https://mcgill.courses/api/courses?terms=${SEMESTERS.join(",")}`; // &subjects=${SUBJECTS.join(",")}
 	const res = await fetch(url);
 	if (!res.ok) {
 		return jsonResponse(
+			reqHeaders,
 			{ success: false, message: `mcgill.courses returned ${res.status}` },
 			{ status: 424 },
 		);
@@ -417,15 +419,15 @@ async function handleSync(env: Env) {
 		.map(transformCourse);
 
 	// console.log("now ingesting..");
-	const ingestErr = await ingestCourses(courses, env);
+	const ingestErr = await ingestCourses(courses, env, reqHeaders);
 	if (ingestErr !== null) return ingestErr;
 
 	return new Response(JSON.stringify({ success: true, ingested: courses.length }), {
-		headers: { "Content-Type": "application/json", ...CORS_HEADERS },
+		headers: { "Content-Type": "application/json", ...CORS_HEADERS(reqHeaders.get("origin")) },
 	});
 }
 
-async function handleCoursesGet(env: Env) {
+async function handleCoursesGet(env: Env, reqHeaders: Request["headers"]) {
 	const all = await getAllCourses(env.COURSE_DB);
 	const { lastModified } = all.reduce((prev, curr) => curr.lastModified.getTime() > prev.lastModified.getTime() ? curr : prev, { lastModified: new Date(0) } as Course);
 
@@ -434,7 +436,7 @@ async function handleCoursesGet(env: Env) {
 			"Content-Type": "application/json",
 			"Cache-Control": "max-age=604800", // 1 week
 			"Last-Modified": lastModified.toString(),
-			...CORS_HEADERS
+			...CORS_HEADERS(reqHeaders.get("origin"))
 		},
 	});
 }
@@ -444,21 +446,22 @@ export default {
 		const url = new URL(request.url);
 
 		if (request.method === "OPTIONS") {
-			return new Response(null, { status: 204, headers: CORS_HEADERS });
+			return new Response(null, { status: 204, headers: CORS_HEADERS(request.headers.get("origin")) });
 		}
 
 		if (url.pathname === "/courses" && request.method === "GET") {
-			return handleCoursesGet(env);
+			return handleCoursesGet(env, request.headers);
 		}
 
 		if (url.pathname === "/sync" && request.method === "POST") {
 			if (request.headers.get("x-sync-secret") !== env.SYNC_SECRET) return new Response("403", { status: 403 });
 
-			return handleSync(env);
+			return handleSync(env, request.headers);
 		}
 
 		if (request.headers.get("content-type") !== "application/json") {
 			return jsonResponse(
+				request.headers,
 				{ success: false, message: "only JSON is supported" },
 				{ status: 400 },
 			);
@@ -468,6 +471,7 @@ export default {
 			const token = request.headers.get("cf-turnstile-response");
 			if (!(await verifyTurnstile(token, env))) {
 				return jsonResponse(
+					request.headers,
 					{ success: false, message: "turnstile verification failed" },
 					{ status: 403 },
 				);
@@ -478,13 +482,14 @@ export default {
 				data = await request.json<APIRequest>();
 			} catch {
 				return jsonResponse(
+					request.headers,
 					{ success: false, message: "misconstructed body" },
 					{ status: 400 },
 				);
 			}
-			return handleChat(data, env);
+			return handleChat(data, env, request.headers);
 		}
 
-		return new Response("Not Found", { status: 404, headers: CORS_HEADERS });
+		return new Response("Not Found", { status: 404, headers: CORS_HEADERS(request.headers.get("origin")) });
 	},
 } satisfies ExportedHandler<Env>;

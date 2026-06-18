@@ -546,7 +546,7 @@ async function initiate() {
         const real_timedelta = timestamp - zero;
         if (!settled) {
             alpha *= 1 - 0.0001;
-            for (let s = 0; s < 6; s++) update(nodes, edges, neighbours, real_timedelta, false, alpha);
+            update(nodes, edges, neighbours, real_timedelta, false, alpha);
             let ke = totalKE(nodes);
             console.log("i:", i++, "total energy:", ke, ";", Math.ceil(Math.log(1e-7 / alpha)/Math.log(0.9999)), "turns left until hard stop");
             if ((nodes.length >= 500 && (alpha < 0.0000001 || ke < 0.001 * nodes.length)) || window.stopNDump) {   // scale epsilon by node count

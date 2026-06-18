@@ -172,7 +172,7 @@ function render(nodes, edges, neighbours) {
         // dot — its own path so the per-node colour applies (a batched fill = one colour for every dot)
         ctx.beginPath();
         ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(3, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
+        ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(2, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
         ctx.fill();
     }
 

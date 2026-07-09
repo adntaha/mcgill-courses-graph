@@ -524,6 +524,7 @@ function onTurnstileSuccess() {
     turnstileSucceeded = true;
 }
 
+let isInteractingWithGraph = false;
 async function initiate() {
     const { nodes, edges, neighbours } = await populate();
 
@@ -565,8 +566,8 @@ async function initiate() {
         } else {
             update(nodes, edges, neighbours, real_timedelta, true);
         }
-        console.log(neighbours)
-        render(nodes, edges, neighbours);
+        // console.log(neighbours);
+        if (isInteractingWithGraph) render(nodes, edges, neighbours);
 
         requestAnimationFrame(animate);
     }
@@ -601,6 +602,7 @@ async function initiate() {
     let mouseDownMoment, potentiallyClickedNode, mouseDownOnCanvas = false;
     canvas.addEventListener("mousedown", (event) => {
         if (event.button !== 0) return; // we want left clicks only
+        isInteractingWithGraph = true;
         mouseDownMoment = document.timeline.currentTime;
         potentiallyClickedNode = null;
         mouseDownOnCanvas = true;
@@ -633,6 +635,7 @@ async function initiate() {
     });
 
     document.addEventListener("mouseup", (event) => {
+        isInteractingWithGraph = false;
         if (!mouseDownOnCanvas) return;
         mouseDownOnCanvas = false;
         const wasClick = !dragging;        // stayed inside the dead zone → a click, not a pan/drag
@@ -662,6 +665,7 @@ async function initiate() {
 
     canvas.addEventListener("wheel", (event) => {
         event.preventDefault();
+        isInteractingWithGraph = true;
         const epsilon = 1e-5;
         const step = ((event.deltaY < 0 ? event.deltaY * 2 : event.deltaY) + epsilon) / (event.deltaY * 2 + epsilon) + 0.2;
 
@@ -676,6 +680,7 @@ async function initiate() {
 
         OFFSET_X = px - wx * ZOOM_COEFF;
         OFFSET_Y = py - wy * ZOOM_COEFF;
+        isInteractingWithGraph = false;
     }, { passive: false });
 
     const conversationElem = document.querySelector(".conversation");
@@ -726,6 +731,7 @@ async function initiate() {
 
     const chatbox = document.querySelector("input.chatbox");
     chatbox.onkeypress = (event) => {
+        isInteractingWithGraph = false;
         if (!event) event = window.event;
         const keyCode = event.code || event.key;
         if (keyCode === 'Enter') {

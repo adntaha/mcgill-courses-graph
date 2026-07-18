@@ -17,6 +17,7 @@ canvas.width = canvas.getBoundingClientRect().width;
 canvas.height = canvas.getBoundingClientRect().height;
 
 const RADIUS = 10;
+const k_c = 600_000; // coulomb constant for node repulsion //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2)
 let ZOOM_COEFF = 1;
 let OFFSET_X = canvas.width * 0.5, OFFSET_Y = canvas.height * 0.5;
 let latestTree;
@@ -105,7 +106,7 @@ function addEdgeToPath(shaftPath, headPath, tail, head) {
     const spread = Math.PI / 7;
 
     // stop the shaft at the arrowhead's base (not the apex) so the flat line-cap
-    // can't poke out past the tip — the triangle alone makes the point
+    // can't poke out past the tip: the triangle alone makes the point
     const back = head_len * Math.cos(spread);
     const baseX = tipX - back*Math.cos(angle);
     const baseY = tipY - back*Math.sin(angle);
@@ -146,13 +147,19 @@ function render(nodes, edges, neighbours) {
 
     if (nodes !== render._cachedNodes) {
         // thanks claude for these mappings/conversion code
-        const depts = [...new Set(nodes.map(n => (n.name.match(/[A-Z]{4}/)||["?"])[0]))];
+        const depts = [...new Set(nodes.map(n => n.dept))];
         render._hueOf = Object.fromEntries(depts.map((d, i) => [d, (i * 137.508) % 360]));
         render._deptObj = Object.fromEntries(depts.map((d) => [d, `hsla(${render._hueOf[d]}, 70%, 50%, 0.1)`]));
         render._cachedNodes = nodes;
     }
 
-    // cute backgrounds
+    // cute backgrounds: dominant dept per cell is resolved here (render-only), no longer
+    // in the per-frame physics pass. Only recompute when update() built a fresh tree,
+    // during pan/zoom the tree is unchanged, so the result would be identical every frame.
+    if (render._deptTree !== latestTree) {
+        latestTree.computeDepts();
+        render._deptTree = latestTree;
+    }
     latestTree.drawCells(ctx, render._deptObj);
 
     // edges: prereq -> course (so the arrow points at what the prereq unlocks)
@@ -171,21 +178,36 @@ function render(nodes, edges, neighbours) {
     ctx.strokeStyle = "#3c3c3cc0";
     ctx.font = fontSize + "px monospace";
     const normalDots = new Path2D(), dimmedDots = new Path2D();
+    const dotR = Math.max(2, RADIUS*ZOOM_COEFF);
+    const showLabels = fontSize >= 6;                 // below this labels are illegible mush: skip them
+    const W = canvas.width, H = canvas.height;
     for (let i=0;i<nodes.length;i++) {
-        const node = nodes[i]
+        const node = nodes[i];
+        const sx = node.x*ZOOM_COEFF+OFFSET_X;
+        const sy = node.y*ZOOM_COEFF+OFFSET_Y;
+
+        // viewport cull, sized to what this node actually draws: the dot (radius dotR) plus,
+        // when shown, its centered label (extends labelW/2 sideways and ~1.3*fontSize upward)
+        const labelW = showLabels ? fontSize*0.6*node.name.length : 0;
+        const marginX = Math.max(dotR, labelW*0.5);
+        const marginTop = showLabels ? Math.max(dotR, fontSize*1.3) : dotR;
+        if (sx < -marginX || sx > W + marginX || sy < -marginTop || sy > H + dotR) continue;
+
         const dimmed = focusedNode !== null && neighbours[focusedNode] && focusedNode !== i && !neighbours[focusedNode].has(i);
 
-        // label background
-        ctx.fillStyle = dimmed ? "#ffffff2f" : "#ffffff9f";
-        ctx.fillRect(node.x*ZOOM_COEFF+OFFSET_X-(fontSize*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-fontSize*1.3, fontSize*0.6*node.name.length, fontSize*0.9)
-
-        // label text
-        ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.fillText(node.name, node.x*ZOOM_COEFF+OFFSET_X-(fontSize*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-fontSize*0.5);
+        if (showLabels) {
+            // label background
+            ctx.fillStyle = dimmed ? "#ffffff2f" : "#ffffff9f";
+            ctx.fillRect(sx - labelW*0.5, sy - fontSize*1.3, labelW, fontSize*0.9);
+            // label text
+            ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
+            ctx.fillText(node.name, sx - labelW*0.5, sy - fontSize*0.5);
+        }
 
         // dot: queued into one of two batched paths instead of drawn immediately
-        (dimmed ? dimmedDots : normalDots).moveTo(node.x*ZOOM_COEFF+OFFSET_X + Math.max(2, RADIUS*ZOOM_COEFF), node.y*ZOOM_COEFF+OFFSET_Y);
-        (dimmed ? dimmedDots : normalDots).arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(2, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
+        const dots = dimmed ? dimmedDots : normalDots;
+        dots.moveTo(sx + dotR, sy);
+        dots.arc(sx, sy, dotR, 0, 2*Math.PI);
     }
     ctx.fillStyle = "black";
     ctx.fill(normalDots);
@@ -275,7 +297,7 @@ class Cell {
         this.body = null; // a node, basically
         this.charge = this.cocX = this.cocY = 0;
         // this.state = 0; // 0 is empty, 1 is has one child, 2 is has cells inside it (and therefore gets a mass&center of mass)
-        this.depts = {};
+        this._dept = null; // dominant department, computed lazily at render time (see computeDepts)
     }
 
     build_bounding_box(nodes) {
@@ -331,28 +353,21 @@ class Cell {
 
     precomputeCharges() {
         if (this.children.length === 0) {
-            if (this.body === null) return;
+            if (this.body === null) return this;
             this.charge = this.body.charge;
             this.cocX = this.body.x;
             this.cocY = this.body.y;
-            const dept = (this.body.name.match(/[A-Z]{4}/) || ["?"])[0];
-            this.depts = { [dept]: 1 };
-            return this.body.charge;
+            return this;
         }
 
         this.charge = this.cocX = this.cocY = 0;
 
-        let tempX = 0, tempY = 0;
         for (const child of this.children) {
             child.precomputeCharges();
             if (child.charge === 0) continue;
             this.charge += child.charge;
             this.cocX += child.cocX * child.charge;
             this.cocY += child.cocY * child.charge;
-            this.depts = Object.entries(this.depts).reduce((acc, [key, value]) => {
-                acc[key] = (acc[key] || 0) + value;
-                return acc;
-            }, { ...child.depts });
         }
 
         if (this.charge === 0) { this.cocX = this.cocY = 0; return this; }
@@ -363,27 +378,53 @@ class Cell {
         return this;
     }
 
-    computeForceOn(node) {
-        if (this.children.length === 0 && (this.body === null || this.body === node)) return [0, 0];
+    // dominant-department computation, done bottom-up. Kept OUT of precomputeCharges
+    // (physics hot path) and run only at render time via computeDepts(). Assigns
+    // this._dept and returns the subtree's {dept: count} histogram.
+    computeDepts() {
+        if (this.children.length === 0) {
+            if (this.body === null) { this._dept = null; return null; }
+            this._dept = this.body.dept;
+            return { [this._dept]: 1 };
+        }
 
-        const k_c = 600_000; //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2);
+        const hist = {};
+        for (const child of this.children) {
+            const childHist = child.computeDepts();
+            if (!childHist) continue;
+            for (const k in childHist) hist[k] = (hist[k] || 0) + childHist[k];
+        }
+
+        // pick the most-represented dept with a plain loop (no Object.entries/reduce allocs)
+        let dept = "?", best = 0;
+        for (const k in hist) if (hist[k] > best) { best = hist[k]; dept = k; }
+        this._dept = dept;
+        return hist;
+    }
+
+    // accumulates this cell's repulsion on `node` into acc.{fx,fy}. Writing into a
+    // shared accumulator (instead of returning [fx,fy] and reducing over children)
+    // avoids O(log N) throwaway arrays per node per frame.
+    computeForceInto(node, acc) {
+        if (this.children.length === 0 && (this.body === null || this.body === node)) return;
 
         const dx = this.cocX - node.x;
         const dy = this.cocY - node.y;
         const d_squared = dx*dx + dy*dy;
 
         if (this.children.length === 0 || this.side * this.side < 0.81 * d_squared) {
-            // coulomb for a single point!
-            const magnitude = k_c * this.charge * node.charge * 1/Math.max(d_squared, 10000);
-            const direction = Math.atan2(node.y - this.cocY, node.x - this.cocX);
-            return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
+            // coulomb for a single point / far-enough cluster. The force points from the
+            // centre of charge to the node, i.e. along (node - coc)/|node - coc|, so we
+            // normalise with 1/sqrt instead of atan2+cos+sin (3 transcendentals -> 1 sqrt).
+            const magnitude = k_c * this.charge * node.charge / Math.max(d_squared, 10000);
+            const invDist = 1 / Math.sqrt(Math.max(d_squared, 1e-9)); // guard d²==0 (node atop coc)
+            acc.fx += magnitude * (node.x - this.cocX) * invDist;
+            acc.fy += magnitude * (node.y - this.cocY) * invDist;
+            return;
         }
 
-        // too close!
-        return this.children.reduce((total_force, cell) => {
-            const force = cell.computeForceOn(node);
-            return [total_force[0] + force[0], total_force[1] + force[1]]
-        }, [0, 0]);
+        // too close! recurse into children
+        for (const cell of this.children) cell.computeForceInto(node, acc);
     }
 
     drawCells(ctx, deptColorMapping) {
@@ -392,12 +433,12 @@ class Cell {
         const y = this.rootY*ZOOM_COEFF + OFFSET_Y;
         const s = this.side*ZOOM_COEFF;
 
-        const dept = Object.entries(this.depts).reduce(
-            (prev, curr) => curr[1] > prev[1] ? curr : prev,
-            ["?", 0]
-        )[0];
+        // sub-pixel: this cell and its (always-smaller) descendants draw nothing: prune the subtree
+        if (s < 1) return;
+        // subtree entirely offscreen: children live inside this box, so skip them too
+        if (x + s < 0 || y + s < 0 || x > ctx.canvas.width || y > ctx.canvas.height) return;
 
-        ctx.fillStyle = deptColorMapping[dept] || "transparent";
+        ctx.fillStyle = deptColorMapping[this._dept] || "transparent";
         ctx.fillRect(x, y, s, s);
         for (const c of this.children) c.drawCells(ctx, deptColorMapping);
     }
@@ -415,56 +456,53 @@ function update(nodes, edges, neighbours, real_timedelta, stopped = false, alpha
     }
     const quadtree = latestTree;
 
-    for (let i=0; i<nodes.length; i++) {
-        const dt = Math.min(0.05, real_timedelta);
-        // console.log("dt", dt)
+    const dt = Math.min(0.05, real_timedelta); // constant per frame: hoisted out of the node loop
+    const acc = { fx: 0, fy: 0 };               // reused across nodes to avoid per-node allocation
 
-        if (nodes[i].fixed && cursor.x !== null && cursor.y !== null) {
-            nodes[i].vx = (cursor.x - nodes[i].x) / dt * 0.5;
-            nodes[i].vy = (cursor.y - nodes[i].y) / dt * 0.5;
-            nodes[i].x = cursor.x;
-            nodes[i].y = cursor.y;
+    for (let i=0; i<nodes.length; i++) {
+        const node = nodes[i];
+
+        if (node.fixed && cursor.x !== null && cursor.y !== null) {
+            node.vx = (cursor.x - node.x) / dt * 0.5;
+            node.vy = (cursor.y - node.y) / dt * 0.5;
+            node.x = cursor.x;
+            node.y = cursor.y;
             continue;
         }
 
         if (stopped) continue;
 
-        let SFx = 0, SFy = 0;
+        // repulsion: coulomb's law (Barnes-Hut)
+        acc.fx = 0; acc.fy = 0;
+        quadtree.computeForceInto(node, acc);
+        let SFx = acc.fx, SFy = acc.fy;
 
-        // repulsion: coulomb's law
-        let [dFx, dFy] = quadtree.computeForceOn(nodes[i]);
-        SFx += dFx;
-        SFy += dFy;
-
-        // now check if testF and dF are close to each other, then apply dF to SF
-
-        // attraction: hooke's law
-        neighbours[i].forEach((edgeNode) => {
+        // attraction: hooke's law. |F| = k_s * dist along the edge; normalising that by
+        // dist to get the direction cancels the dist, so the force is just k_s * delta:
+        // no sqrt/atan2/cos/sin needed (identical result to the trig form).
+        for (const edgeNode of neighbours[i]) {
             const k_s = focusedNode === edgeNode ? k_s_base * 5 : k_s_base;
-            const magnitude = k_s * _2d_euclidian_distance(nodes[i], nodes[edgeNode]);
-            if (magnitude < 0.001) return;
-            const direction = Math.atan2(nodes[edgeNode].y - nodes[i].y, nodes[edgeNode].x - nodes[i].x);
-            SFx += magnitude * Math.cos(direction);
-            SFy += magnitude * Math.sin(direction);
-        });
+            SFx += k_s * (nodes[edgeNode].x - node.x);
+            SFy += k_s * (nodes[edgeNode].y - node.y);
+        }
 
         if (neighbours[i].size === 0 && SFx*SFx + SFy*SFy < 5) {
-            nodes[i].vx = 0;
-            nodes[i].vy = 0;
+            node.vx = 0;
+            node.vy = 0;
             continue;
         }
 
-        const a_x = SFx / nodes[i].mass;
-        const a_y = SFy / nodes[i].mass;
+        const a_x = SFx / node.mass;
+        const a_y = SFy / node.mass;
 
-        nodes[i].vx += a_x * dt * alpha;
-        nodes[i].vy += a_y * dt * alpha;
+        node.vx += a_x * dt * alpha;
+        node.vy += a_y * dt * alpha;
 
-        nodes[i].vx *= damping;
-        nodes[i].vy *= damping;
+        node.vx *= damping;
+        node.vy *= damping;
 
-        nodes[i].x += nodes[i].vx * dt;
-        nodes[i].y += nodes[i].vy * dt;
+        node.x += node.vx * dt;
+        node.y += node.vy * dt;
     }
 }
 
@@ -474,45 +512,50 @@ async function populate() {
     // console.log(courses);
 
     nodeNameToIndexMap = courses.map((c) => c.id);
-    const nodeCount = nodeNameToIndexMap.length;
     let neighbours = nodeNameToIndexMap.map(() => new Set());
 
-    const edges = courses.reduce((prev, curr, index) => {
+    // id -> index / id -> course lookups built once, so edge-building and node hydration
+    // are O(1) per lookup instead of indexOf/find (previously O(N²) over ~2000 courses)
+    const idToIndex = new Map(courses.map((c, i) => [c.id, i]));
+    const idToCourse = new Map(courses.map((c) => [c.id, c]));
+    const deptOf = (name) => (name.match(/[A-Z]{4}/) || ["?"])[0];
+
+    const edges = [];
+    courses.forEach((curr, from) => {
+        // `from` is the course's own index (courses and nodeNameToIndexMap share order)
         for (const prereq of curr.prereqs) {
-            const from = nodeNameToIndexMap.indexOf(curr.id);
-            const to = nodeNameToIndexMap.indexOf(prereq);
-            if (to === -1) continue;
-            prev.push([from, to]);
+            const to = idToIndex.get(prereq);
+            if (to === undefined) continue;
+            edges.push([from, to]);
         }
-        return prev;
-    }, []);
+    });
 
     for (const [from, to] of edges) {
         neighbours[from].add(to);
         neighbours[to].add(from);
     }
 
-    let nodes, data;
+    let nodes;
     if (urlHash === 905575632 || urlHash === 2068739592) {
         console.log("importing node positions from cache");
         nodes = nodePositionsCache.nodes;
-        nodes.forEach((node) => { node.course = courses.find((c) => c.id === node.name); });
-    } else {
-        nodes = nodeNameToIndexMap.map((courseid, i) => {
-            let res = {};
-            res.name = courseid;
-            res.fixed = false;
-            res.course = courses.find((c) => c.id === courseid);
-            res.charge = 10; // constant for now
-            res.mass = 5; // same as above
-            // res.x = h*Math.cos(2*Math.PI/nodeCount*(i+1));
-            // res.y = h*Math.sin(2*Math.PI/nodeCount*(i+1));
-            res.vx = 0;
-            res.vy = 0;
-            res.x = (Math.random() - 0.5) * h * 4;
-            res.y = (Math.random() - 0.5) * h * 4;
-            return res;
+        nodes.forEach((node) => {
+            node.course = idToCourse.get(node.name);
+            node.dept = deptOf(node.name);
         });
+    } else {
+        nodes = courses.map((course) => ({
+            name: course.id,
+            fixed: false,
+            course,
+            dept: deptOf(course.id), // precomputed so the physics/render paths never re-run the regex
+            charge: 10, // constant for now
+            mass: 5, // same as above
+            vx: 0,
+            vy: 0,
+            x: (Math.random() - 0.5) * h * 4,
+            y: (Math.random() - 0.5) * h * 4,
+        }));
     }
 
     return { nodes, edges, neighbours };
@@ -560,7 +603,6 @@ async function initiate() {
 
     requestAnimationFrame(animate);
 
-    let i = 0;
     let alpha = 1;
     let quietFrames;
     function animate(timestamp) {
@@ -569,7 +611,6 @@ async function initiate() {
             alpha *= 1 - 0.0001;
             update(nodes, edges, neighbours, real_timedelta, false, alpha);
             let ke = totalKE(nodes);
-            console.log("i:", i++, "total energy:", ke, ";", Math.ceil(Math.log(1e-7 / alpha)/Math.log(0.9999)), "turns left until hard stop");
             if ((nodes.length >= 500 && (alpha < 0.0000001 || ke < 0.001 * nodes.length)) || window.stopNDump) {   // scale epsilon by node count
                 quietFrames = (quietFrames || 0) + 1;
                 if (quietFrames > 30) { // stable for ~30 frames → stop
@@ -669,7 +710,7 @@ async function initiate() {
             cursor.y = null;
         }
 
-        if (!wasClick) return;             // it was a pan or node-drag — leave focus alone
+        if (!wasClick) return;             // it was a pan or node-drag: leave focus alone
 
         if (potentiallyClickedNode !== null && potentiallyClickedNode !== focusedNode) {
             // clicked a new node → focus it + open the panel

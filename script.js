@@ -371,13 +371,13 @@ class Cell {
         const dx = this.cocX - node.x;
         const dy = this.cocY - node.y;
         const d_squared = dx*dx + dy*dy;
-        
+
         if (this.children.length === 0 || this.side * this.side < 0.81 * d_squared) {
             // coulomb for a single point!
             const magnitude = k_c * this.charge * node.charge * 1/Math.max(d_squared, 10000);
             const direction = Math.atan2(node.y - this.cocY, node.x - this.cocX);
             return [magnitude*Math.cos(direction), magnitude*Math.sin(direction)];
-        } 
+        }
 
         // too close!
         return this.children.reduce((total_force, cell) => {
@@ -462,7 +462,7 @@ function update(nodes, edges, neighbours, real_timedelta, stopped = false, alpha
 
         nodes[i].vx *= damping;
         nodes[i].vy *= damping;
-        
+
         nodes[i].x += nodes[i].vx * dt;
         nodes[i].y += nodes[i].vy * dt;
     }
@@ -685,7 +685,6 @@ async function initiate() {
 
     canvas.addEventListener("wheel", (event) => {
         event.preventDefault();
-        isInteractingWithGraph = true;
         const epsilon = 1e-5;
         const step = ((event.deltaY < 0 ? event.deltaY * 2 : event.deltaY) + epsilon) / (event.deltaY * 2 + epsilon) + 0.2;
 
@@ -700,7 +699,7 @@ async function initiate() {
 
         OFFSET_X = px - wx * ZOOM_COEFF;
         OFFSET_Y = py - wy * ZOOM_COEFF;
-        isInteractingWithGraph = false;
+        render(nodes, edges, neighbours);
     }, { passive: false });
 
     const conversationElem = document.querySelector(".conversation");

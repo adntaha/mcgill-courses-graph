@@ -680,6 +680,7 @@ async function initiate() {
             selectCourse(null, nodes);
             potentiallyClickedNode = null;
         }
+        render(nodes, edges, neighbours);
         // clicking empty space with nothing focused → no-op (no more null crash)
     });
 

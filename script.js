@@ -159,8 +159,13 @@ function render(nodes, edges, neighbours) {
     // edge = [course, prereq], so tail = nodes[edge[1]] (prereq), head = nodes[edge[0]] (course).
     const focusEdge = (e) => focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1]);
     // dim/background edges first, focused ones on top
-    drawEdgeGroup(edges.filter((e) => !focusEdge(e)), focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
-    drawEdgeGroup(edges.filter(focusEdge), "black", Math.max(2, 3.0*ZOOM_COEFF));
+    if (render._cachedFocus !== focusedNode) {
+        render._bgEdges = []; render._fgEdges = [];
+        for (const e of edges) (focusEdge(e) ? render._fgEdges : render._bgEdges).push(e);
+        render._cachedFocus = focusedNode;
+    }
+    drawEdgeGroup(render._bgEdges, focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
+    drawEdgeGroup(render._fgEdges, "black", Math.max(2, 3.0*ZOOM_COEFF));
 
     // nodes
     ctx.strokeStyle = "#3c3c3cc0";
@@ -402,11 +407,13 @@ function update(nodes, edges, neighbours, real_timedelta, stopped = false, alpha
     const k_s_base = 3; //200;
     // debugger;
 
-    const quadtree = new Cell()
-        .build_bounding_box(nodes)
-        .insert(nodes)
-        .precomputeCharges();
-    latestTree = quadtree;
+    if (!stopped || fixedNode !== null) {
+        latestTree = new Cell()
+            .build_bounding_box(nodes)
+            .insert(nodes)
+            .precomputeCharges();
+    }
+    const quadtree = latestTree;
 
     for (let i=0; i<nodes.length; i++) {
         const dt = Math.min(0.05, real_timedelta);
@@ -468,7 +475,7 @@ async function populate() {
 
     nodeNameToIndexMap = courses.map((c) => c.id);
     const nodeCount = nodeNameToIndexMap.length;
-    let neighbours = {};
+    let neighbours = nodeNameToIndexMap.map(() => new Set());
 
     const edges = courses.reduce((prev, curr, index) => {
         for (const prereq of curr.prereqs) {
@@ -480,12 +487,16 @@ async function populate() {
         return prev;
     }, []);
 
+    for (const [from, to] of edges) {
+        neighbours[from].add(to);
+        neighbours[to].add(from);
+    }
+
     let nodes, data;
     if (urlHash === 905575632 || urlHash === 2068739592) {
         console.log("importing node positions from cache");
         nodes = nodePositionsCache.nodes;
         nodes.forEach((node) => { node.course = courses.find((c) => c.id === node.name); });
-        neighbours = nodes.map((_, i) => new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i)));
     } else {
         nodes = nodeNameToIndexMap.map((courseid, i) => {
             let res = {};
@@ -500,7 +511,6 @@ async function populate() {
             res.vy = 0;
             res.x = (Math.random() - 0.5) * h * 4;
             res.y = (Math.random() - 0.5) * h * 4;
-            neighbours[i] = new Set(edges.filter((e) => e.includes(i)).flat().filter(n => n !== i));
             return res;
         });
     }

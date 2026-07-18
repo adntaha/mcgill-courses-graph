@@ -181,7 +181,7 @@ function render(nodes, edges, neighbours) {
 
         // label text
         ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.fillText(node.name, node.x*ZOOM_COEFF+OFFSET_X-(fontSize*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-fontSize*0.5)
+        ctx.fillText(node.name, node.x*ZOOM_COEFF+OFFSET_X-(fontSize*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-fontSize*0.5);
 
         // dot: queued into one of two batched paths instead of drawn immediately
         (dimmed ? dimmedDots : normalDots).moveTo(node.x*ZOOM_COEFF+OFFSET_X + Math.max(2, RADIUS*ZOOM_COEFF), node.y*ZOOM_COEFF+OFFSET_Y);
@@ -577,7 +577,7 @@ async function initiate() {
                     // strip the heavy embedded course object before caching since it's redundant
                     const slimNodes = nodes.map(({ course, ...rest }) => rest);
                     try {
-                        localStorage.setItem(urlHash + "_n", JSON.stringify({ nodes: slimNodes, expiry }));
+                        localStorage.setItem(urlHash + "_n", JSON.stringify({ nodes: slimNodes }));
                     } catch (e) {
                         console.warn("position cache skipped (storage full):", e.name);
                     }

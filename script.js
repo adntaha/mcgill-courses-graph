@@ -117,6 +117,8 @@ function drawEdge(tail, head, color, width) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(baseX, baseY);
+    ctx.stroke();
+
     // arrowhead
     ctx.beginPath();
     ctx.moveTo(tipX, tipY);
@@ -151,11 +153,9 @@ function render(nodes, edges, neighbours) {
     // edge = [course, prereq], so tail = nodes[edge[1]] (prereq), head = nodes[edge[0]] (course).
     const focusEdge = (e) => focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1]);
     // dim/background edges first, focused ones on top
-    ctx.beginPath();
     for (const edge of edges.filter((e) => !focusEdge(e))) {
         drawEdge(nodes[edge[1]], nodes[edge[0]], focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
     }
-    ctx.fill();
     for (const edge of edges.filter(focusEdge)) {
         drawEdge(nodes[edge[1]], nodes[edge[0]], "black", Math.max(2, 3.0*ZOOM_COEFF));
     }

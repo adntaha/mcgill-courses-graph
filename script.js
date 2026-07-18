@@ -121,7 +121,7 @@ function addEdgeToPath(shaftPath, headPath, tail, head) {
     headPath.closePath();
 }
 
-function drawEdgeGroup(edgeList, color, width) {
+function drawEdgeGroup(nodes ,edgeList, color, width) {
     const shaftPath = new Path2D();
     const headPath = new Path2D();
     for (const edge of edgeList) {
@@ -164,8 +164,8 @@ function render(nodes, edges, neighbours) {
         for (const e of edges) (focusEdge(e) ? render._fgEdges : render._bgEdges).push(e);
         render._cachedFocus = focusedNode;
     }
-    drawEdgeGroup(render._bgEdges, focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
-    drawEdgeGroup(render._fgEdges, "black", Math.max(2, 3.0*ZOOM_COEFF));
+    drawEdgeGroup(nodes, render._bgEdges, focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
+    drawEdgeGroup(nodes, render._fgEdges, "black", Math.max(2, 3.0*ZOOM_COEFF));
 
     // nodes
     ctx.strokeStyle = "#3c3c3cc0";

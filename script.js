@@ -91,7 +91,7 @@ async function fetchCourses() {
 
 // draws a directed edge tail -> head (both are node objects), with an arrowhead
 // sitting just outside the head node's dot so it isn't swallowed by it
-function drawEdge(tail, head, color, width) {
+function addEdgeToPath(shaftPath, headPath, tail, head) {
     const x1 = tail.x*ZOOM_COEFF+OFFSET_X, y1 = tail.y*ZOOM_COEFF+OFFSET_Y;
     const x2 = head.x*ZOOM_COEFF+OFFSET_X, y2 = head.y*ZOOM_COEFF+OFFSET_Y;
     const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -110,22 +110,28 @@ function drawEdge(tail, head, color, width) {
     const baseX = tipX - back*Math.cos(angle);
     const baseY = tipY - back*Math.sin(angle);
 
-    ctx.strokeStyle = ctx.fillStyle = color;
-    ctx.lineWidth = width;
-
     // shaft
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(baseX, baseY);
-    ctx.stroke();
+    shaftPath.moveTo(x1, y1);
+    shaftPath.lineTo(baseX, baseY);
 
     // arrowhead
-    ctx.beginPath();
-    ctx.moveTo(tipX, tipY);
-    ctx.lineTo(tipX - head_len*Math.cos(angle - spread), tipY - head_len*Math.sin(angle - spread));
-    ctx.lineTo(tipX - head_len*Math.cos(angle + spread), tipY - head_len*Math.sin(angle + spread));
-    ctx.closePath();
-    ctx.fill();
+    headPath.moveTo(tipX, tipY);
+    headPath.lineTo(tipX - head_len*Math.cos(angle - spread), tipY - head_len*Math.sin(angle - spread));
+    headPath.lineTo(tipX - head_len*Math.cos(angle + spread), tipY - head_len*Math.sin(angle + spread));
+    headPath.closePath();
+}
+
+function drawEdgeGroup(edgeList, color, width) {
+    const shaftPath = new Path2D();
+    const headPath = new Path2D();
+    for (const edge of edgeList) {
+        addEdgeToPath(shaftPath, headPath, nodes[edge[1]], nodes[edge[0]]);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke(shaftPath);
+    ctx.fillStyle = color;
+    ctx.fill(headPath);
 }
 
 function render(nodes, edges, neighbours) {
@@ -153,15 +159,13 @@ function render(nodes, edges, neighbours) {
     // edge = [course, prereq], so tail = nodes[edge[1]] (prereq), head = nodes[edge[0]] (course).
     const focusEdge = (e) => focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1]);
     // dim/background edges first, focused ones on top
-    for (const edge of edges.filter((e) => !focusEdge(e))) {
-        drawEdge(nodes[edge[1]], nodes[edge[0]], focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
-    }
-    for (const edge of edges.filter(focusEdge)) {
-        drawEdge(nodes[edge[1]], nodes[edge[0]], "black", Math.max(2, 3.0*ZOOM_COEFF));
-    }
+    drawEdgeGroup(edges.filter((e) => !focusEdge(e)), focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
+    drawEdgeGroup(edges.filter(focusEdge), "black", Math.max(2, 3.0*ZOOM_COEFF));
 
     // nodes
     ctx.strokeStyle = "#3c3c3cc0";
+    ctx.font = fontSize + "px monospace";
+    const normalDots = new Path2D(), dimmedDots = new Path2D();
     for (let i=0;i<nodes.length;i++) {
         const node = nodes[i]
         const dimmed = focusedNode !== null && neighbours[focusedNode] && focusedNode !== i && !neighbours[focusedNode].has(i);
@@ -172,16 +176,16 @@ function render(nodes, edges, neighbours) {
 
         // label text
         ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.font = fontSize + "px monospace";
         ctx.fillText(node.name, node.x*ZOOM_COEFF+OFFSET_X-(fontSize*0.6*node.name.length * 0.5), node.y*ZOOM_COEFF+OFFSET_Y-fontSize*0.5)
 
-        // dot — its own path so the per-node colour applies (a batched fill = one colour for every dot)
-        ctx.beginPath();
-        ctx.fillStyle = dimmed ? "#3c3c3cc0" : "black";
-        ctx.arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(2, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
-        ctx.fill();
+        // dot: queued into one of two batched paths instead of drawn immediately
+        (dimmed ? dimmedDots : normalDots).moveTo(node.x*ZOOM_COEFF+OFFSET_X + Math.max(2, RADIUS*ZOOM_COEFF), node.y*ZOOM_COEFF+OFFSET_Y);
+        (dimmed ? dimmedDots : normalDots).arc(node.x*ZOOM_COEFF+OFFSET_X, node.y*ZOOM_COEFF+OFFSET_Y, Math.max(2, RADIUS*ZOOM_COEFF), 0, 2*Math.PI);
     }
-
+    ctx.fillStyle = "black";
+    ctx.fill(normalDots);
+    ctx.fillStyle = "#3c3c3cc0";
+    ctx.fill(dimmedDots);
     // ctx.beginPath();
     // ctx.arc(cursor.x*ZOOM_COEFF+OFFSET_X, cursor.y*ZOOM_COEFF+OFFSET_Y, RADIUS, 0, 2*Math.PI);
     // ctx.fillStyle = "pink";

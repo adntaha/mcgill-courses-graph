@@ -15,9 +15,11 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = canvas.getBoundingClientRect().width;
 canvas.height = canvas.getBoundingClientRect().height;
+canvas.style.touchAction = "none";
 
 const RADIUS = 10;
 const k_c = 600_000; // coulomb constant for node repulsion //Math.pow(4 * Math.PI * 8.8541878128, -1) * Math.pow(10, 2)
+const MIN_ZOOM = 0.02, MAX_ZOOM = 50; // clamp so a runaway gesture can't explode the view
 let ZOOM_COEFF = 1;
 let OFFSET_X = canvas.width * 0.5, OFFSET_Y = canvas.height * 0.5;
 let latestTree;
@@ -133,6 +135,16 @@ function drawEdgeGroup(nodes ,edgeList, color, width) {
     ctx.stroke(shaftPath);
     ctx.fillStyle = color;
     ctx.fill(headPath);
+}
+
+// zoom by `factor` about screen point (px, py), keeping that point pinned in world space.
+// clamped to [MIN_ZOOM, MAX_ZOOM]. the animation loop repaints, so no explicit render here.
+function zoomAt(px, py, factor) {
+    const wx = (px - OFFSET_X) / ZOOM_COEFF;
+    const wy = (py - OFFSET_Y) / ZOOM_COEFF;
+    ZOOM_COEFF = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, ZOOM_COEFF * factor));
+    OFFSET_X = px - wx * ZOOM_COEFF;
+    OFFSET_Y = py - wy * ZOOM_COEFF;
 }
 
 function render(nodes, edges, neighbours) {
@@ -378,9 +390,8 @@ class Cell {
         return this;
     }
 
-    // dominant-department computation, done bottom-up. Kept OUT of precomputeCharges
-    // (physics hot path) and run only at render time via computeDepts(). Assigns
-    // this._dept and returns the subtree's {dept: count} histogram.
+    // dominant-department computation, run only at render time via computeDepts().
+    // Assigns this._dept and returns the subtree's {dept: count} histogram.
     computeDepts() {
         if (this.children.length === 0) {
             if (this.body === null) { this._dept = null; return null; }
@@ -632,6 +643,18 @@ async function initiate() {
         requestAnimationFrame(animate);
     }
 
+    // nearest node to a screen point, or null. pickPx is the tap tolerance in screen pixels
+    // (touch passes a larger value than the mouse, since fingers are less precise).
+    function nodeAt(px, py, pickPx = 2*RADIUS) {
+        const wx = (px - OFFSET_X) / ZOOM_COEFF, wy = (py - OFFSET_Y) / ZOOM_COEFF;
+        let closest = null, closestDist = Math.min(20, pickPx / ZOOM_COEFF);
+        for (let i=0; i<nodes.length; i++) {
+            const distance = _2d_euclidian_distance({x: wx, y: wy}, nodes[i]);
+            if (distance < closestDist) { closestDist = distance; closest = i; }
+        }
+        return closest;
+    }
+
     let mouseDown = false;
     let prevX = null, prevY = null;
     let startX = 0, startY = 0, dragging = false;
@@ -673,16 +696,8 @@ async function initiate() {
         startY = prevY = py;
         dragging = false;
 
-        let closest_node = null;
-        let closest_node_distance = 20;
-
-        for (let i=0; i<nodes.length; i++) {
-            const distance = _2d_euclidian_distance({x: (px-OFFSET_X)/ZOOM_COEFF, y: (py-OFFSET_Y)/ZOOM_COEFF}, nodes[i]); // hihihihi
-            if (distance < closest_node_distance && distance < 2*RADIUS/ZOOM_COEFF) {
-                closest_node_distance = distance;
-                potentiallyClickedNode = closest_node = i;
-            }
-        }
+        const closest_node = nodeAt(px, py);
+        potentiallyClickedNode = closest_node;
 
         if (closest_node !== null) {
             nodes[closest_node].fixed = true;
@@ -723,21 +738,125 @@ async function initiate() {
 
     canvas.addEventListener("wheel", (event) => {
         event.preventDefault();
-        const epsilon = 1e-5;
-        const step = ((event.deltaY < 0 ? event.deltaY * 2 : event.deltaY) + epsilon) / (event.deltaY * 2 + epsilon) + 0.2;
+
+        // normalise the delta across devices: wheels report lines/pages, trackpads report pixels
+        let delta = event.deltaY;
+        if (event.deltaMode === 1) delta *= 16;              // lines -> ~px
+        else if (event.deltaMode === 2) delta *= canvas.height; // pages -> px
+
+        // Exponential zoom: factor = e^(-delta*k). This is what stops trackpads from
+        // exploding — a swipe fires dozens of wheel events, but e^a·e^b = e^(a+b), so the
+        // whole gesture composes to one bounded zoom instead of compounding a fixed 1.2x
+        // per event. ctrlKey means a pinch (mac trackpad / ctrl+wheel), which is finer-grained.
+        const sensitivity = event.ctrlKey ? 0.01 : 0.0015;
+        const factor = Math.exp(-delta * sensitivity);
 
         const rect = canvas.getBoundingClientRect();
-        const px = event.clientX - rect.left;
-        const py = event.clientY - rect.top;
-
-        const wx = (px - OFFSET_X) / ZOOM_COEFF;
-        const wy = (py - OFFSET_Y) / ZOOM_COEFF;
-
-        ZOOM_COEFF *= step;
-
-        OFFSET_X = px - wx * ZOOM_COEFF;
-        OFFSET_Y = py - wy * ZOOM_COEFF;
+        zoomAt(event.clientX - rect.left, event.clientY - rect.top, factor);
     }, { passive: false });
+
+    // --- touch: 1 finger pans (or drags a node, or taps to select); 2 fingers pinch-zoom + pan.
+    // preventDefault() on touchstart also suppresses the synthetic mouse events the browser
+    // would otherwise fire, so the mouse handlers above don't double-fire on touch devices.
+    const touchXY = (t) => {
+        const rect = canvas.getBoundingClientRect();
+        return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+    };
+
+    let tMode = null;            // 'pan' | 'node' | 'pinch' | null
+    let tNode = null;            // node index grabbed by a one-finger drag/tap
+    let tStartX = 0, tStartY = 0, tPrevX = 0, tPrevY = 0, tMoved = false;
+    let pinchDist = 0;
+    const TOUCH_TAP_SLOP = 10;   // px of travel before a touch stops counting as a tap
+
+    canvas.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        if (event.touches.length === 1) {
+            const p = touchXY(event.touches[0]);
+            tStartX = tPrevX = p.x;
+            tStartY = tPrevY = p.y;
+            tMoved = false;
+            tNode = nodeAt(p.x, p.y, 44); // finger-sized tap target
+            if (tNode !== null) {
+                tMode = "node";
+                nodes[tNode].fixed = true;
+                fixedNode = tNode;
+                cursor.x = (p.x - OFFSET_X) / ZOOM_COEFF;
+                cursor.y = (p.y - OFFSET_Y) / ZOOM_COEFF;
+            } else {
+                tMode = "pan";
+            }
+        } else if (event.touches.length === 2) {
+            // second finger down: drop any node grab and switch to a pinch
+            if (fixedNode !== null) {
+                nodes[fixedNode].fixed = false;
+                fixedNode = null; cursor.x = null; cursor.y = null;
+            }
+            tMode = "pinch";
+            tNode = null;
+            tMoved = true;                // a pinch is never a tap
+            const a = touchXY(event.touches[0]), b = touchXY(event.touches[1]);
+            pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+            tPrevX = (a.x + b.x) / 2;     // gesture midpoint, for two-finger pan
+            tPrevY = (a.y + b.y) / 2;
+        }
+    }, { passive: false });
+
+    canvas.addEventListener("touchmove", (event) => {
+        event.preventDefault();
+        if (tMode === "pinch" && event.touches.length >= 2) {
+            const a = touchXY(event.touches[0]), b = touchXY(event.touches[1]);
+            const dist = Math.hypot(a.x - b.x, a.y - b.y);
+            const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+            if (pinchDist > 0) zoomAt(mx, my, dist / pinchDist); // zoom about the pinch centre
+            OFFSET_X += mx - tPrevX;                             // and pan with the midpoint
+            OFFSET_Y += my - tPrevY;
+            pinchDist = dist;
+            tPrevX = mx; tPrevY = my;
+            return;
+        }
+        if (event.touches.length !== 1) return;
+        const p = touchXY(event.touches[0]);
+        if (!tMoved && Math.hypot(p.x - tStartX, p.y - tStartY) > TOUCH_TAP_SLOP) tMoved = true;
+        if (tMode === "node" && fixedNode !== null) {
+            cursor.x = (p.x - OFFSET_X) / ZOOM_COEFF;
+            cursor.y = (p.y - OFFSET_Y) / ZOOM_COEFF;
+        } else if (tMode === "pan") {
+            OFFSET_X += p.x - tPrevX;
+            OFFSET_Y += p.y - tPrevY;
+        }
+        tPrevX = p.x; tPrevY = p.y;
+    }, { passive: false });
+
+    function endTouch(event) {
+        event.preventDefault();
+        // 2 -> 1 finger: keep going as a one-finger pan with the finger that's left
+        if (tMode === "pinch") {
+            if (event.touches.length === 1) {
+                const p = touchXY(event.touches[0]);
+                tMode = "pan";
+                tStartX = tPrevX = p.x; tStartY = tPrevY = p.y;
+                tMoved = true;            // the lingering finger isn't a fresh tap
+            } else if (event.touches.length === 0) {
+                tMode = null;
+            }
+            return;
+        }
+        if (event.touches.length > 0) return; // other fingers still down
+
+        const wasTap = !tMoved;
+        if (fixedNode !== null) {             // release a dragged node
+            nodes[fixedNode].fixed = false;
+            fixedNode = null; cursor.x = null; cursor.y = null;
+        }
+        if (wasTap) {                         // same select/deselect logic as a mouse click
+            if (tNode !== null && tNode !== focusedNode) selectCourse(nodes[tNode].course.id, nodes);
+            else if (focusedNode !== null) selectCourse(null, nodes);
+        }
+        tMode = null; tNode = null;
+    }
+    canvas.addEventListener("touchend", endTouch, { passive: false });
+    canvas.addEventListener("touchcancel", endTouch, { passive: false });
 
     const conversationElem = document.querySelector(".conversation");
 

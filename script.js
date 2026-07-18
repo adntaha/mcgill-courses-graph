@@ -587,7 +587,6 @@ function onTurnstileSuccess() {
     turnstileSucceeded = true;
 }
 
-let isInteractingWithGraph = false;
 async function initiate() {
     const { nodes, edges, neighbours } = await populate();
 
@@ -628,7 +627,7 @@ async function initiate() {
             update(nodes, edges, neighbours, real_timedelta, true);
         }
         // console.log(neighbours);
-        if (isInteractingWithGraph) render(nodes, edges, neighbours);
+        render(nodes, edges, neighbours);
 
         requestAnimationFrame(animate);
     }
@@ -663,7 +662,6 @@ async function initiate() {
     let mouseDownMoment, potentiallyClickedNode, mouseDownOnCanvas = false;
     canvas.addEventListener("mousedown", (event) => {
         if (event.button !== 0) return; // we want left clicks only
-        isInteractingWithGraph = true;
         mouseDownMoment = document.timeline.currentTime;
         potentiallyClickedNode = null;
         mouseDownOnCanvas = true;
@@ -696,7 +694,6 @@ async function initiate() {
     });
 
     document.addEventListener("mouseup", (event) => {
-        isInteractingWithGraph = false;
         if (!mouseDownOnCanvas) return;
         mouseDownOnCanvas = false;
         const wasClick = !dragging;        // stayed inside the dead zone → a click, not a pan/drag
@@ -721,7 +718,6 @@ async function initiate() {
             selectCourse(null, nodes);
             potentiallyClickedNode = null;
         }
-        render(nodes, edges, neighbours);
         // clicking empty space with nothing focused → no-op (no more null crash)
     });
 
@@ -741,7 +737,6 @@ async function initiate() {
 
         OFFSET_X = px - wx * ZOOM_COEFF;
         OFFSET_Y = py - wy * ZOOM_COEFF;
-        render(nodes, edges, neighbours);
     }, { passive: false });
 
     const conversationElem = document.querySelector(".conversation");
@@ -792,7 +787,6 @@ async function initiate() {
 
     const chatbox = document.querySelector("input.chatbox");
     chatbox.onkeypress = (event) => {
-        isInteractingWithGraph = false;
         if (!event) event = window.event;
         const keyCode = event.code || event.key;
         if (keyCode === 'Enter') {

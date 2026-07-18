@@ -117,8 +117,6 @@ function drawEdge(tail, head, color, width) {
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(baseX, baseY);
-    ctx.stroke();
-
     // arrowhead
     ctx.beginPath();
     ctx.moveTo(tipX, tipY);
@@ -129,27 +127,35 @@ function drawEdge(tail, head, color, width) {
 }
 
 function render(nodes, edges, neighbours) {
-    canvas.width = canvas.getBoundingClientRect().width;
-    canvas.height = canvas.getBoundingClientRect().height;
+    const rect = canvas.getBoundingClientRect();
+    if (canvas.width !== rect.width || canvas.height !== rect.height) {
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const fontSizeConstant = Math.min(canvas.width, canvas.height) * 0.05;
     const fontSize = fontSizeConstant * ZOOM_COEFF;
 
-    // thanks claude for these mappings/conversion code
-    const depts = [...new Set(nodes.map(n => (n.name.match(/[A-Z]{4}/)||["?"])[0]))];
-    const hueOf = Object.fromEntries(depts.map((d, i) => [d, (i * 137.508) % 360]));
-    const deptObj = Object.fromEntries(depts.map((d) => [d, `hsla(${hueOf[d]}, 70%, 50%, 0.1)`]));
+    if (nodes !== render._cachedNodes) {
+        // thanks claude for these mappings/conversion code
+        const depts = [...new Set(nodes.map(n => (n.name.match(/[A-Z]{4}/)||["?"])[0]))];
+        render._hueOf = Object.fromEntries(depts.map((d, i) => [d, (i * 137.508) % 360]));
+        render._deptObj = Object.fromEntries(depts.map((d) => [d, `hsla(${render._hueOf[d]}, 70%, 50%, 0.1)`]));
+        render._cachedNodes = nodes;
+    }
 
     // cute backgrounds
-    latestTree.drawCells(ctx, deptObj);
+    latestTree.drawCells(ctx, render._deptObj);
 
     // edges: prereq -> course (so the arrow points at what the prereq unlocks)
     // edge = [course, prereq], so tail = nodes[edge[1]] (prereq), head = nodes[edge[0]] (course).
     const focusEdge = (e) => focusedNode !== null && (focusedNode === e[0] || focusedNode === e[1]);
     // dim/background edges first, focused ones on top
+    ctx.beginPath();
     for (const edge of edges.filter((e) => !focusEdge(e))) {
         drawEdge(nodes[edge[1]], nodes[edge[0]], focusedNode !== null ? "#3c3c3cc0" : "black", Math.max(1, 2.0*ZOOM_COEFF));
     }
+    ctx.fill();
     for (const edge of edges.filter(focusEdge)) {
         drawEdge(nodes[edge[1]], nodes[edge[0]], "black", Math.max(2, 3.0*ZOOM_COEFF));
     }
